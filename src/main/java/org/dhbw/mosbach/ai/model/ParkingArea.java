@@ -1,6 +1,7 @@
 package org.dhbw.mosbach.ai.model;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
 public class ParkingArea {
 
     public long id;
+    public String name;
 
     @Id
     @GeneratedValue
@@ -19,6 +21,13 @@ public class ParkingArea {
         return id;
     }
 
+
+    @Column(nullable = false, length = 64, unique = true)
+    @XmlAttribute(required = true)
+    public String getName()
+    {
+        return name;
+    }
 
 
     @Column

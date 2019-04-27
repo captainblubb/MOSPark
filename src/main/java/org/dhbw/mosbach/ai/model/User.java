@@ -1,6 +1,7 @@
 package org.dhbw.mosbach.ai.model;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
@@ -11,6 +12,8 @@ public class User implements Serializable,Cloneable {
 
 
     private long id;
+    private String name;
+    private String licenseplate;
 
     @Id
     @GeneratedValue
@@ -20,8 +23,28 @@ public class User implements Serializable,Cloneable {
         return id;
     }
 
+
+    @Column(nullable = false, length = 64, unique = true)
+    @XmlAttribute(required = true)
+    public String getName()
+    {
+        return name;
+    }
+
+
+
+    @Column(nullable = false, length = 64, unique = true)
+    @XmlAttribute(required = true)
+    public String getLicenseplate()
+    {
+        return licenseplate;
+    }
+
+
+
     @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ParkingSpot parkingSpot;
+    public ParkingSpot parkingSpot;
+
 
 
 }

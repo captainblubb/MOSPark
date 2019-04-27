@@ -11,4 +11,6 @@ public class ParkingSpot {
     @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
 
+
+
 }
