@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @XmlRootElement
@@ -42,9 +43,12 @@ public class User implements Serializable,Cloneable {
 
 
 
-    @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public ParkingSpot parkingSpot;
 
 
+    //TODO: Check Params
+    @OneToMany
+    public List<Notification> notificationList;
 
 }
