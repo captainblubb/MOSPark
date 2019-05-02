@@ -12,11 +12,12 @@ public class OccupyParkingSpotBean extends BaseBean {
     @Inject
     private ParkingSpotDao parkingSpotDao;
 
-    public void execute(String userId, String parkingSpotId)
+    public String execute(String userId, String parkingSpotId)
     {
         User user = userDao.getUserById(userId);
         ParkingSpot parkingSpot = parkingSpotDao.getParkingSpotById(parkingSpotId);
 
         parkingSpotDao.updateOccupyingUser(parkingSpot, user);
+        return "success";
     }
 }
