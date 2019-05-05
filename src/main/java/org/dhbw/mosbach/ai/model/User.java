@@ -15,6 +15,7 @@ public class User implements Serializable,Cloneable {
     private long id;
     private String name;
     private String licenseplate;
+    private String hashedPassword;
 
     @Id
     @GeneratedValue
@@ -23,6 +24,7 @@ public class User implements Serializable,Cloneable {
     {
         return id;
     }
+
 
 
     @Column(nullable = false, length = 64, unique = true)
@@ -51,4 +53,20 @@ public class User implements Serializable,Cloneable {
     @OneToMany
     public List<Notification> notificationList;
 
+    @Column
+    public String getHashedPassword() {
+        return hashedPassword;
+    }
+
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLicenseplate(String licenseplate) {
+        this.licenseplate = licenseplate;
+    }
 }

@@ -10,8 +10,8 @@ import java.util.List;
 @XmlTransient
 public class ParkingArea {
 
-    public long id;
-    public String name;
+    private long id;
+    private String name;
 
     @Id
     @GeneratedValue
@@ -30,6 +30,12 @@ public class ParkingArea {
     }
 
 
-    @Column
-    private List<ParkingSpot> parkingSpots;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }
