@@ -45,7 +45,7 @@ public class User implements Serializable,Cloneable {
     }
 
 
-    @Column(nullable= false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Role getRole() {
         return role;
     }
