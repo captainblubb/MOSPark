@@ -2,10 +2,12 @@ package org.dhbw.mosbach.ai.db;
 
 import org.dhbw.mosbach.ai.model.User;
 
+import javax.inject.Named;
 import javax.naming.Name;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+@Named("userDAO")
 public class UserDAO extends BaseDao<User,Long> {
 
     public boolean createUser(String name, String licensePlate, String Password){

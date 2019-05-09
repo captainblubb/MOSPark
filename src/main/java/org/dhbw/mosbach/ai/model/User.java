@@ -16,6 +16,7 @@ public class User implements Serializable,Cloneable {
     private String name;
     private String licenseplate;
     private String hashedPassword;
+    private Role role;
 
     @Id
     @GeneratedValue
@@ -44,6 +45,10 @@ public class User implements Serializable,Cloneable {
     }
 
 
+    @Column(nullable= false)
+    public Role getRole() {
+        return role;
+    }
 
     @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public ParkingSpot parkingSpot;
@@ -68,5 +73,14 @@ public class User implements Serializable,Cloneable {
 
     public void setLicenseplate(String licenseplate) {
         this.licenseplate = licenseplate;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

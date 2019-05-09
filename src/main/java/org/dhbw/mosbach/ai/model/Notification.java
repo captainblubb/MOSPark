@@ -1,23 +1,22 @@
 package org.dhbw.mosbach.ai.model;
 
-import lombok.Data;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@Data
 public class Notification {
 
+
+    @Id
+    @GeneratedValue
     private Long id;
 
     private String notification;
 
-    @Column
     @OneToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User UserFROM;
 
-    @Column
     @OneToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User UserTO;
 
@@ -30,8 +29,6 @@ public class Notification {
 
 
     @Column
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }

@@ -19,7 +19,7 @@
             <property name="hibernate.show_sql" value="true"/>
 
             <!-- Enable schema generation and ALTER TABLE statements when an entity has been changed -->
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
 
             <!-- Print cache statistics -->
             <property name="hibernate.generate_statistics" value="true" />
