@@ -1,9 +1,10 @@
 package org.dhbw.mosbach.ai.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class ParkingSpot {
+public class ParkingSpot implements Serializable {
 
     @Id
     @GeneratedValue
@@ -12,7 +13,8 @@ public class ParkingSpot {
     @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
 
-    @ManyToOne
+
+    @OneToOne
     private ParkingArea parkingArea;
 
 

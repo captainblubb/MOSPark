@@ -5,10 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
 
 @Entity
 @XmlTransient
-public class Role {
+public class Role implements Serializable {
 
 
     private Long id;

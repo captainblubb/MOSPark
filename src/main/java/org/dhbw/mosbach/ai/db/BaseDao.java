@@ -40,6 +40,8 @@ public abstract class BaseDao<E, I> implements Serializable
 
     public BaseDao()
     {
+
+        System.out.println("________BASEDAO INIT________");
         @SuppressWarnings("serial")
         final TypeToken<E> type = new TypeToken<E>(getClass())
         {
