@@ -14,6 +14,9 @@ public class ParkingSpot implements Serializable {
     private User user;
 
 
+    @Column(nullable = false)
+    private int position;
+
     @OneToOne
     private ParkingArea parkingArea;
 

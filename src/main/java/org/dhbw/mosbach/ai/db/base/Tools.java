@@ -1,4 +1,4 @@
-package org.dhbw.mosbach.ai.db;
+package org.dhbw.mosbach.ai.db.base;
 
 
 import java.lang.reflect.Field;
