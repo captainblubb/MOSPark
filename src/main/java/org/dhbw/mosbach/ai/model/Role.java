@@ -3,29 +3,17 @@ package org.dhbw.mosbach.ai.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlTransient;
-
-@Entity
-@XmlTransient
-public class Role {
+import java.io.Serializable;
 
 
-    private String role;
-    private int permissions;
+public final class Role implements Serializable {
 
+    public static final String ADMIN = "admin";
 
-    @GeneratedValue
-    @XmlTransient
-    @Column(nullable = false, length = 64, unique = true)
-    public String getRole() {
-        return role;
-    }
+    public static final String USER = "user";
 
-    @Column(nullable = false, length = 64, unique = true)
-    @GeneratedValue
-    @XmlTransient
-    public int getPermissions() {
-        return permissions;
-    }
+    public static final String GUEST = "guest";
 
 }

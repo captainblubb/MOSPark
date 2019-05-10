@@ -1,20 +1,22 @@
 package org.dhbw.mosbach.ai.model;
 
+import javax.inject.Named;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity
+@Entity(name = "parkingArea")
 @XmlTransient
-public class ParkingArea {
+public class ParkingArea implements Serializable {
 
-    public long id;
-    public String name;
+    private long id;
+    private String name;
 
     @Id
-    @GeneratedValue
     @XmlTransient
     public long getId()
     {
@@ -30,6 +32,13 @@ public class ParkingArea {
     }
 
 
-    @Column
-    private List<ParkingSpot> parkingSpots;
-}
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+  }

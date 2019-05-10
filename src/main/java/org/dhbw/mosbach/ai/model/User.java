@@ -15,6 +15,9 @@ public class User implements Serializable,Cloneable {
     private long id;
     private String name;
     private String licenseplate;
+    private String role;
+    private byte[] hash;
+    private byte[] salt;
 
     @Id
     @GeneratedValue
@@ -25,6 +28,7 @@ public class User implements Serializable,Cloneable {
     }
 
 
+
     @Column(nullable = false, length = 64, unique = true)
     @XmlAttribute(required = true)
     public String getName()
@@ -32,6 +36,11 @@ public class User implements Serializable,Cloneable {
         return name;
     }
 
+
+    @Column(nullable = false)
+    public byte[] getHash() {
+        return hash;
+    }
 
 
     @Column(nullable = false, length = 64, unique = true)
@@ -42,13 +51,48 @@ public class User implements Serializable,Cloneable {
     }
 
 
+    @Column(nullable = false, length = 64, unique = false)
+    public String getRole() {
+        return role;
+    }
 
     @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public ParkingSpot parkingSpot;
 
 
-    //TODO: Check Params
+    @Column
+    public byte[] getSalt() {
+        return salt;
+    }
+
     @OneToMany
     public List<Notification> notificationList;
 
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLicenseplate(String licenseplate) {
+        this.licenseplate = licenseplate;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+
+    public void setHash(byte[] hash) {
+        this.hash = hash;
+    }
+
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
+    }
 }
