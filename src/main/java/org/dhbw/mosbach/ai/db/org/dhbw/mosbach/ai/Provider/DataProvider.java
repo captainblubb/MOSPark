@@ -30,6 +30,7 @@ public class DataProvider {
     @Inject
     private ParkingSpotDAO parkingSpotDAO;
 
+
     public DataProvider(){
 
         //Gets called on Startup
@@ -91,7 +92,9 @@ public class DataProvider {
     private void generateParkingAreas(){
 
         System.out.println("____CREATE PARKING AREA DUMMY ___");
-        parkingAreaDAO.createParkingArea((long) 1,"1");
+        boolean b = parkingAreaDAO.createParkingArea("A-Gebäude",10);
+        boolean c = parkingAreaDAO.createParkingArea("B-Gebäude",20);
+        System.out.println(" CREATE PARKING AREA DUMMY RESULT : "+b);
     }
 
     private void generateParkingSpots(){
@@ -102,9 +105,13 @@ public class DataProvider {
 
         for (ParkingArea parkingArea: parkingAreas) {
 
-            for (int i = 0; i <10;i++){
+            int counter = 0;
+            for (int i = 0; i <parkingArea.getTotalSpots();i++){
+                boolean b = parkingSpotDAO.createParkingSpot(parkingArea,counter);
 
-                parkingSpotDAO.createParkingSpot(parkingArea);
+                System.out.println("____CREATE PARKING SPOTS DUMMY Result ___"+b);
+
+                counter++;
             }
 
 

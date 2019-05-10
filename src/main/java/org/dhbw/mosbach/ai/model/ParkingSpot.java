@@ -1,9 +1,11 @@
 package org.dhbw.mosbach.ai.model;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 @Entity
+@XmlTransient
 public class ParkingSpot implements Serializable {
 
     @Id
@@ -16,7 +18,7 @@ public class ParkingSpot implements Serializable {
     @Column(nullable = false)
     private int position;
 
-    @OneToOne
+    @ManyToOne(optional = false)
     private ParkingArea parkingArea;
 
 
@@ -43,5 +45,13 @@ public class ParkingSpot implements Serializable {
 
     public void setParkingArea(ParkingArea parkingArea) {
         this.parkingArea = parkingArea;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

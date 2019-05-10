@@ -6,10 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
-import javax.persistence.CacheRetrieveMode;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 
 import com.google.common.collect.Lists;
@@ -203,8 +200,9 @@ public abstract class BaseDao<E, I> implements Serializable
     {
         final String query = String.format("FROM %s e WHERE e.%s = :key", entityClass.getName(), fieldName);
 
-        return (List<E>) cacheable(em.createQuery(query, entityClass)).getResultList();
+        return (List<E>) cacheable(em.createQuery(query, entityClass)).setParameter("key", key).getResultList();
     }
+
 
     @Transactional
     public List<E> getAllFullyLoaded()

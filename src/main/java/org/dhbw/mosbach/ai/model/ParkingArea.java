@@ -9,14 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Entity(name = "parkingArea")
+@Entity
 @XmlTransient
 public class ParkingArea implements Serializable {
 
     private long id;
     private String name;
+    private int totalSpots;
 
     @Id
+    @GeneratedValue
     @XmlTransient
     public long getId()
     {
@@ -24,7 +26,7 @@ public class ParkingArea implements Serializable {
     }
 
 
-    @Column(nullable = false, length = 64, unique = true)
+    @Column(nullable = false, length = 64, unique = false)
     @XmlAttribute(required = true)
     public String getName()
     {
@@ -40,5 +42,12 @@ public class ParkingArea implements Serializable {
         this.name = name;
     }
 
+    @Column(nullable = false)
+    public int getTotalSpots() {
+        return totalSpots;
+    }
 
-  }
+    public void setTotalSpots(int totalSpots) {
+        this.totalSpots = totalSpots;
+    }
+}
