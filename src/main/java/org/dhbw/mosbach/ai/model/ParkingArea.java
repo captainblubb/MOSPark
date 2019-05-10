@@ -16,14 +16,7 @@ public class ParkingArea implements Serializable {
     private long id;
     private String name;
 
-    public void setParkingSpots(List<ParkingSpot> parkingSpots) {
-        this.parkingSpots = parkingSpots;
-    }
-
-    private List<ParkingSpot> parkingSpots;
-
     @Id
-    @GeneratedValue
     @XmlTransient
     public long getId()
     {
@@ -48,7 +41,4 @@ public class ParkingArea implements Serializable {
     }
 
 
-    public void setParkingSpots(ArrayList<ParkingSpot> parkingSpots) {
-        this.parkingSpots = parkingSpots;
-    }
-}
+  }

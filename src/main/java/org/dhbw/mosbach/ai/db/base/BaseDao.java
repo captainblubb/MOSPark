@@ -198,6 +198,14 @@ public abstract class BaseDao<E, I> implements Serializable
         return (List<E>) cacheable(em.createQuery(query, entityClass)).getResultList();
     }
 
+    @SuppressWarnings("unchecked")
+    public List<E> getAllByField(String fieldName,Object key )
+    {
+        final String query = String.format("FROM %s e WHERE e.%s = :key", entityClass.getName(), fieldName);
+
+        return (List<E>) cacheable(em.createQuery(query, entityClass)).getResultList();
+    }
+
     @Transactional
     public List<E> getAllFullyLoaded()
     {

@@ -82,8 +82,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: commons-collections:commons-collections:3.2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.poi:poi-ooxml:3.14" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.poi:poi-ooxml-schemas:3.14" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.apache.xmlbeans:xmlbeans:2.6.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: stax:stax-api:1.0.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.github.virtuald:curvesapi:1.03" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.tyrus.bundles:tyrus-standalone-client:1.13" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jboss.arquillian.graphene:graphene-webdriver-api:2.3.2" level="project" />
@@ -163,5 +161,6 @@
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.26" level="project" />
     <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api:2.3.1" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:javax.activation-api:1.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:3.0.2" level="project" />
   </component>
 </module>

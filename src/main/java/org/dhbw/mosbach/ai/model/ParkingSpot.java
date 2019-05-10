@@ -13,7 +13,6 @@ public class ParkingSpot implements Serializable {
     @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
 
-
     @Column(nullable = false)
     private int position;
 
