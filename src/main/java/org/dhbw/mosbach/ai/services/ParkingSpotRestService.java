@@ -1,6 +1,8 @@
 package org.dhbw.mosbach.ai.services;
 
 
+import org.dhbw.mosbach.ai.db.ParkingSpotDAO;
+import org.dhbw.mosbach.ai.db.UserDAO;
 import org.dhbw.mosbach.ai.model.ParkingSpot;
 import org.dhbw.mosbach.ai.model.User;
 
@@ -22,9 +24,9 @@ import java.util.List;
 public class ParkingSpotRestService
 {
     @Inject
-    private ParkingSpotDao parkingSpotDao;
+    private ParkingSpotDAO parkingSpotDao;
     @Inject
-    private userDao userDao;
+    private UserDAO userDao;
 
     @PersistenceContext
     private EntityManager entityManager;
