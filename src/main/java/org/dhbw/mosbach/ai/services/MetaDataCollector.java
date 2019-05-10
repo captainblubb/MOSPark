@@ -25,7 +25,7 @@ public class MetaDataCollector {
     ParkingStatisticDAO parkingStatisticDAO;
 
 
-    @Schedule(second = "*", minute = "*/15", hour = "*", persistent = false )
+    @Schedule(second = "0", minute = "*/15", hour = "*", persistent = false )
     public void atSchedule() throws InterruptedException {
         System.out.println("_______________Scheduled Task Meta Collector");
 
@@ -51,7 +51,6 @@ public class MetaDataCollector {
             parkingStatisticDAO.persist(parkingStatistics);
 
             System.out.println("_____PARKING STATISTIC PERSISTED______");
-
 
 
         }
