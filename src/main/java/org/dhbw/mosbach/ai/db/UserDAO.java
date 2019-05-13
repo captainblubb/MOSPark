@@ -2,16 +2,21 @@ package org.dhbw.mosbach.ai.db;
 
 import org.dhbw.mosbach.ai.db.base.BaseDao;
 import org.dhbw.mosbach.ai.db.base.Hashing;
+import org.dhbw.mosbach.ai.model.ParkingSpot;
 import org.dhbw.mosbach.ai.model.Role;
 import org.dhbw.mosbach.ai.model.User;
 
 import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 
 @Named
 @Dependent
 public class UserDAO extends BaseDao<User,Long> {
+
+   @Inject
+   ParkingSpotDAO parkingSpotDAO;
 
     public UserDAO(){
         super();
@@ -58,7 +63,14 @@ public class UserDAO extends BaseDao<User,Long> {
     }
 
     public User getUserById(Long id){
-        return getUserById(id);
+
+        try{
+
+            return getUserById(id);
+        }catch (Exception exp){
+            System.out.println(" failed finding user by id "+ exp);
+        }
+        return null;
     }
 
     /*
@@ -75,6 +87,19 @@ public class UserDAO extends BaseDao<User,Long> {
         }
     }
 
+    public User getUserByParkingPositon(int position){
+
+        ParkingSpot parkingSpot = parkingSpotDAO.getParkingspotByPosition(position);
+
+        if (parkingSpot!=null){
+            return parkingSpot.getUser();
+        }else {
+            return null;
+        }
+
+
+    }
+
     private byte[] generateSalt(){
         return Hashing.getNextSalt();
     }
@@ -82,6 +107,7 @@ public class UserDAO extends BaseDao<User,Long> {
     private byte[] hashPassword(String password, byte[] salt){
         return Hashing.hash(password.toCharArray(),salt);
     }
+
 
 
 
