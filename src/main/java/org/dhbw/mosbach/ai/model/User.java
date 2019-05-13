@@ -56,17 +56,22 @@ public class User implements Serializable,Cloneable {
         return role;
     }
 
+    public ParkingSpot getParkingSpot() {
+        return parkingSpot;
+    }
+
+    public void setParkingSpot(ParkingSpot parkingSpot) {
+        this.parkingSpot = parkingSpot;
+    }
+
     @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    public ParkingSpot parkingSpot;
+    private ParkingSpot parkingSpot;
 
 
     @Column
     public byte[] getSalt() {
         return salt;
     }
-
-    @OneToMany
-    public List<Notification> notificationList;
 
 
     public void setName(String name) {
