@@ -25,11 +25,12 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
         super();
     }
 
-    public boolean createParkingSpot(ParkingArea parkingArea,int position){
+    public boolean createParkingSpot(ParkingArea parkingArea,int column, int row){
 
         try {
             ParkingSpot parkingSpot = new ParkingSpot();
-            parkingSpot.setPosition(position);
+            parkingSpot.setColumn(column);
+            parkingSpot.setRow(row);
             parkingSpot.setParkingArea(parkingArea);
             System.out.println("Persist or merge create Parking Spot");
             persistOrMerge(parkingSpot);
