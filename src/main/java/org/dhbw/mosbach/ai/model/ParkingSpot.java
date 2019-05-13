@@ -8,13 +8,19 @@ import java.io.Serializable;
 @XmlTransient
 public class ParkingSpot implements Serializable {
 
-    private Long id;
-    private User user;
-    private int column;
-    private int row;
-    private ParkingArea parkingArea;
+    public Long id;
 
     @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public User user;
+
+    private int horizontal;
+
+    private int vertical;
+
+    @ManyToOne(optional = false)
+    public ParkingArea parkingArea;
+
+
     public User getUser() {
         return user;
     }
@@ -34,8 +40,6 @@ public class ParkingSpot implements Serializable {
         this.id = id;
     }
 
-
-    @ManyToOne(optional = false)
     public ParkingArea getParkingArea() {
         return parkingArea;
     }
@@ -45,21 +49,21 @@ public class ParkingSpot implements Serializable {
     }
 
 
-    @Column
-    public int getColumn() {
-        return column;
+    @Column(nullable = false)
+    public int getHorizontal() {
+        return horizontal;
     }
 
-    public void setColumn(int column) {
-        this.column = column;
+    public void setHorizontal(int row) {
+        this.horizontal = row;
     }
 
-    @Column
-    public int getRow() {
-        return row;
+    @Column(nullable = false)
+    public int getVertical() {
+        return vertical;
     }
 
-    public void setRow(int row) {
-        this.row = row;
+    public void setVertical(int column) {
+        this.vertical = column;
     }
 }
