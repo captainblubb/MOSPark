@@ -13,7 +13,7 @@ import java.util.List;
 @XmlTransient
 public class ParkingArea implements Serializable {
 
-    private long id;
+    public long id;
     private String name;
     private int totalSpots;
 

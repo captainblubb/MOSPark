@@ -15,9 +15,6 @@ import javax.inject.Named;
 @Dependent
 public class UserDAO extends BaseDao<User,Long> {
 
-   @Inject
-   ParkingSpotDAO parkingSpotDAO;
-
     public UserDAO(){
         super();
     }
@@ -110,18 +107,6 @@ public class UserDAO extends BaseDao<User,Long> {
     }
     }
 
-    public User getUserByParkingPositon(int position){
-
-        ParkingSpot parkingSpot = parkingSpotDAO.getParkingspotByPosition(position);
-
-        if (parkingSpot!=null){
-            return parkingSpot.getUser();
-        }else {
-            return null;
-        }
-
-
-    }
 
     private byte[] generateSalt(){
         return Hashing.getNextSalt();

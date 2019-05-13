@@ -8,8 +8,6 @@ import org.dhbw.mosbach.ai.model.User;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +23,12 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
         super();
     }
 
-    public boolean createParkingSpot(ParkingArea parkingArea,int position){
+    public boolean createParkingSpot(ParkingArea parkingArea,int column, int row){
 
         try {
             ParkingSpot parkingSpot = new ParkingSpot();
-            parkingSpot.setPosition(position);
+            parkingSpot.setVertical(column);
+            parkingSpot.setHorizontal(row);
             parkingSpot.setParkingArea(parkingArea);
             System.out.println("Persist or merge create Parking Spot");
             persistOrMerge(parkingSpot);
@@ -82,6 +81,19 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
             System.out.println("failed parking out user "+exp);
             return false;
         }
+
+    }
+
+    public User getUserByParkingPositon(int position){
+
+        ParkingSpot parkingSpot = getParkingspotByPosition(position);
+
+        if (parkingSpot!=null){
+            return parkingSpot.getUser();
+        }else {
+            return null;
+        }
+
 
     }
 
