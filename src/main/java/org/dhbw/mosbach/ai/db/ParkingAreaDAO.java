@@ -26,13 +26,23 @@ public class ParkingAreaDAO extends BaseDao<ParkingArea, Long> {
 
     public boolean createParkingArea(String name, int totalSpots){
 
-        ParkingArea parkingArea = new ParkingArea();
-        //parkingArea.setId(id);
-        parkingArea.setName(name);
-        parkingArea.setTotalSpots(totalSpots);
-        persistOrMerge(parkingArea);
+        try {
 
-        return true;
+            if (name != null && !name.equals("")  && totalSpots > 0) {
+                ParkingArea parkingArea = new ParkingArea();
+                //parkingArea.setId(id);
+                parkingArea.setName(name);
+                parkingArea.setTotalSpots(totalSpots);
+                persistOrMerge(parkingArea);
+
+                return true;
+            }
+
+        }catch (Exception exp){
+            System.out.println("Failed creating Parking Area "+exp);
+        }
+
+        return false;
     }
 
     public int getFreeParkingSpots(ParkingArea parkingArea) {
