@@ -21,7 +21,6 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
         super();
     }
 
-
     public boolean createParkingSpot(ParkingArea parkingArea,int position){
         ParkingSpot parkingSpot = new ParkingSpot();
         parkingSpot.setPosition(position);

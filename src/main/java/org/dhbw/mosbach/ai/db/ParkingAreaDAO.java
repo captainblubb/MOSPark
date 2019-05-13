@@ -20,7 +20,6 @@ public class ParkingAreaDAO extends BaseDao<ParkingArea, Long> {
     @Inject
     ParkingSpotDAO parkingspotDAO;
 
-
     public ParkingAreaDAO(){
         super();
     }
