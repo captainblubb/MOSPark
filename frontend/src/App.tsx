@@ -3,7 +3,7 @@ import './App.css';
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Main from './components/Main';
-import Login from './components/Login';
+import Authentication from './components/Authentication';
 import Profile from './components/Profile';
 
 const App: React.FC = () => {
@@ -27,7 +27,7 @@ const App: React.FC = () => {
             </ul>
           </nav>
           <Route path="/" exact component={Main} />
-          <Route path="/login/" component={Login} />
+          <Route path="/login/" component={Authentication} />
           <Route path="/profile/" component={Profile} />
         </div>
       </Router>
