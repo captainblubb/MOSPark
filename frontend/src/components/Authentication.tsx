@@ -15,11 +15,15 @@ class Authentication extends React.Component<{}, {isLoggedIn: boolean, username:
 
     handleLogin = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
+        const username: string = event.currentTarget.username.value;
+
         this.setState({
             isLoggedIn: true,
-            username: event.currentTarget.username.value,
+            username: username,
             password: event.currentTarget.password.value
         });
+        sessionStorage.setItem("user", username);
+        sessionStorage.setItem("id", "420");
     };
 
     render() {

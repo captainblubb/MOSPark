@@ -35,7 +35,12 @@ class Main extends React.Component<{}, {parkingAreas: Array<ParkingAreaJson>}> {
     render() {
         return (
             <div>
-                {this.createParkingAreas()}
+                <div>
+                    {this.createParkingAreas()}
+                </div>
+                <div>
+                    notify
+                </div>
             </div>
         )
     }
