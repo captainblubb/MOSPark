@@ -1,8 +1,12 @@
 import React from 'react';
 
+import ParkingAreaContainer from './ParkingAreaContainer'
+
 function Main() {
     return (
-        <div>ahhh</div>
+        <div>
+            <ParkingAreaContainer/>
+        </div>
     )
 }
 
