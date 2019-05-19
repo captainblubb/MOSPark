@@ -2,12 +2,12 @@ import React from 'react';
 import ParkingArea from "./ParkingArea";
 import ParkingAreaJson from "./ParkingAreaJson";
 
-class ParkingAreaContainer extends React.Component<{}, {parkingAreas: Array<ParkingAreaJson>}> {
+class Main extends React.Component<{}, {parkingAreas: Array<ParkingAreaJson>}> {
     constructor(props: {}) {
         super(props);
-        ParkingAreaContainer.fetchParkingAreas = ParkingAreaContainer.fetchParkingAreas.bind(this);
+        Main.fetchParkingAreas = Main.fetchParkingAreas.bind(this);
         this.state = {
-            parkingAreas: ParkingAreaContainer.fetchParkingAreas()
+            parkingAreas: Main.fetchParkingAreas()
         }
     }
 
@@ -41,4 +41,4 @@ class ParkingAreaContainer extends React.Component<{}, {parkingAreas: Array<Park
     }
 }
 
-export default ParkingAreaContainer;
+export default Main;
