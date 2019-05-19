@@ -33,16 +33,18 @@ class Main extends React.Component<{}, {parkingAreas: Array<ParkingAreaJson>}> {
     }
 
     render() {
-        return (
-            <div>
+        if (sessionStorage.getItem("user") != null) {
+            return (
                 <div>
-                    {this.createParkingAreas()}
+                    <div>
+                        {this.createParkingAreas()}
+                    </div>
+                    <div>
+                        notify
+                    </div>
                 </div>
-                <div>
-                    notify
-                </div>
-            </div>
-        )
+            )
+        }
     }
 }
 
