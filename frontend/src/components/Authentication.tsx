@@ -5,9 +5,11 @@ import {Link} from "react-router-dom";
 class Authentication extends React.Component<{}, {isLoggedIn: boolean, username: string, password: string}> {
     constructor(props: {}) {
         super(props);
+        const currentSessionUser: string | null = sessionStorage.getItem("user");
+        const currentUser: string = currentSessionUser != null ? currentSessionUser : "";
         this.state = {
-            isLoggedIn: false,
-            username: '',
+            isLoggedIn: currentUser != "",
+            username: currentUser,
             password: ''
         };
         this.handleLogin.bind(this);
