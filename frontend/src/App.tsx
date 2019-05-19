@@ -9,8 +9,6 @@ import Profile from './components/Profile';
 const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-      </header>
       <Router>
         <div>
           <nav>
@@ -19,15 +17,11 @@ const App: React.FC = () => {
                 <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/login/">Login</Link>
-              </li>
-              <li>
-                <Link to="/profile/">Profile</Link>
+                <Authentication/>
               </li>
             </ul>
           </nav>
           <Route path="/" exact component={Main} />
-          <Route path="/login/" component={Authentication} />
           <Route path="/profile/" component={Profile} />
         </div>
       </Router>

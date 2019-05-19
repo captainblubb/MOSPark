@@ -1,33 +1,41 @@
-import React, {FormEvent} from 'react';
+import React from 'react';
 
-class LoginForm extends React.Component<{onSubmit: React.MouseEvent<HTMLInputElement>}, {username: string, password: string}> {
-    constructor(props: {onSubmit: React.MouseEvent<HTMLInputElement>}) {
+class LoginForm extends React.Component<{submitFunction: (event: React.FormEvent<HTMLFormElement>) => void}, {username: string, password: string}> {
+    constructor(props: {submitFunction: (event: React.FormEvent<HTMLFormElement>) => void}) {
         super(props);
         this.state = {
             username: '',
             password: ''
         };
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleUsernameChange = this.handleUsernameChange.bind(this);
+        this.handlePasswordChange = this.handlePasswordChange.bind(this);
     }
 
-    handleChange(event: React.KeyboardEvent<HTMLInputElement>): void {
+    handleUsernameChange(event: React.FormEvent<HTMLInputElement>): void {
         this.setState({
-            username: event.currentTarget.value,
-            password: event.target.password
+            username: event.currentTarget.value
         });
     }
+
+    handlePasswordChange(event: React.FormEvent<HTMLInputElement>): void {
+        this.setState({
+            password: event.currentTarget.value
+        });
+    }
+
     render() {
         return (
-            <div>
-                <input type="text" placeholder="Username"
+            <form onSubmit={this.props.submitFunction}>
+                <input type="text" placeholder="Username" name="username"
                        value={this.state.username}
-                       onChange={this.handleChange} />
-                <input type="password" placeholder="Password"
+                       onChange={this.handleUsernameChange} />
+                <input type="password" placeholder="Password" name="password"
                        value={this.state.password}
-                       onChange={this.handleChange} />
-                <button onClick={this.props.onSubmit}>Login</button>
-            </div>
+                       onChange={this.handlePasswordChange} />
+                <input type="submit"
+                       value="Login" />
+            </form>
         );
     }
 }
