@@ -12,6 +12,13 @@ class ParkingAreaContainer extends React.Component<{}, {parkingAreas: Array<Park
     }
 
     static fetchParkingAreas(): Array<ParkingAreaJson> {
+        /*
+        fetch(`http://localhost:8080/parkingAreas/`)
+            .then(result => result.json())
+            .then(areas => this.setState({
+                parkingAreas: JSON.parse(areas)
+            }));
+        */
         return JSON.parse('[{"id": 0}, {"id": 1}]');
     }
 
