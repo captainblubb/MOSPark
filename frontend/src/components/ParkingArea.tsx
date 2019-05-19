@@ -33,7 +33,7 @@ class ParkingArea extends React.Component<{id: number}, {parkingSpots: Array<Par
 
         for (let i: number = 0; i < this.state.parkingSpots.length; i++) {
             const currentSpot: ParkingSpotJson = this.state.parkingSpots[i];
-            spots.push(<ParkingSpot key={i} id={currentSpot.id} occupied={currentSpot.occupied} userId={currentSpot.userId} occupiedByCurrentUser={currentUserId != ""}/>)
+            spots.push(<ParkingSpot key={i} id={currentSpot.id} occupied={currentSpot.occupied} userId={currentSpot.userId} occupiedByCurrentUser={currentUserId != "" && parseInt(currentUserId) == currentSpot.userId}/>)
         }
         return spots;
     }

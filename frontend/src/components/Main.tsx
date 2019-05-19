@@ -1,14 +1,19 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import ParkingArea from "./ParkingArea";
 import ParkingAreaJson from "./ParkingAreaJson";
 
-class Main extends React.Component<{}, {parkingAreas: Array<ParkingAreaJson>}> {
+class Main extends React.Component<{}, {parkingAreas: Array<ParkingAreaJson>, currentAreaId: number}> {
     constructor(props: {}) {
         super(props);
         Main.fetchParkingAreas = Main.fetchParkingAreas.bind(this);
         this.state = {
-            parkingAreas: Main.fetchParkingAreas()
-        }
+            parkingAreas: Main.fetchParkingAreas(),
+            currentAreaId: 0
+        };
+
+        this.renderParkingArea = this.renderParkingArea.bind(this);
+        this.renderOptions = this.renderOptions.bind(this);
+        this.changeArea = this.changeArea.bind(this);
     }
 
     static fetchParkingAreas(): Array<ParkingAreaJson> {
@@ -22,14 +27,22 @@ class Main extends React.Component<{}, {parkingAreas: Array<ParkingAreaJson>}> {
         return JSON.parse('[{"id": 0}, {"id": 1}]');
     }
 
-    createParkingAreas(): Array<JSX.Element> {
-        let areas: Array<JSX.Element> = [];
+    renderParkingArea(): JSX.Element {
+        return <ParkingArea id={this.state.currentAreaId}/>;
+    }
 
+    renderOptions(): JSX.Element {
+        let options: Array<JSX.Element> = [];
         for (let i: number = 0; i < this.state.parkingAreas.length; i++) {
-            const currentArea: ParkingAreaJson = this.state.parkingAreas[i];
-            areas.push(<ParkingArea key={i} id={currentArea.id}/>)
+            options.push(<option key={i} value={i}>Area {this.state.parkingAreas[i].id}</option>)
         }
-        return areas;
+        return <select onChange={this.changeArea}>{options}</select>;
+    }
+
+    changeArea(event: ChangeEvent<HTMLSelectElement>): void {
+        this.setState({
+            currentAreaId: parseInt(event.currentTarget.value)
+        })
     }
 
     render() {
@@ -37,7 +50,10 @@ class Main extends React.Component<{}, {parkingAreas: Array<ParkingAreaJson>}> {
             return (
                 <div>
                     <div>
-                        {this.createParkingAreas()}
+                        {this.renderOptions()}
+                    </div>
+                    <div className={"parkingAreaContainer"}>
+                        {this.renderParkingArea()}
                     </div>
                     <div>
                         notify
