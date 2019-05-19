@@ -8,7 +8,7 @@ class ParkingSpot extends React.Component<{id: number, occupied: boolean, userId
     render() {
         return (
             <div>
-                {this.props.id} - {this.props.occupied} - {this.props.userId}
+                {this.props.id} - {this.props.occupied ? "true" : "false"} - {this.props.userId}
             </div>
         )
     }

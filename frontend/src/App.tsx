@@ -2,9 +2,9 @@ import React from 'react';
 import './App.css';
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Main from './components/Main';
 import Authentication from './components/Authentication';
 import Profile from './components/Profile';
+import ParkingAreaContainer from "./components/ParkingAreaContainer";
 
 const App: React.FC = () => {
   return (
@@ -21,7 +21,7 @@ const App: React.FC = () => {
               </li>
             </ul>
           </nav>
-          <Route path="/" exact component={Main} />
+          <Route path="/" exact component={ParkingAreaContainer} />
           <Route path="/profile/" component={Profile} />
         </div>
       </Router>
