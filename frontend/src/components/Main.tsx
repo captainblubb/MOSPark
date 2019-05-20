@@ -16,7 +16,7 @@ class Main extends React.Component<{}, {
         this.state = {
             parkingAreas: Main.fetchParkingAreas(),
             parkingSpots: Main.fetchParkingSpots(),
-            currentAreaId: 0,
+            currentAreaId: this.state.parkingAreas[0].id,
             selectedUserIds: []
         };
 
