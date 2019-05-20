@@ -119,6 +119,12 @@ class Main extends React.Component<{}, {
                     <button onClick={this.notifySelectedUsers}>notify</button>
                 </div>
             )
+        } else {
+            return (
+                <div>
+
+                </div>
+            )
         }
     }
 }

@@ -8,7 +8,7 @@ class Authentication extends React.Component<{}, {isLoggedIn: boolean, username:
         const currentSessionUser: string | null = sessionStorage.getItem("user");
         const currentUser: string = currentSessionUser != null ? currentSessionUser : "";
         this.state = {
-            isLoggedIn: currentUser != "",
+            isLoggedIn: currentUser !== "",
             username: currentUser,
             password: ''
         };
