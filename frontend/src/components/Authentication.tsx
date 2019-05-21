@@ -32,9 +32,7 @@ class Authentication extends React.Component<{}, {isLoggedIn: boolean, username:
         if (this.state.isLoggedIn) {
             return (
                 <div>
-                    <Link to="/profile/">
-                        <div>Hi, {this.state.username}</div>
-                    </Link>
+                    <Link to="/profile/">Profile</Link>
                 </div>
             )
         } else {
