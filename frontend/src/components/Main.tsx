@@ -76,7 +76,8 @@ class Main extends React.Component<{}, {
 
     changeArea(event: ChangeEvent<HTMLSelectElement>): void {
         this.setState({
-            currentAreaId: parseInt(event.currentTarget.value)
+            currentAreaId: parseInt(event.currentTarget.value),
+            selectedUserIds: []
         })
     }
 
