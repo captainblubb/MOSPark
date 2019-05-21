@@ -3,4 +3,5 @@ export default interface NotificationJson {
     fromUserId: number;
     toUserId: number;
     notification: string;
+    date: Date
 }
