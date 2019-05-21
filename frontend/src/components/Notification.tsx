@@ -4,9 +4,9 @@ class Notification extends React.Component<{
     fromUser: number,
     toUser: number,
     notification: string,
-    date: Date
+    date: string
 }, {}> {
-    constructor(props: {fromUser: number, toUser: number, notification: string, date: Date}) {
+    constructor(props: {fromUser: number, toUser: number, notification: string, date: string}) {
         super(props);
     }
 
