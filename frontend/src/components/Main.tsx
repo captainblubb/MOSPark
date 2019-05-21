@@ -137,9 +137,15 @@ class Main extends React.Component<{}, {
             selectedParkingSpot.occupied = !selectedParkingSpot.occupied;
             // mock user signifying a parking spot is not occupied
             selectedParkingSpot.userId = 0;
+            this.setState({
+                selectedUserIds: []
+            })
         } else if (!selectedParkingSpot.occupied && selectedParkingSpot.userId === 0) {
             selectedParkingSpot.occupied = !selectedParkingSpot.occupied;
             selectedParkingSpot.userId = this.state.currentUserId;
+            this.setState({
+                selectedUserIds: []
+            })
         }
         /*
         TODO: API call for both occupying/freeing parking spot
