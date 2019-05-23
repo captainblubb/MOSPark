@@ -6,10 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
-import javax.persistence.CacheRetrieveMode;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 
 import com.google.common.collect.Lists;
@@ -62,13 +59,13 @@ public abstract class BaseDao<E, I> implements Serializable
     }
 
     @Transactional
-    public void persist(E entity)
+    public void persist(E entity) throws Exception
     {
         em.persist(checkConsistencyBeforeSave(entity));
     }
 
     @Transactional
-    public void persist(@SuppressWarnings("unchecked") E... entities)
+    public void persist(@SuppressWarnings("unchecked") E... entities) throws Exception
     {
         for (final E entity : entities)
         {
@@ -83,7 +80,7 @@ public abstract class BaseDao<E, I> implements Serializable
      * @param entity
      */
     @Transactional
-    public void persistOrMerge(E entity)
+    public void persistOrMerge(E entity) throws Exception
     {
         if (isPersisted(entity))
         {
@@ -97,7 +94,7 @@ public abstract class BaseDao<E, I> implements Serializable
     /**
      * Flush the entity manager.
      */
-    public void flush()
+    public void flush() throws Exception
     {
         em.flush();
     }
@@ -109,7 +106,7 @@ public abstract class BaseDao<E, I> implements Serializable
      * @param entity
      * @return true if it is persisted in the DB according to its primary key
      */
-    public boolean isPersisted(E entity)
+    public boolean isPersisted(E entity) throws Exception
     {
         final I id = getId(entity);
 
@@ -122,7 +119,7 @@ public abstract class BaseDao<E, I> implements Serializable
      * @param entity
      */
     @Transactional
-    public void remove(E entity)
+    public void remove(E entity) throws Exception
     {
         em.remove(entity);
     }
@@ -133,7 +130,7 @@ public abstract class BaseDao<E, I> implements Serializable
      * @param detachedEntity
      */
     @Transactional
-    public void removeDetached(E detachedEntity)
+    public void removeDetached(E detachedEntity) throws Exception
     {
         em.remove(reattach(detachedEntity));
     }
@@ -143,7 +140,7 @@ public abstract class BaseDao<E, I> implements Serializable
      *
      * @param entity
      */
-    public void removeSilently(E entity)
+    public void removeSilently(E entity) throws Exception
     {
         if (isPersisted(entity))
         {
@@ -152,7 +149,7 @@ public abstract class BaseDao<E, I> implements Serializable
     }
 
     @Transactional
-    public E merge(E entity)
+    public E merge(E entity) throws Exception
     {
         return em.merge(checkConsistencyBeforeSave(entity));
     }
@@ -165,7 +162,7 @@ public abstract class BaseDao<E, I> implements Serializable
      * @return entity or null if no matching entity found
      */
     @SuppressWarnings("unchecked")
-    public E findById(I id)
+    public E findById(I id) throws Exception
     {
         return (E) em.find(entityClass, id);
     }
@@ -179,7 +176,7 @@ public abstract class BaseDao<E, I> implements Serializable
      *          key to search
      * @return entity or null if none found
      */
-    public E findByUnique(String fieldName, Object key)
+    public E findByUnique(String fieldName, Object key) throws Exception
     {
         final String query = String.format("FROM %s e WHERE e.%s = :key", entityClass.getName(), fieldName);
 
@@ -191,7 +188,7 @@ public abstract class BaseDao<E, I> implements Serializable
     }
 
     @SuppressWarnings("unchecked")
-    public List<E> getAll()
+    public List<E> getAll() throws Exception
     {
         final String query = String.format("FROM %s e", entityClass.getName());
 
@@ -199,15 +196,16 @@ public abstract class BaseDao<E, I> implements Serializable
     }
 
     @SuppressWarnings("unchecked")
-    public List<E> getAllByField(String fieldName,Object key )
+    public List<E> getAllByField(String fieldName,Object key ) throws Exception
     {
         final String query = String.format("FROM %s e WHERE e.%s = :key", entityClass.getName(), fieldName);
 
-        return (List<E>) cacheable(em.createQuery(query, entityClass)).getResultList();
+        return (List<E>) cacheable(em.createQuery(query, entityClass)).setParameter("key", key).getResultList();
     }
 
+
     @Transactional
-    public List<E> getAllFullyLoaded()
+    public List<E> getAllFullyLoaded() throws Exception
     {
         final List<E> all = getAll();
         Tools.loadFully(all);
@@ -223,7 +221,7 @@ public abstract class BaseDao<E, I> implements Serializable
      *          extractor function, e.g. <code>Entity::getName</code>
      * @return sorted list.
      */
-    public List<E> getAllSortedBy(Function<E, String> stringFieldExtractor)
+    public List<E> getAllSortedBy(Function<E, String> stringFieldExtractor) throws Exception
     {
         final List<E> sortedList = Lists.newArrayList(getAll());
         Collections.sort(sortedList, Comparator.comparing(stringFieldExtractor, String.CASE_INSENSITIVE_ORDER));
@@ -257,7 +255,7 @@ public abstract class BaseDao<E, I> implements Serializable
      * @return managed entity
      */
     @Transactional
-    public E reattach(E e)
+    public E reattach(E e) throws Exception
     {
         return em.contains(e) ? e : (isPersisted(e) ? findById(getId(e)) : null);
     }
@@ -270,7 +268,7 @@ public abstract class BaseDao<E, I> implements Serializable
      * @return refreshed entity
      */
     @Transactional
-    public E refresh(E e)
+    public E refresh(E e) throws Exception
     {
         if (em.contains(e))
         {
