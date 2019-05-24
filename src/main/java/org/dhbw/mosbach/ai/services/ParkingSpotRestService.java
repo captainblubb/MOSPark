@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.tree.ExpandVetoException;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -42,9 +43,9 @@ public class ParkingSpotRestService
     {
         if (request.getUserPrincipal() == null)
         {
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN)
+            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
         }
-        final List<ParkingSpot> allParkingSpots = parkingSpotDao.getAll();
+        final List<ParkingSpot> allParkingSpots = parkingSpotDao.getAllParkingSpots();
         return allParkingSpots;
     }
 
@@ -55,28 +56,28 @@ public class ParkingSpotRestService
     {
         if (request.getUserPrincipal() == null)
         {
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN)
+            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
         }
 
         String username = request.getUserPrincipal().getName();
-        User user = userDao.getUserByName(username);
+        User user = userDao.getUserByUsername(username);
 
-        parkingSpotDao.updateOccupant(parkingSpot, user);
+        parkingSpotDao.parkUserOnParkingSpot(parkingSpot, user);
     }
 
     @POST
     //@PATH("/free")
     @Consumes(MediaType.TEXT_XML)
-    public void occupyParkingSpot(ParkingSpot parkingSpot)
+    public void freeParkingSpot(ParkingSpot parkingSpot)
     {
         if (request.getUserPrincipal() == null)
         {
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN)
+            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
         }
 
         String username = request.getUserPrincipal().getName();
-        User user = userDao.getUserByName(username);
+        User user = userDao.getUserByUsername(username);
 
-        parkingSpotDao.free(parkingSpot, user);
+        parkingSpotDao.parkOutUser(user);
     }
 }

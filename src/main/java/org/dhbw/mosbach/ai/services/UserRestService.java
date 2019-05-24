@@ -23,7 +23,7 @@ public class UserRestService {
             @FormParam("password") String password
     ) {
         try {
-            userDAO.createUser(username, licensePlate, password)
+            userDAO.createUser(username, licensePlate, password);
         } catch (Exception e) {
             throw new WebApplicationException("something went wrong...", Response.Status.BAD_REQUEST);
         }

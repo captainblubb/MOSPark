@@ -17,6 +17,8 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
@@ -45,9 +47,9 @@ public class NotificationRestService
     {
         if (request.getUserPrincipal() == null)
         {
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN)
+            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
         }
-        final List<Notification> allNotifications = notificationDao.getAll();
+        final List<Notification> allNotifications = notificationDao.getAllNotifications();
         return allNotifications;
     }
 
@@ -60,11 +62,11 @@ public class NotificationRestService
     {
         if (request.getUserPrincipal() == null)
         {
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN)
+            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
         }
 
-        String username = request.getUserPrincipal().getName();
-        User user = userDao.getUserById(username);
+        String userName = request.getUserPrincipal().getName();
+        User user = userDao.getUserByUsername(userName);
 
         return notificationDao.getNotificationsOfUser(user);
     }
@@ -76,15 +78,18 @@ public class NotificationRestService
     {
         if (request.getUserPrincipal() == null)
         {
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN)
+            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
         }
 
         String username = request.getUserPrincipal().getName();
-        User user = userDao.getUserByName(username);
+        User userFrom = userDao.getUserByUsername(username);
 
-        List<User> users = parkingSpotDao.getUsersOfParkingSpots(parkingSpots);
+        List<User> users = new ArrayList<User>();
+        users.add(parkingSpotDao.getUserByParkingPositon(userFrom.getParkingSpot().getHorizontal()));
 
-        notificationDao.notifyUsers(users);
+        for (User userTo:users){
+            notificationDao.createNotification(userFrom, userTo, " Please return to your car, i want to leave.");
+        }
     }
 }
 
