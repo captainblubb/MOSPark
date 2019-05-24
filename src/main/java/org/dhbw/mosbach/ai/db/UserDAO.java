@@ -86,15 +86,6 @@ public class UserDAO extends BaseDao<User,Long> {
         return null;
     }
 
-    public User getUserByUsername(String userName){
-        try{
-            return findByUnique("name", userName);
-        }catch (Exception exp){
-            System.out.println(" failed finding user by name "+exp);
-        }
-        return null;
-    }
-
     /*
     change
      */
