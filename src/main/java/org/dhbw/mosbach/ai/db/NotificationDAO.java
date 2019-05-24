@@ -42,7 +42,7 @@ public class NotificationDAO extends BaseDao<Notification,Long> {
         }
     }
 
-    public List<Notification> getNotification(User userTo){
+    public List<Notification> getNotificationsOfUser(User userTo){
 
         List<Notification> notifications = new ArrayList<>();
 
@@ -88,5 +88,15 @@ public class NotificationDAO extends BaseDao<Notification,Long> {
             }
         }
         return false;
+    }
+
+    public List<Notification> getAllNotifications(){
+
+        try{
+            return getAll();
+        }catch (Exception exp){
+            System.out.println(" Failed to load all notifications "+exp);
+        }
+        return null;
     }
 }

@@ -93,8 +93,6 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
         }else {
             return null;
         }
-
-
     }
 
     public boolean parkUserOnParkingSpot(ParkingSpot parkingSpot, User user){
@@ -156,5 +154,14 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
         }
 
         return parkingSpot;
+    }
+
+    public List<ParkingSpot> getAllParkingSpots(){
+        try{
+            return getAll();
+        }catch (Exception exp){
+            System.out.println(" Failed to load all parking spots "+exp);
+        }
+        return null;
     }
 }
