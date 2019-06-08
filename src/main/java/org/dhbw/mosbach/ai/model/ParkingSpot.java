@@ -5,20 +5,20 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 @Entity
-@XmlTransient
 public class ParkingSpot implements Serializable {
 
     public Long id;
 
     @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    public User user;
+    private User user;
 
     private int horizontal;
 
     private int vertical;
 
-    @ManyToOne(optional = false)
-    public ParkingArea parkingArea;
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "ParkingArea", referencedColumnName = "id")
+    private ParkingArea parkingArea;
 
 
     public User getUser() {

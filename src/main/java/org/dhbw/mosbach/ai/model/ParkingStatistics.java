@@ -3,12 +3,12 @@ package org.dhbw.mosbach.ai.model;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 @Entity
-@XmlTransient
 public class ParkingStatistics {
 
-    private Timestamp timestamp;
+    private Calendar timestamp;
     private ParkingArea parkingArea;
     private int freeParkingSpots;
     private int maximumParkingSpots;
@@ -22,11 +22,11 @@ public class ParkingStatistics {
     }
 
     @Column(nullable = false)
-    public Timestamp getTimestamp() {
+    public Calendar getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Calendar timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -61,5 +61,9 @@ public class ParkingStatistics {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int dayToInt(){
+        return timestamp.get(Calendar.DAY_OF_WEEK);
     }
 }

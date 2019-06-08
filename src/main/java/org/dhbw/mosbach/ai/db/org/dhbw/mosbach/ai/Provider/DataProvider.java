@@ -32,14 +32,13 @@ public class DataProvider {
 
 
     public DataProvider(){
-
         //Gets called on Startup
         System.out.println("______________INITIALZATION DATAPROVICER STARTUP_________");
      }
 
-     /*
-        Generates all Data for ParkingSpots and ParkingAreas
-      */
+    /***
+     * Generiert alle Parking Areas inkl. Parking Spots
+     */
     @PostConstruct
     public void init(){
         boolean userSucc = userDAO.createUser("Peter","SHA-FS-9","swag");
@@ -54,16 +53,27 @@ public class DataProvider {
         Position wird in ->Parking Area, Column und Row gespeichert.
 
        */
+
+    /***
+     * Erstellt die Parking Areas
+     *
+     *
+     */
     private void generateParkingAreas(){
 
         System.out.println("____CREATE PARKING AREA DUMMY ___");
         boolean b = parkingAreaDAO.createParkingArea("A-Gebäude",10);
         boolean c = parkingAreaDAO.createParkingArea("B-Gebäude",20);
-        System.out.println(" CREATE PARKING AREA DUMMY RESULT : "+b);
+        System.out.println(" CREATE PARKING AREA DUMMY RESULT 1 : "+b);
+        System.out.println(" CREATE PARKING AREA DUMMY RESULT 2 : "+c);
     }
 
+    /***
+     * generiert die Parkplätze zu den Parking Areas
+     *
+     *
+     */
     private void generateParkingSpots(){
-
 
         System.out.println("____CREATE PARKING SPOTS DUMMY ___");
         try {

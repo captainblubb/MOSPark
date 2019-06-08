@@ -24,6 +24,15 @@ public class ParkingAreaDAO extends BaseDao<ParkingArea, Long> {
         super();
     }
 
+
+    /***
+     * Erstellt ein Parkplatz, wird von DataProvider verwendet
+     *
+     *
+     * @param name
+     * @param totalSpots
+     * @return
+     */
     public boolean createParkingArea(String name, int totalSpots){
 
         try {
@@ -45,6 +54,14 @@ public class ParkingAreaDAO extends BaseDao<ParkingArea, Long> {
         return false;
     }
 
+
+    /***
+     * Gibt die Freien Parkingspots einer Parking Area zurück
+     *
+     *
+     * @param parkingArea
+     * @return
+     */
     public int getFreeParkingSpots(ParkingArea parkingArea) {
 
         try {

@@ -19,8 +19,15 @@ public class UserDAO extends BaseDao<User,Long> {
         super();
     }
 
-    /*
-    Creates User
+    /***
+     * Legt einen Benutzer an, mit Name Passwort und Numernschild
+     * Passwort wird gehashed gespeichert.
+     *
+     * @param name
+     * @param licensePlate
+     * @param password
+     *
+     * @return True= funktioniert /False = Fehler
      */
     public boolean createUser(String name, String licensePlate, String password){
 
@@ -51,8 +58,12 @@ public class UserDAO extends BaseDao<User,Long> {
 
     }
 
-    /*
-        authentifcate User
+    /***
+     * Authentifizieren eines Users
+     *
+     * @param name
+     * @param password
+     * @return True = authentifiziert / false = authentifizierung nicht möglich
      */
     public boolean authentificateUser(String name, String password){
 
@@ -75,6 +86,12 @@ public class UserDAO extends BaseDao<User,Long> {
         return false;
     }
 
+    /***
+     * Get User By ID
+     *
+     * @param id
+     * @return User
+     */
     public User getUserById(Long id){
 
         try{
@@ -86,8 +103,12 @@ public class UserDAO extends BaseDao<User,Long> {
         return null;
     }
 
-    /*
-    change
+    /***
+     *
+     *
+     * @param user
+     * @param newLicensePlate
+     * @return
      */
     public boolean changeLicensePlate(User user,String newLicensePlate){
 
@@ -108,10 +129,22 @@ public class UserDAO extends BaseDao<User,Long> {
     }
 
 
+    /***
+     * Generates Salt to hash the User
+     * @return
+     */
     private byte[] generateSalt(){
         return Hashing.getNextSalt();
     }
 
+
+    /***
+     * Hashes a password, including also a salt
+     *
+     * @param password
+     * @param salt
+     * @return
+     */
     private byte[] hashPassword(String password, byte[] salt){
         return Hashing.hash(password.toCharArray(),salt);
     }
