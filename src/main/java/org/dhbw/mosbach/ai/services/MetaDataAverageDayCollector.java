@@ -49,6 +49,9 @@ public class MetaDataAverageDayCollector {
     @Schedule(second = "0", minute = "*/3", hour = "*", persistent = false )
     public void atSchedule() throws InterruptedException {
 
+
+        System.out.println("____MetaData Average of last days Collector");
+
         /*
             1. Get All ParkingStatisstics of last 2 weeks
             2. get All AverageDayOfWeekMetaDataFragment (Mo-Fr)
@@ -63,8 +66,11 @@ public class MetaDataAverageDayCollector {
             for (ParkingArea parkingArea: parkingAreas) {
 
                     // Get All Parking statistics of specific day of the week, Mo-Fr, of one parking Area!
-                    List<ParkingStatistics> parkingStatics = parkingStatisticDAO.getParkingStatics(MetaDataConfiguration.ofLastDays, parkingArea.getName());;
+                    List<ParkingStatistics> parkingStatics = parkingStatisticDAO.getParkingStatics(MetaDataConfiguration.ofLastDays, parkingArea.getName());
 
+                    if (parkingStatics.size()>0){
+                        System.out.println("Found some");
+                    }
                     //For each day a AverageDay is created, where all
                     //AverageDayOfWeekMetaData fragments of the specific day are referenzed to
                     AverageDayMetaData averageDayMetaData = new AverageDayMetaData();

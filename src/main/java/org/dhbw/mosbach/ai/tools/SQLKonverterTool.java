@@ -1,5 +1,6 @@
 package org.dhbw.mosbach.ai.tools;
 
+import java.sql.Timestamp;
 import java.time.DayOfWeek;
 import java.util.Calendar;
 
@@ -16,33 +17,33 @@ public class SQLKonverterTool {
 
         int daySQL=0;
 
-        switch (day){
+        switch (day.toLowerCase()){
 
-            case "Mon" :
-            case "Monday" : daySQL=0;
+            case "mon" :
+            case "monday" : daySQL=0;
                 break;
-            case "Tue" :
-            case "Tuesday" :daySQL=1;
-                break;
-
-            case "Wed" :
-            case "Wednesday" :daySQL=2;
+            case "tue" :
+            case "tuesday" :daySQL=1;
                 break;
 
-            case "Thu" :
-            case "Thursday" :daySQL=3;
+            case "wed" :
+            case "wednesday" :daySQL=2;
                 break;
 
-            case "Fri" :
-            case "Friday" :daySQL=4;
+            case "thu" :
+            case "thursday" :daySQL=3;
                 break;
 
-            case "Sat" :
-            case "Saturday" :daySQL=5;
+            case "fri" :
+            case "friday" :daySQL=4;
                 break;
 
-            case "Sun" :
-            case "Sunday" :daySQL=6;
+            case "sat" :
+            case "saturday" :daySQL=5;
+                break;
+
+            case "sun" :
+            case "sunday" :daySQL=6;
                 break;
 
             default: daySQL= -1;
@@ -106,6 +107,10 @@ public class SQLKonverterTool {
 
         return calendar;
 
+    }
+
+    public static Timestamp convertCalenderToTimestamp(Calendar calendar){
+        return new Timestamp(calendar.getTimeInMillis());
     }
 
 

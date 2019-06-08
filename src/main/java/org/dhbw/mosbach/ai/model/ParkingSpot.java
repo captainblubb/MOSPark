@@ -8,25 +8,13 @@ public class ParkingSpot implements Serializable {
 
     public Long id;
 
-    @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
 
-    private int column;
+    private int pAreaColumn;
 
-    private int row;
+    private int pAreaRow;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "ParkingArea", referencedColumnName = "id")
     private ParkingArea parkingArea;
-
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
 
     @Id
@@ -39,6 +27,36 @@ public class ParkingSpot implements Serializable {
         this.id = id;
     }
 
+    @Column()
+    public int getPAreaColumn() {
+        return pAreaColumn;
+    }
+
+    public void setPAreaColumn(int row) {
+        this.pAreaColumn = row;
+    }
+
+    @Column()
+    public int getPAreaRow() {
+        return pAreaRow;
+    }
+
+    public void setPAreaRow(int column) {
+        this.pAreaRow = column;
+    }
+
+
+    @OneToOne
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
+    @ManyToOne
     public ParkingArea getParkingArea() {
         return parkingArea;
     }
@@ -47,22 +65,4 @@ public class ParkingSpot implements Serializable {
         this.parkingArea = parkingArea;
     }
 
-
-    @Column(nullable = false)
-    public int getColumn() {
-        return column;
-    }
-
-    public void setColumn(int row) {
-        this.column = row;
-    }
-
-    @Column(nullable = false)
-    public int getRow() {
-        return row;
-    }
-
-    public void setRow(int column) {
-        this.row = column;
-    }
 }

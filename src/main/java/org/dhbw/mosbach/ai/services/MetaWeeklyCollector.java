@@ -27,7 +27,7 @@ public class MetaWeeklyCollector {
     ParkingAreaDAO parkingAreaDAO;
 
     @Inject
-    AverageDayOfWeekMataDataFragmentDAO dailyAverageMetaDataFragmentDAO;
+    AverageDayOfWeekMataDataFragmentDAO averageMetaDataFragmentDAO;
 
     @Inject
     AverageDayOfWeekMetaDataDAO averageDayOfWeekMetaDataDAO;
@@ -45,6 +45,7 @@ public class MetaWeeklyCollector {
     @Schedule(second = "0", minute = "*/3", hour = "*", persistent = false )
     public void atSchedule() throws InterruptedException {
 
+        System.out.println("____MetaData Weekly Collector");
         /*
             1. Get All ParkingStatisstics of last 2 weeks
             2. get All AverageDayOfWeekMetaDataFragment (Mo-Fr)
@@ -64,14 +65,14 @@ public class MetaWeeklyCollector {
 
                     // Get All Parking statistics of specific day of the week, Mo-Fr, of one parking Area!
                     List<ParkingStatistics> parkingStatics = parkingStatisticDAO.getParkingStatics(day, MetaDataConfiguration.ofLastDays, parkingArea.getName());;
-
+                    if (parkingStatics.size()>0){
+                        System.out.println("Found some");
+                    }
                     //AverageMetaDatafragments of the specific day are referenzed to
                     AverageDayOfWeekMetaData averageDayOfWeekMetaData = new AverageDayOfWeekMetaData();
                     averageDayOfWeekMetaData.setTimestamp(calenderNow);
                     averageDayOfWeekMetaData.setParkingArea(parkingArea);
 
-                    //persist
-                    averageDayOfWeekMetaDataDAO.persist(averageDayOfWeekMetaData);
 
                     for (int hour = MetaDataConfiguration.hourFrom; hour <= MetaDataConfiguration.hourTo; hour++) {
 
@@ -105,8 +106,11 @@ public class MetaWeeklyCollector {
                                 metaDataFragment.setParkingArea(parkingArea);
                                 metaDataFragment.setFreeSpots(freeSpotsAvg);
 
+                                //persist
+                                averageDayOfWeekMetaDataDAO.persist(averageDayOfWeekMetaData);
+
                                 //Persist
-                                dailyAverageMetaDataFragmentDAO.persist(metaDataFragment);
+                                averageMetaDataFragmentDAO.persist(metaDataFragment);
 
                             }
                         }

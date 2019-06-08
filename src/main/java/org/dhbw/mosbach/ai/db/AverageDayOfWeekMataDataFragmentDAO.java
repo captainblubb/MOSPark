@@ -32,7 +32,7 @@ public class AverageDayOfWeekMataDataFragmentDAO extends BaseDao<AverageDayOfWee
             if (super.em!= null) {
 
                 final String query =
-                        "SELECT * FROM ParkingStatistics p"+
+                                "FROM ParkingStatistics p"+
                                 " WHERE DAY(p.timestamp) ="+dayOfWeek+
                                 " AND HOUR(p.timestamp) ="+hour+
                                 " AND MINUTE(p.timestamp) ="+minute;

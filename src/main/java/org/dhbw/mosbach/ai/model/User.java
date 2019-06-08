@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity
+@Entity(name = "User")
 public class User implements Serializable,Cloneable {
 
 

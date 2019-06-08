@@ -36,8 +36,8 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
 
         try {
             ParkingSpot parkingSpot = new ParkingSpot();
-            parkingSpot.setRow(column);
-            parkingSpot.setColumn(row);
+            parkingSpot.setPAreaRow(column);
+            parkingSpot.setPAreaColumn(row);
             parkingSpot.setParkingArea(parkingArea);
             System.out.println("Persist or merge create Parking Spot");
             persistOrMerge(parkingSpot);

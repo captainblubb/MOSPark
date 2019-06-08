@@ -62,8 +62,9 @@ public class ParkingStatisticDAO extends BaseDao<ParkingStatistics, Long> {
 
 
                 final String query =
-                        "SELECT * FROM ParkingStatistics p WHERE timestamp >"+calendar.toString()+
-                                " AND p.parkingArea.name ="+parkingArea+
+                                "FROM ParkingStatistics p"+
+                                " WHERE timestamp > '"+SQLKonverterTool.convertCalenderToTimestamp(calendar)+"'"+
+                                " AND p.parkingArea.name Like '"+parkingArea+"'"+
                                 " AND DAY(p.timestamp) ="+daySQL+
                                 " AND HOUR(p.timestamp) ="+hour+
                                 " AND MINUTE(p.timestamp) ="+minute;
@@ -119,10 +120,11 @@ public class ParkingStatisticDAO extends BaseDao<ParkingStatistics, Long> {
 
 
                 final String query =
-                        "SELECT * FROM ParkingStatistics p WHERE timestamp >"+calendar.toString()+
-                                " AND p.parkingArea.name ="+parkingArea+
-                                " AND HOUR(p.timestamp) ="+hour+
-                                " AND MINUTE(p.timestamp) ="+minute;
+                                "FROM ParkingStatistics p"+
+                                        " WHERE p.timestamp >= '"+SQLKonverterTool.convertCalenderToTimestamp(calendar)+"'"+
+                                        " AND p.parkingArea.name Like '"+parkingArea+"'"+
+                                        " AND HOUR(p.timestamp) ="+hour+
+                                        " AND MINUTE(p.timestamp) ="+minute;
 
                 System.out.println("_QUERY FOR ParkingStatistics: "+query);
                 parkingStatistics = (List<ParkingStatistics>) cacheable(em.createQuery(query, entityClass)).getResultList();
@@ -177,11 +179,10 @@ public class ParkingStatisticDAO extends BaseDao<ParkingStatistics, Long> {
 
 
                 final String query =
-                        "SELECT *" +
-                                " FROM ParkingStatistics p "+
-                                " WHERE timestamp >"+calendar.toString()+
-                                " AND p.parkingArea.name ="+parkingArea+
-                                " AND DAY(p.timestamp) ="+daySQL;
+                                "FROM ParkingStatistics p "+
+                                        " WHERE p.timestamp >= '"+SQLKonverterTool.convertCalenderToTimestamp(calendar)+"'"+
+                                        " AND p.parkingArea.name Like '"+parkingArea+"'"+
+                                        " AND DAY(p.timestamp) = "+daySQL;
 
                 System.out.println("_QUERY FOR ParkingStatistics: "+query);
                 parkingStatistics = (List<ParkingStatistics>) cacheable(em.createQuery(query, entityClass)).getResultList();
@@ -232,10 +233,9 @@ public class ParkingStatisticDAO extends BaseDao<ParkingStatistics, Long> {
 
 
                 final String query =
-                        "SELECT *" +
-                                " FROM ParkingStatistics p "+
-                                " WHERE timestamp >"+calendar.toString()+
-                                " AND p.parkingArea.name ="+parkingArea;
+                                "FROM ParkingStatistics p "+
+                                        " WHERE p.timestamp >= '"+SQLKonverterTool.convertCalenderToTimestamp(calendar)+"'"
+                                         +" AND p.parkingArea.name Like '"+parkingArea+"'";
 
                 System.out.println("_QUERY FOR ParkingStatistics: "+query);
                 parkingStatistics = (List<ParkingStatistics>) cacheable(em.createQuery(query, entityClass)).getResultList();
@@ -245,7 +245,7 @@ public class ParkingStatisticDAO extends BaseDao<ParkingStatistics, Long> {
                 return new ArrayList<>();
             }
         }catch (Exception exp){
-            System.out.println("Failed Parking Statstic query"+exp);
+            System.out.println("Failed Parking Statstic query "+exp);
         }
 
         return parkingStatistics;
