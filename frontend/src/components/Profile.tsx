@@ -1,11 +1,14 @@
-import React from 'react';
-import Notification from './Notification';
+import React from "react";
+import Notification from "./Notification";
 import NotificationJson from "./NotificationJson";
 
-class Profile extends React.Component<{}, {
-    currentUserId: number,
-    notifications: Array<NotificationJson>
-}> {
+class Profile extends React.Component<
+    {},
+    {
+        currentUserId: number;
+        notifications: Array<NotificationJson>;
+    }
+> {
     constructor(props: {}) {
         super(props);
 
@@ -14,12 +17,16 @@ class Profile extends React.Component<{}, {
         this.state = {
             currentUserId: Profile.getCurrentUserId(),
             notifications: Profile.fetchNotifications()
-        }
+        };
     }
 
     static getCurrentUserId(): number {
-        const currentSessionUserId: string | null = sessionStorage.getItem("id");
-        return currentSessionUserId != null ? parseInt(currentSessionUserId) : 0;
+        const currentSessionUserId: string | null = sessionStorage.getItem(
+            "id"
+        );
+        return currentSessionUserId != null
+            ? parseInt(currentSessionUserId)
+            : 0;
     }
 
     static fetchNotifications(): Array<NotificationJson> {
@@ -30,20 +37,24 @@ class Profile extends React.Component<{}, {
                 notifications: JSON.parse(notifications)
             }));
         */
-        return JSON.parse('[{"id": 0, "fromUserId": 1, "toUserId": 420, "notification": "parking spot X wants you to make space for him", "date": "04.20.2019, 16:20"}]');
+        return JSON.parse(
+            '[{"id": 0, "fromUserId": 1, "toUserId": 420, "notification": "parking spot X wants you to make space for him", "date": "04.20.2019, 16:20"}]'
+        );
     }
 
     renderNotifications(): Array<JSX.Element> {
         let notifications: Array<JSX.Element> = [];
         for (let i: number = 0; i < this.state.notifications.length; i++) {
-            const currentNotification: NotificationJson = this.state.notifications[i];
+            const currentNotification: NotificationJson = this.state
+                .notifications[i];
             notifications.push(
                 <Notification
                     fromUser={currentNotification.fromUserId}
                     toUser={currentNotification.toUserId}
                     notification={currentNotification.notification}
-                    date={currentNotification.date}/>
-            )
+                    date={currentNotification.date}
+                />
+            );
         }
         return notifications;
     }
@@ -54,7 +65,7 @@ class Profile extends React.Component<{}, {
                 <div>Notifications</div>
                 <div>{this.renderNotifications()}</div>
             </div>
-        )
+        );
     }
 }
 

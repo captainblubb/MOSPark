@@ -1,15 +1,18 @@
-import React, {ChangeEvent} from 'react';
+import React, { ChangeEvent } from "react";
 import ParkingArea from "./ParkingArea";
 import ParkingAreaJson from "./ParkingAreaJson";
 import ParkingSpotJson from "./ParkingSpotJson";
 
-class Main extends React.Component<{}, {
-    parkingAreas: Array<ParkingAreaJson>,
-    parkingSpots: Array<ParkingSpotJson>,
-    currentAreaId: number,
-    selectedUserIds: Array<number>,
-    currentUserId: number
-}> {
+class Main extends React.Component<
+    {},
+    {
+        parkingAreas: Array<ParkingAreaJson>;
+        parkingSpots: Array<ParkingSpotJson>;
+        currentAreaId: number;
+        selectedUserIds: Array<number>;
+        currentUserId: number;
+    }
+> {
     constructor(props: {}) {
         super(props);
         Main.fetchParkingAreas = Main.fetchParkingAreas.bind(this);
@@ -26,7 +29,9 @@ class Main extends React.Component<{}, {
         this.renderParkingArea = this.renderParkingArea.bind(this);
         this.renderOptions = this.renderOptions.bind(this);
         this.changeArea = this.changeArea.bind(this);
-        this.handleParkingSpotSelection = this.handleParkingSpotSelection.bind(this);
+        this.handleParkingSpotSelection = this.handleParkingSpotSelection.bind(
+            this
+        );
         this.notifySelectedUsers = this.notifySelectedUsers.bind(this);
         this.toggleParking = this.toggleParking.bind(this);
     }
@@ -51,25 +56,39 @@ class Main extends React.Component<{}, {
                 parkingSpots: JSON.parse(spots)
             }));
         */
-        return JSON.parse('[{"id": 0, "occupied": true, "userId": 420, "areaId": 0},{"id": 1, "occupied": false, "userId": 1, "areaId": 0},{"id": 2, "occupied": false, "userId": 2,"areaId": 1},{"id": 3, "occupied": false, "userId": 3, "areaId": 1}]');
+        return JSON.parse(
+            '[{"id": 0, "occupied": true, "userId": 420, "areaId": 0},{"id": 1, "occupied": false, "userId": 1, "areaId": 0},{"id": 2, "occupied": false, "userId": 2,"areaId": 1},{"id": 3, "occupied": false, "userId": 3, "areaId": 1}]'
+        );
     }
 
     static getCurrentUserId(): number {
-        const currentSessionUserId: string | null = sessionStorage.getItem("id");
-        return currentSessionUserId != null ? parseInt(currentSessionUserId) : 0;
+        const currentSessionUserId: string | null = sessionStorage.getItem(
+            "id"
+        );
+        return currentSessionUserId != null
+            ? parseInt(currentSessionUserId)
+            : 0;
     }
 
     renderParkingArea(): JSX.Element {
-        return <ParkingArea id={this.state.currentAreaId}
-                            parkingSpots={this.state.parkingSpots}
-                            selectionHandler={this.handleParkingSpotSelection}
-                            selectedUserIds={this.state.selectedUserIds}/>;
+        return (
+            <ParkingArea
+                id={this.state.currentAreaId}
+                parkingSpots={this.state.parkingSpots}
+                selectionHandler={this.handleParkingSpotSelection}
+                selectedUserIds={this.state.selectedUserIds}
+            />
+        );
     }
 
     renderOptions(): JSX.Element {
         let options: Array<JSX.Element> = [];
         for (let i: number = 0; i < this.state.parkingAreas.length; i++) {
-            options.push(<option key={i} value={i}>Area {this.state.parkingAreas[i].id}</option>)
+            options.push(
+                <option key={i} value={i}>
+                    Area {this.state.parkingAreas[i].id}
+                </option>
+            );
         }
         return <select onChange={this.changeArea}>{options}</select>;
     }
@@ -78,13 +97,15 @@ class Main extends React.Component<{}, {
         this.setState({
             currentAreaId: parseInt(event.currentTarget.value),
             selectedUserIds: []
-        })
+        });
     }
 
     handleParkingSpotSelection(parkingSpotId: number, selected: boolean): void {
-        const parkingSpot: ParkingSpotJson | null = this.getParkingSpotById(parkingSpotId);
+        const parkingSpot: ParkingSpotJson | null = this.getParkingSpotById(
+            parkingSpotId
+        );
         if (parkingSpot == null) {
-            return
+            return;
         }
 
         let selectedUserIds: Array<number> = this.state.selectedUserIds;
@@ -99,7 +120,7 @@ class Main extends React.Component<{}, {
         }
 
         if (selected && userFound) {
-            selectedUserIds.splice(foundUserIdIndex, 1)
+            selectedUserIds.splice(foundUserIdIndex, 1);
         } else if (!selected && !userFound) {
             selectedUserIds.push(parkingSpot.userId);
         }
@@ -111,7 +132,7 @@ class Main extends React.Component<{}, {
     }
 
     notifySelectedUsers(): void {
-        alert(this.state.selectedUserIds)
+        alert(this.state.selectedUserIds);
         /*
         fetch(`http://localhost:8080/notifyUsers`, {
             method: 'POST',
@@ -127,26 +148,34 @@ class Main extends React.Component<{}, {
 
     toggleParking(): void {
         if (this.state.selectedUserIds.length > 1) {
-            return
+            return;
         }
 
-        const selectedParkingSpot: ParkingSpotJson | null = this.getParkingSpotByUserId(this.state.selectedUserIds[0]);
+        const selectedParkingSpot: ParkingSpotJson | null = this.getParkingSpotByUserId(
+            this.state.selectedUserIds[0]
+        );
         if (selectedParkingSpot == null) {
             return;
         }
-        if (selectedParkingSpot.occupied && selectedParkingSpot.userId === this.state.currentUserId) {
+        if (
+            selectedParkingSpot.occupied &&
+            selectedParkingSpot.userId === this.state.currentUserId
+        ) {
             selectedParkingSpot.occupied = !selectedParkingSpot.occupied;
             // mock user signifying a parking spot is not occupied
             selectedParkingSpot.userId = 0;
             this.setState({
                 selectedUserIds: []
-            })
-        } else if (!selectedParkingSpot.occupied && selectedParkingSpot.userId === 0) {
+            });
+        } else if (
+            !selectedParkingSpot.occupied &&
+            selectedParkingSpot.userId === 0
+        ) {
             selectedParkingSpot.occupied = !selectedParkingSpot.occupied;
             selectedParkingSpot.userId = this.state.currentUserId;
             this.setState({
                 selectedUserIds: []
-            })
+            });
         }
         /*
         TODO: API call for both occupying/freeing parking spot
@@ -186,22 +215,16 @@ class Main extends React.Component<{}, {
         if (this.state.currentUserId !== 0) {
             return (
                 <div>
-                    <div>
-                        {this.renderOptions()}
-                    </div>
+                    <div>{this.renderOptions()}</div>
                     <div className={"parkingAreaContainer"}>
                         {this.renderParkingArea()}
                     </div>
                     <button onClick={this.notifySelectedUsers}>notify</button>
                     <button onClick={this.toggleParking}>Occupy/Free</button>
                 </div>
-            )
+            );
         } else {
-            return (
-                <div>
-
-                </div>
-            )
+            return <div />;
         }
     }
 }

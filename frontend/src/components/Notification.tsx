@@ -1,12 +1,20 @@
-import React from 'react';
+import React from "react";
 
-class Notification extends React.Component<{
-    fromUser: number,
-    toUser: number,
-    notification: string,
-    date: string
-}, {}> {
-    constructor(props: {fromUser: number, toUser: number, notification: string, date: string}) {
+class Notification extends React.Component<
+    {
+        fromUser: number;
+        toUser: number;
+        notification: string;
+        date: string;
+    },
+    {}
+> {
+    constructor(props: {
+        fromUser: number;
+        toUser: number;
+        notification: string;
+        date: string;
+    }) {
         super(props);
     }
 
@@ -16,9 +24,8 @@ class Notification extends React.Component<{
                 <div>{this.props.date}</div>
                 <div>{this.props.notification}</div>
             </div>
-        )
+        );
     }
 }
-
 
 export default Notification;
