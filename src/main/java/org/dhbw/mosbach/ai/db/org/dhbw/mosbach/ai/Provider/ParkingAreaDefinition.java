@@ -30,11 +30,11 @@ public class ParkingAreaDefinition {
     public static final String parkingAreaAName = "A";
 
     //Parking Area B
-    public static final int[] parkingAreaB = {10,5,10,5,10};
+    public static final int[] parkingAreaB = {7,5,3,5,8};
     public static final String parkingAreaBName = "B";
 
     //Parking Area C
-    public static final int[] parkingAreaC = {10,5,10,5,10};
+    public static final int[] parkingAreaC = {8,5,2,5,5};
     public static final String parkingAreaCName = "C";
 
     public static int[] getCorpusOfParkingArea(String parkingAreaName){

@@ -1,12 +1,11 @@
 package org.dhbw.mosbach.ai.model;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Calendar;
 
 
 /***
- * Stellt
+ * Stellt die freien Parkplätze zu einem bestimmten Datum und Uhrzeit dar.
  *
  */
 @Entity
@@ -16,7 +15,7 @@ public class AverageDayMetaDataFragment {
     private int freeSpots;
     private ParkingArea parkingArea;
     private Calendar timestamp;
-    private AverageDayMetaData averageDayMetaData;
+    private AverageDayOfWeekMetaData averageDayOfWeekMetaData;
 
 
     @Id
@@ -59,11 +58,11 @@ public class AverageDayMetaDataFragment {
 
 
     @ManyToOne
-    public AverageDayMetaData getAverageDayMetaData() {
-        return averageDayMetaData;
+    public AverageDayOfWeekMetaData getAverageDayOfWeekMetaData() {
+        return averageDayOfWeekMetaData;
     }
 
-    public void setAverageDayMetaData(AverageDayMetaData averageDayMetaData) {
-        this.averageDayMetaData = averageDayMetaData;
+    public void setAverageDayOfWeekMetaData(AverageDayOfWeekMetaData averageDayOfWeekMetaData) {
+        this.averageDayOfWeekMetaData = averageDayOfWeekMetaData;
     }
 }

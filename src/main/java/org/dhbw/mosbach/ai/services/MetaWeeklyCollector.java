@@ -1,11 +1,10 @@
 package org.dhbw.mosbach.ai.services;
 
-import org.checkerframework.checker.units.qual.C;
-import org.dhbw.mosbach.ai.db.AverageDayMetaDataDAO;
+import org.dhbw.mosbach.ai.db.AverageDayOfWeekMetaDataDAO;
 import org.dhbw.mosbach.ai.db.DailyAverageMetaDataFragmentDAO;
 import org.dhbw.mosbach.ai.db.ParkingAreaDAO;
 import org.dhbw.mosbach.ai.db.ParkingStatisticDAO;
-import org.dhbw.mosbach.ai.model.AverageDayMetaData;
+import org.dhbw.mosbach.ai.model.AverageDayOfWeekMetaData;
 import org.dhbw.mosbach.ai.model.AverageDayMetaDataFragment;
 import org.dhbw.mosbach.ai.model.ParkingArea;
 import org.dhbw.mosbach.ai.model.ParkingStatistics;
@@ -14,10 +13,6 @@ import org.dhbw.mosbach.ai.tools.SQLKonverterTool;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
-import java.lang.reflect.Array;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.DayOfWeek;
 import java.util.*;
 
 import static org.dhbw.mosbach.ai.tools.SQLKonverterTool.mapTimestampTo15;
@@ -35,7 +30,7 @@ public class MetaWeeklyCollector {
     DailyAverageMetaDataFragmentDAO dailyAverageMetaDataFragmentDAO;
 
     @Inject
-    AverageDayMetaDataDAO averageDayMetaDataDAO;
+    AverageDayOfWeekMetaDataDAO averageDayOfWeekMetaDataDAO;
 
 
     /***
@@ -70,14 +65,14 @@ public class MetaWeeklyCollector {
                     // Get All Parking statistics of specific day of the week, Mo-Fr, of one parking Area!
                     List<ParkingStatistics> parkingStatics = parkingStatisticDAO.getParkingStatics(day, MetaDataConfiguration.ofLastDays, parkingArea.getName());;
 
-                    //For each day a AverageDayMetaData is created, where all
-                    //AverageDayMetaData fragments of the specific day are referenzed to
-                    AverageDayMetaData averageDayMetaData = new AverageDayMetaData();
-                    averageDayMetaData.setTimestamp(calenderNow);
-                    averageDayMetaData.setParkingArea(parkingArea);
+                    //For each day a AverageDayOfWeekMetaData is created, where all
+                    //AverageDayOfWeekMetaData fragments of the specific day are referenzed to
+                    AverageDayOfWeekMetaData averageDayOfWeekMetaData = new AverageDayOfWeekMetaData();
+                    averageDayOfWeekMetaData.setTimestamp(calenderNow);
+                    averageDayOfWeekMetaData.setParkingArea(parkingArea);
 
                     //persist
-                    averageDayMetaDataDAO.persist(averageDayMetaData);
+                    averageDayOfWeekMetaDataDAO.persist(averageDayOfWeekMetaData);
 
                     for (int hour = MetaDataConfiguration.hourFrom; hour <= MetaDataConfiguration.hourTo; hour++) {
 
@@ -106,7 +101,7 @@ public class MetaWeeklyCollector {
 
                                 //Save as Fragment
                                 AverageDayMetaDataFragment metaDataFragment = new AverageDayMetaDataFragment();
-                                metaDataFragment.setAverageDayMetaData(averageDayMetaData);
+                                metaDataFragment.setAverageDayOfWeekMetaData(averageDayOfWeekMetaData);
                                 metaDataFragment.setTimestamp(foundParkingStatistics.get(0).getTimestamp());
                                 metaDataFragment.setParkingArea(parkingArea);
                                 metaDataFragment.setFreeSpots(freeSpotsAvg);

@@ -31,7 +31,6 @@ public class DailyAverageMetaDataFragmentDAO extends BaseDao<AverageDayMetaDataF
 
             if (super.em!= null) {
 
-
                 final String query =
                         "SELECT * FROM ParkingStatistics p"+
                                 " WHERE DAY(p.timestamp) ="+dayOfWeek+
