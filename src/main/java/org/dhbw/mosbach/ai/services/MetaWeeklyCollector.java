@@ -1,7 +1,7 @@
 package org.dhbw.mosbach.ai.services;
 
 import org.dhbw.mosbach.ai.db.AverageDayOfWeekMetaDataDAO;
-import org.dhbw.mosbach.ai.db.DailyAverageMetaDataFragmentDAO;
+import org.dhbw.mosbach.ai.db.AverageDayOfWeekMataDataFragmentDAO;
 import org.dhbw.mosbach.ai.db.ParkingAreaDAO;
 import org.dhbw.mosbach.ai.db.ParkingStatisticDAO;
 import org.dhbw.mosbach.ai.model.MetaData.AveragageByDay.AverageDayOfWeekMetaData;
@@ -27,21 +27,21 @@ public class MetaWeeklyCollector {
     ParkingAreaDAO parkingAreaDAO;
 
     @Inject
-    DailyAverageMetaDataFragmentDAO dailyAverageMetaDataFragmentDAO;
+    AverageDayOfWeekMataDataFragmentDAO dailyAverageMetaDataFragmentDAO;
 
     @Inject
     AverageDayOfWeekMetaDataDAO averageDayOfWeekMetaDataDAO;
 
 
     /***
-     * Jeden Sonntag werden die durchschnittlichen Werte für jeden Wochentag erzeugt. Für jeden Wochentag
-     * wird aus den vergangen x Tagen (aktuell 14) die freien Parkplätze wochentags spezifisch
-     * berechnet um eine Tendenz für die nächste Woche angeben zu können.
+     * Jeden Tag werden die durchschnittlichen Werte für jeden Wochentag erzeugt. Für jeden Tag
+     * wird aus den vergangen x Tagen (aktuell 14) die freien Parkplätze
+     * berechnet um eine durchschnittliche Tendenz für die nächste Woche angeben zu können.
      *
      * @throws InterruptedException
      */
     //Midnights on sunday -> Collect Average of last 14 days
-    //@Schedule(second = "0", minute = "0", hour = "0", dayOfWeek = "Sun", persistent = false)
+    //@Schedule(second = "0", minute = "0", hour = "0", dayOfWeek = "*", persistent = false)
     @Schedule(second = "0", minute = "*/3", hour = "*", persistent = false )
     public void atSchedule() throws InterruptedException {
 
@@ -65,8 +65,7 @@ public class MetaWeeklyCollector {
                     // Get All Parking statistics of specific day of the week, Mo-Fr, of one parking Area!
                     List<ParkingStatistics> parkingStatics = parkingStatisticDAO.getParkingStatics(day, MetaDataConfiguration.ofLastDays, parkingArea.getName());;
 
-                    //For each day a AverageDayOfWeekMetaData is created, where all
-                    //AverageDayOfWeekMetaData fragments of the specific day are referenzed to
+                    //AverageMetaDatafragments of the specific day are referenzed to
                     AverageDayOfWeekMetaData averageDayOfWeekMetaData = new AverageDayOfWeekMetaData();
                     averageDayOfWeekMetaData.setTimestamp(calenderNow);
                     averageDayOfWeekMetaData.setParkingArea(parkingArea);

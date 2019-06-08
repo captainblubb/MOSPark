@@ -20,7 +20,6 @@ public class AverageDayMetaDataFragment {
     private Calendar timestamp;
     private AverageDayMetaData averageDayMetaData;
 
-
     @Id
     @GeneratedValue
     public Long getId() {

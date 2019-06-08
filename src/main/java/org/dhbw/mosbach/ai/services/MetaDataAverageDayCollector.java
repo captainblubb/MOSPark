@@ -1,12 +1,9 @@
 package org.dhbw.mosbach.ai.services;
 
 
-import org.dhbw.mosbach.ai.db.AverageDayOfWeekMetaDataDAO;
-import org.dhbw.mosbach.ai.db.DailyAverageMetaDataFragmentDAO;
-import org.dhbw.mosbach.ai.db.ParkingAreaDAO;
-import org.dhbw.mosbach.ai.db.ParkingStatisticDAO;
-import org.dhbw.mosbach.ai.model.MetaData.AveragageByDay.AverageDayOfWeekMetaData;
-import org.dhbw.mosbach.ai.model.MetaData.AveragageByDay.AverageDayOfWeekMetaDataFragment;
+import org.dhbw.mosbach.ai.db.*;
+import org.dhbw.mosbach.ai.model.MetaData.Average.AverageDayMetaData;
+import org.dhbw.mosbach.ai.model.MetaData.Average.AverageDayMetaDataFragment;
 import org.dhbw.mosbach.ai.model.ParkingArea;
 import org.dhbw.mosbach.ai.model.ParkingStatistics;
 
@@ -34,10 +31,10 @@ public class MetaDataAverageDayCollector {
     ParkingAreaDAO parkingAreaDAO;
 
     @Inject
-    DailyAverageMetaDataFragmentDAO dailyAverageMetaDataFragmentDAO;
+    AverageDayMetaDataFragmentDAO AverageMetaDataFragmentDAO;
 
     @Inject
-    AverageDayOfWeekMetaDataDAO averageDayOfWeekMetaDataDAO;
+    AverageDayMetaDataDAO averageDayMetaDataDAO;
 
 
     /***
@@ -68,14 +65,14 @@ public class MetaDataAverageDayCollector {
                     // Get All Parking statistics of specific day of the week, Mo-Fr, of one parking Area!
                     List<ParkingStatistics> parkingStatics = parkingStatisticDAO.getParkingStatics(MetaDataConfiguration.ofLastDays, parkingArea.getName());;
 
-                    //For each day a AverageDayOfWeekMetaData is created, where all
+                    //For each day a AverageDay is created, where all
                     //AverageDayOfWeekMetaData fragments of the specific day are referenzed to
-                    AverageDayOfWeekMetaData averageDayOfWeekMetaData = new AverageDayOfWeekMetaData();
-                    averageDayOfWeekMetaData.setTimestamp(calenderNow);
-                    averageDayOfWeekMetaData.setParkingArea(parkingArea);
+                    AverageDayMetaData averageDayMetaData = new AverageDayMetaData();
+                    averageDayMetaData.setTimestamp(calenderNow);
+                    averageDayMetaData.setParkingArea(parkingArea);
 
                     //persist
-                    averageDayOfWeekMetaDataDAO.persist(averageDayOfWeekMetaData);
+                    averageDayMetaDataDAO.persist(averageDayMetaData);
 
                     for (int hour = MetaDataConfiguration.hourFrom; hour <= MetaDataConfiguration.hourTo; hour++) {
 
@@ -103,14 +100,14 @@ public class MetaDataAverageDayCollector {
                                 int freeSpotsAvg = (int)((double)freeSlotsAll/(double)foundParkingStatistics.size());
 
                                 //Save as Fragment
-                                AverageDayOfWeekMetaDataFragment metaDataFragment = new AverageDayOfWeekMetaDataFragment();
-                                metaDataFragment.setAverageDayOfWeekMetaData(averageDayOfWeekMetaData);
+                                AverageDayMetaDataFragment metaDataFragment = new AverageDayMetaDataFragment();
+                                metaDataFragment.setAverageDayMetaData(averageDayMetaData);
                                 metaDataFragment.setTimestamp(foundParkingStatistics.get(0).getTimestamp());
                                 metaDataFragment.setParkingArea(parkingArea);
                                 metaDataFragment.setFreeSpots(freeSpotsAvg);
 
                                 //Persist
-                                dailyAverageMetaDataFragmentDAO.persist(metaDataFragment);
+                                AverageMetaDataFragmentDAO.persist(metaDataFragment);
 
                             }
                         }

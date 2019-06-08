@@ -10,9 +10,9 @@ import java.util.List;
 
 @Named
 @Dependent
-public class DailyAverageMetaDataFragmentDAO extends BaseDao<AverageDayOfWeekMetaDataFragment, Long> {
+public class AverageDayOfWeekMataDataFragmentDAO extends BaseDao<AverageDayOfWeekMetaDataFragment, Long> {
 
-    public DailyAverageMetaDataFragmentDAO(){
+    public AverageDayOfWeekMataDataFragmentDAO(){
         super();
     }
 
