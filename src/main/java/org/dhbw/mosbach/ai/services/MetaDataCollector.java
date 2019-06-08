@@ -5,20 +5,15 @@ import org.dhbw.mosbach.ai.db.ParkingStatisticDAO;
 import org.dhbw.mosbach.ai.db.base.BaseDao;
 import org.dhbw.mosbach.ai.model.ParkingArea;
 import org.dhbw.mosbach.ai.model.ParkingStatistics;
+import org.dhbw.mosbach.ai.tools.SQLKonverterTool;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import javax.inject.Inject;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import static org.dhbw.mosbach.ai.tools.SQLKonverterTool.mapTimestampTo15;
 
 
 @Singleton
@@ -30,19 +25,14 @@ public class MetaDataCollector {
     @Inject
     ParkingStatisticDAO parkingStatisticDAO;
 
-    public static final int hourFrom = 6;
-    public static final int hourTo = 20;
-    public static final int everyMin = 1;
-
-
     /***
-     * Alle 15 Minuten zwischen aktuell (8-18 Uhr) werden Metadaten über jede Parking Area und die
+     * Alle 15 Minuten zwischen aktuell (8-20 Uhr) werden Metadaten über jede Parking Area und die
      * freien Parkplätze erzeugt, um den Verlauf freier Parkplätze in einem Diagram anzeigen zu können.
      *
      *
      * @throws InterruptedException
      */
-    @Schedule(second = "0", minute = "*/"+everyMin, hour = hourFrom+"-"+hourTo, persistent = false )
+    @Schedule(second = "0", minute = "*/"+MetaDataConfiguration.everyMin, hour = MetaDataConfiguration.hourFrom+"-"+MetaDataConfiguration.hourTo, persistent = false )
     public void atSchedule() throws InterruptedException {
 
 
@@ -58,7 +48,7 @@ public class MetaDataCollector {
 
             int totalSpots = pa.getTotalSpots();
 
-            Calendar calendar = mapTimestampTo15(Calendar.getInstance(Locale.GERMANY));
+            Calendar calendar = SQLKonverterTool.mapTimestampTo15(Calendar.getInstance(Locale.GERMANY));
             ParkingStatistics parkingStatistics = new ParkingStatistics();
             parkingStatistics.setTimestamp(calendar);
             parkingStatistics.setFreeParkingSpots(freeSpots);
@@ -78,11 +68,4 @@ public class MetaDataCollector {
 
     }
 
-    public int getHourFrom() {
-        return hourFrom;
-    }
-
-    public int getHourTo() {
-        return hourTo;
-    }
 }

@@ -2,6 +2,7 @@ package org.dhbw.mosbach.ai.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 
 /***
@@ -14,7 +15,7 @@ public class AverageDayMetaDataFragment {
     private Long id;
     private int freeSpots;
     private ParkingArea parkingArea;
-    private Timestamp timestamp;
+    private Calendar timestamp;
     private AverageDayMetaData averageDayMetaData;
 
 
@@ -39,11 +40,11 @@ public class AverageDayMetaDataFragment {
     }
 
     @Column(nullable = false)
-    public Timestamp getTimestamp() {
+    public Calendar getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Calendar timestamp) {
         this.timestamp = timestamp;
     }
 

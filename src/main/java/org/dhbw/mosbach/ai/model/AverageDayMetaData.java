@@ -1,6 +1,7 @@
 package org.dhbw.mosbach.ai.model;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 /***
  * Durchschnittliche Belegung der Parkplätze der letzen 5 Wochentage
@@ -11,7 +12,7 @@ public class AverageDayMetaData {
 
     private Long id;
     private ParkingArea parkingArea;
-    private Timestamp timestamp;
+    private Calendar timestamp;
 
     @Id
     @GeneratedValue
@@ -33,11 +34,11 @@ public class AverageDayMetaData {
     }
 
     @Column(nullable = false)
-    public Timestamp getTimestamp() {
+    public Calendar getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Calendar timestamp) {
         this.timestamp = timestamp;
     }
 
