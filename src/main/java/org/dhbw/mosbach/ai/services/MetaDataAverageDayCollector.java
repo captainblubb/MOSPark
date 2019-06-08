@@ -5,8 +5,8 @@ import org.dhbw.mosbach.ai.db.AverageDayOfWeekMetaDataDAO;
 import org.dhbw.mosbach.ai.db.DailyAverageMetaDataFragmentDAO;
 import org.dhbw.mosbach.ai.db.ParkingAreaDAO;
 import org.dhbw.mosbach.ai.db.ParkingStatisticDAO;
-import org.dhbw.mosbach.ai.model.AverageDayOfWeekMetaData;
-import org.dhbw.mosbach.ai.model.AverageDayMetaDataFragment;
+import org.dhbw.mosbach.ai.model.MetaData.AveragageByDay.AverageDayOfWeekMetaData;
+import org.dhbw.mosbach.ai.model.MetaData.AveragageByDay.AverageDayOfWeekMetaDataFragment;
 import org.dhbw.mosbach.ai.model.ParkingArea;
 import org.dhbw.mosbach.ai.model.ParkingStatistics;
 
@@ -54,7 +54,7 @@ public class MetaDataAverageDayCollector {
 
         /*
             1. Get All ParkingStatisstics of last 2 weeks
-            2. get All AverageDayMetaDataFragment (Mo-Fr)
+            2. get All AverageDayOfWeekMetaDataFragment (Mo-Fr)
             3. Calculate for every 15 minutes average of each Day
          */
         try {
@@ -103,7 +103,7 @@ public class MetaDataAverageDayCollector {
                                 int freeSpotsAvg = (int)((double)freeSlotsAll/(double)foundParkingStatistics.size());
 
                                 //Save as Fragment
-                                AverageDayMetaDataFragment metaDataFragment = new AverageDayMetaDataFragment();
+                                AverageDayOfWeekMetaDataFragment metaDataFragment = new AverageDayOfWeekMetaDataFragment();
                                 metaDataFragment.setAverageDayOfWeekMetaData(averageDayOfWeekMetaData);
                                 metaDataFragment.setTimestamp(foundParkingStatistics.get(0).getTimestamp());
                                 metaDataFragment.setParkingArea(parkingArea);

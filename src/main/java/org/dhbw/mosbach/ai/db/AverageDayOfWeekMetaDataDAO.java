@@ -1,7 +1,7 @@
 package org.dhbw.mosbach.ai.db;
 
 import org.dhbw.mosbach.ai.db.base.BaseDao;
-import org.dhbw.mosbach.ai.model.AverageDayOfWeekMetaData;
+import org.dhbw.mosbach.ai.model.MetaData.AveragageByDay.AverageDayOfWeekMetaData;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;

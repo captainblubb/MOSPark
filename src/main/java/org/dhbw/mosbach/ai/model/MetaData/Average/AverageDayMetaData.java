@@ -1,15 +1,15 @@
-package org.dhbw.mosbach.ai.model;
+package org.dhbw.mosbach.ai.model.MetaData.Average;
 
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import org.dhbw.mosbach.ai.model.ParkingArea;
+
+import javax.persistence.*;
 import java.util.Calendar;
 
 /***
  * Wurzel der Fragmente, welche die durchschnittliche freien Parkplätze Ausgeben ohne spezifischen Tag
  */
+@Entity
 public class AverageDayMetaData {
     private Long id;
     private ParkingArea parkingArea;

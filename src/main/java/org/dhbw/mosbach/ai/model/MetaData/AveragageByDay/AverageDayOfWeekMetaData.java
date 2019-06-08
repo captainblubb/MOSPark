@@ -1,6 +1,7 @@
-package org.dhbw.mosbach.ai.model;
+package org.dhbw.mosbach.ai.model.MetaData.AveragageByDay;
+import org.dhbw.mosbach.ai.model.ParkingArea;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Calendar;
 
 
