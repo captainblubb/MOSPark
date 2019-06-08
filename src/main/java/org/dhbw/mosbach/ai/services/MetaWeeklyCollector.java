@@ -34,7 +34,7 @@ public class MetaWeeklyCollector {
 
         /*
             1. Get All ParkingStatisstics of last 2 weeks
-            2. get All DailyAverageMetaData (Mo-Fr)
+            2. get All AverageDayMetaDataFragment (Mo-Fr)
             3. Calculate for every 15 minutes average of each Day
          */
 

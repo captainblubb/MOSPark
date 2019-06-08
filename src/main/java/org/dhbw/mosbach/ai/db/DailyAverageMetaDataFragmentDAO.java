@@ -1,17 +1,18 @@
 package org.dhbw.mosbach.ai.db;
 
 import org.dhbw.mosbach.ai.db.base.BaseDao;
-import org.dhbw.mosbach.ai.model.DailyAverageMetaData;
-import org.dhbw.mosbach.ai.model.ParkingStatistics;
+import org.dhbw.mosbach.ai.model.AverageDayMetaDataFragment;
 
-import java.sql.SQLException;
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 import java.time.DayOfWeek;
-import java.util.ArrayList;
 import java.util.List;
 
-public class DailyAverageMetaDataDAO extends BaseDao<DailyAverageMetaData, Long> {
+@Named
+@Dependent
+public class DailyAverageMetaDataFragmentDAO extends BaseDao<AverageDayMetaDataFragment, Long> {
 
-    public DailyAverageMetaDataDAO(){
+    public DailyAverageMetaDataFragmentDAO(){
         super();
     }
 
@@ -24,9 +25,9 @@ public class DailyAverageMetaDataDAO extends BaseDao<DailyAverageMetaData, Long>
      * @return
      * @throws Exception
      */
-    public DailyAverageMetaData getByTimestamp(String dayOfWeek, int hour, int minute ) throws Exception{
+    public AverageDayMetaDataFragment getByTimestamp(String dayOfWeek, int hour, int minute ) throws Exception{
 
-        DailyAverageMetaData dailyAverageMetaData= null;
+        AverageDayMetaDataFragment averageDayMetaDataFragment = null;
 
             if (super.em!= null) {
 
@@ -38,17 +39,17 @@ public class DailyAverageMetaDataDAO extends BaseDao<DailyAverageMetaData, Long>
                                 " AND MINUTE(p.timestamp) ="+minute;
 
                 System.out.println("_QUERY FOR ParkingStatistics: "+query);
-                List<DailyAverageMetaData> dailyAverageMetaDatas = ((List<DailyAverageMetaData>) cacheable(em.createQuery(query, entityClass)).getResultList());
+                List<AverageDayMetaDataFragment> averageDayMetaDataFragments = ((List<AverageDayMetaDataFragment>) cacheable(em.createQuery(query, entityClass)).getResultList());
 
-                if (dailyAverageMetaDatas.size()>0){
-                    dailyAverageMetaData = dailyAverageMetaDatas.get(0);
+                if (averageDayMetaDataFragments.size()>0){
+                    averageDayMetaDataFragment = averageDayMetaDataFragments.get(0);
                 }
             }else {
                 System.out.println("ParkingStatistics em = null ");
                 throw new NullPointerException();
             }
 
-        return dailyAverageMetaData;
+        return averageDayMetaDataFragment;
 
     }
 

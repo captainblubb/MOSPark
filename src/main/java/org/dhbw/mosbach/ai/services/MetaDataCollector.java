@@ -18,6 +18,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import static org.dhbw.mosbach.ai.tools.SQLKonverterTool.mapTimestampTo15;
+
 
 @Singleton
 public class MetaDataCollector {
@@ -74,47 +76,7 @@ public class MetaDataCollector {
             System.out.println("FAILED PARKING STATISTIC ");
         }
 
-
     }
-
-
-    private Calendar mapTimestampTo15(Calendar timestamp){
-        //since timestamp.getMinutes depricated
-        Calendar calendar = (Calendar)timestamp.clone();
-
-        int minute =  -1;
-        boolean hour = false;
-
-        if ( calendar.get(Calendar.MINUTE)<= 7){
-
-            minute = 0;
-
-        }else if (calendar.get(Calendar.MINUTE)>7 && calendar.get(Calendar.MINUTE) <22){
-
-            minute = 15;
-
-        }else if (calendar.get(Calendar.MINUTE)>=22 && calendar.get(Calendar.MINUTE) < 38){
-
-            minute = 30;
-
-        }else if (calendar.get(Calendar.MINUTE)>=38 && calendar.get(Calendar.MINUTE) <=52){
-            minute = 45;
-        }else if (calendar.get(Calendar.MINUTE)>52){
-            hour=true;
-            minute = 0;
-        }
-
-        if (hour){
-            calendar.set(Calendar.HOUR_OF_DAY,calendar.get(Calendar.HOUR_OF_DAY)+1);
-        }
-        calendar.set(Calendar.MINUTE,minute);
-        calendar.set(Calendar.SECOND,0);
-        calendar.set(Calendar.MILLISECOND,0);
-
-        return calendar;
-
-    }
-
 
     public int getHourFrom() {
         return hourFrom;

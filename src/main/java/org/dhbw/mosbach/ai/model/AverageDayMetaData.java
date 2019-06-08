@@ -1,18 +1,15 @@
 package org.dhbw.mosbach.ai.model;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
 /***
- * Stellt
+ * Durchschnittliche Belegung der Parkplätze der letzen 5 Wochentage
  *
  */
 @Entity
-public class DailyAverageMetaData {
+public class AverageDayMetaData {
 
     private Long id;
-    private int freeSpots;
     private ParkingArea parkingArea;
     private Timestamp timestamp;
 
@@ -44,12 +41,6 @@ public class DailyAverageMetaData {
         this.timestamp = timestamp;
     }
 
-    @Column(nullable = false)
-    public int getFreeSpots() {
-        return freeSpots;
-    }
 
-    public void setFreeSpots(int freeSpots) {
-        this.freeSpots = freeSpots;
-    }
+
 }
