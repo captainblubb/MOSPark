@@ -58,7 +58,6 @@ public class MetaDataCollector {
 
             System.out.println("_____PARKING STATISTIC PERSISTED______");
 
-
         }
 
         }catch (Exception exp){

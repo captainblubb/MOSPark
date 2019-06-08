@@ -1,7 +1,6 @@
 package org.dhbw.mosbach.ai.model;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 
 @Entity
@@ -12,9 +11,9 @@ public class ParkingSpot implements Serializable {
     @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
 
-    private int horizontal;
+    private int column;
 
-    private int vertical;
+    private int row;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ParkingArea", referencedColumnName = "id")
@@ -50,20 +49,20 @@ public class ParkingSpot implements Serializable {
 
 
     @Column(nullable = false)
-    public int getHorizontal() {
-        return horizontal;
+    public int getColumn() {
+        return column;
     }
 
-    public void setHorizontal(int row) {
-        this.horizontal = row;
+    public void setColumn(int row) {
+        this.column = row;
     }
 
     @Column(nullable = false)
-    public int getVertical() {
-        return vertical;
+    public int getRow() {
+        return row;
     }
 
-    public void setVertical(int column) {
-        this.vertical = column;
+    public void setRow(int column) {
+        this.row = column;
     }
 }
