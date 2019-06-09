@@ -77,8 +77,6 @@ public class MetaDataAverageDayCollector {
                     averageDayMetaData.setTimestamp(calenderNow);
                     averageDayMetaData.setParkingArea(parkingArea);
 
-                    //persist
-                    averageDayMetaDataDAO.persist(averageDayMetaData);
 
                     for (int hour = MetaDataConfiguration.hourFrom; hour <= MetaDataConfiguration.hourTo; hour++) {
 
@@ -111,6 +109,9 @@ public class MetaDataAverageDayCollector {
                                 metaDataFragment.setTimestamp(foundParkingStatistics.get(0).getTimestamp());
                                 metaDataFragment.setParkingArea(parkingArea);
                                 metaDataFragment.setFreeSpots(freeSpotsAvg);
+
+                                //persist
+                                averageDayMetaDataDAO.persist(averageDayMetaData);
 
                                 //Persist
                                 AverageMetaDataFragmentDAO.persist(metaDataFragment);

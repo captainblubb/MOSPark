@@ -20,30 +20,30 @@ public class SQLKonverterTool {
         switch (day.toLowerCase()){
 
             case "mon" :
-            case "monday" : daySQL=0;
+            case "monday" : daySQL=3;
                 break;
             case "tue" :
-            case "tuesday" :daySQL=1;
+            case "tuesday" :daySQL=4;
                 break;
 
             case "wed" :
-            case "wednesday" :daySQL=2;
+            case "wednesday" :daySQL=5;
                 break;
 
             case "thu" :
-            case "thursday" :daySQL=3;
+            case "thursday" :daySQL=6;
                 break;
 
             case "fri" :
-            case "friday" :daySQL=4;
+            case "friday" :daySQL=7;
                 break;
 
             case "sat" :
-            case "saturday" :daySQL=5;
+            case "saturday" :daySQL=8;
                 break;
 
             case "sun" :
-            case "sunday" :daySQL=6;
+            case "sunday" :daySQL=9;
                 break;
 
             default: daySQL= -1;
@@ -61,6 +61,15 @@ public class SQLKonverterTool {
 
         return DayOfWeek.of(day+1).toString();
 
+    }
+
+    /***
+     * maps 0 for monday .. 4 for Friday to
+     * sql standart : 3 for monday ...  7 for friday
+     * @return
+     */
+    public static int toSQLInt(int i){
+        return i+3;
     }
 
     /***
