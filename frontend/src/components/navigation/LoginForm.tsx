@@ -1,11 +1,11 @@
 import React from "react";
 
 class LoginForm extends React.Component<
-    { submitFunction: (username: string, password: string) => void },
+    { submitHandler: (username: string, password: string) => void },
     { username: string; password: string }
 > {
     constructor(props: {
-        submitFunction: (username: string, password: string) => void;
+        submitHandler: (username: string, password: string) => void;
     }) {
         super(props);
         this.state = {
@@ -15,6 +15,7 @@ class LoginForm extends React.Component<
 
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.login = this.login.bind(this);
     }
 
     handleUsernameChange(event: React.FormEvent<HTMLInputElement>): void {
@@ -30,7 +31,7 @@ class LoginForm extends React.Component<
     }
 
     login() {
-        this.props.submitFunction(this.state.username, this.state.password);
+        this.props.submitHandler(this.state.username, this.state.password);
     }
 
     render() {

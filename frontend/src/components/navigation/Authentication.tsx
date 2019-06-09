@@ -1,43 +1,31 @@
 import React from "react";
 import LoginForm from "./LoginForm";
-import { Link } from "react-router-dom";
 import Registration from "./Registration";
 
 class Authentication extends React.Component<
-    {},
+    { loginHandler(username: string, password: string): void },
     { isLoggedIn: boolean; username: string; password: string }
 > {
-    constructor(props: {}) {
+    constructor(props: {
+        loginHandler(username: string, password: string): void;
+    }) {
         super(props);
-        const currentSessionUser: string | null = sessionStorage.getItem(
-            "user"
-        );
-        const currentUser: string =
-            currentSessionUser != null ? currentSessionUser : "";
-        this.state = {
-            isLoggedIn: currentUser !== "",
-            username: currentUser,
-            password: ""
-        };
-        this.handleLogin.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
+        this.handleRegistration = this.handleRegistration.bind(this);
     }
 
-    handleLogin = (username: string, password: string): void => {
-        this.setState({
-            isLoggedIn: true,
-            username: username,
-            password: password
-        });
-        sessionStorage.setItem("user", username);
-        sessionStorage.setItem("id", "420");
-    };
+    handleLogin(username: string, password: string): void {
+        this.props.loginHandler(username, password);
+    }
+
+    handleRegistration(username: string, password: string): void {}
 
     render() {
         return (
             <div>
-                <LoginForm submitFunction={this.handleLogin} />
+                <LoginForm submitHandler={this.handleLogin} />
                 <div className={"separator"}>- OR REGISTER -</div>
-                <Registration />
+                <Registration registrationHandler={this.handleRegistration} />
             </div>
         );
     }

@@ -19,6 +19,19 @@ class Navigation extends React.Component<
             username: currentUser,
             password: ""
         };
+
+        this.login = this.login.bind(this);
+    }
+
+    login(username: string, password: string) {
+        console.log("hi");
+        this.setState({
+            isLoggedIn: true,
+            username: username,
+            password: password
+        });
+        sessionStorage.setItem("user", username);
+        sessionStorage.setItem("id", "420");
     }
 
     render() {
@@ -36,7 +49,7 @@ class Navigation extends React.Component<
         } else {
             return (
                 <div>
-                    <Authentication />
+                    <Authentication loginHandler={this.login} />
                 </div>
             );
         }

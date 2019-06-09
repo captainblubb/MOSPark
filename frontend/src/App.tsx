@@ -8,10 +8,6 @@ import Main from "./components/main/Main";
 import Authentication from "./components/navigation/Authentication";
 
 const App: React.FC = () => {
-    const currentSessionUser: string | null = sessionStorage.getItem("user");
-    const currentUser: string =
-        currentSessionUser != null ? currentSessionUser : "";
-
     return (
         <div className="App">
             <h1>MOSPark</h1>
