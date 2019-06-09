@@ -1,10 +1,12 @@
 import React from "react";
 import NotificationContainer from "./NotificationContainer";
+import NotificationJson from "./NotificationJson";
 
 class Profile extends React.Component<
     {},
     {
         currentUserId: number;
+        notifications: Array<NotificationJson>;
     }
 > {
     constructor(props: {}) {
@@ -12,7 +14,8 @@ class Profile extends React.Component<
 
         Profile.getCurrentUserId = Profile.getCurrentUserId.bind(this);
         this.state = {
-            currentUserId: Profile.getCurrentUserId()
+            currentUserId: Profile.getCurrentUserId(),
+            notifications: Profile.fetchNotifications()
         };
     }
 
@@ -23,6 +26,19 @@ class Profile extends React.Component<
         return currentSessionUserId != null
             ? parseInt(currentSessionUserId)
             : 0;
+    }
+
+    static fetchNotifications(): Array<NotificationJson> {
+        /*
+        fetch(`http://localhost:8080/notificationsForUser/{this.props.currentUserId}`)
+            .then(result => result.json())
+            .then(notifications => this.setState({
+                notifications: JSON.parse(notifications)
+            }));
+        */
+        return JSON.parse(
+            '[{"id": 0, "senderId": 1, "recipientId": 420, "content": "parking spot X wants you to make space for him", "date": "04.20.2019, 16:20", "dismissed": false, "dismissedDate": ""}]'
+        );
     }
 
     logout() {
@@ -38,6 +54,7 @@ class Profile extends React.Component<
                 </div>
                 <NotificationContainer
                     currentUserId={this.state.currentUserId}
+                    notifications={this.state.notifications}
                 />
             </div>
         );
