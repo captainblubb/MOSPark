@@ -179,6 +179,13 @@ nav > div {
     grid-row: 9/11;
 }
 
+.notificationContainer > div:first-child {
+    display: flex;
+}
+.notificationContainer > div:first-child > div {
+    margin: auto;
+}
+
 .notification {
     display: flex;
     text-align: left;

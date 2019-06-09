@@ -70,8 +70,16 @@ class Profile extends React.Component<
 
     render() {
         return (
-            <div>
-                <div className={"fsSubheader"}>Notifications</div>
+            <div className={"notificationContainer"}>
+                <div>
+                    <div>
+                        <a>Notifications</a>
+                    </div>
+                    <div>
+                        <a>Archive</a>
+                    </div>
+                </div>
+                <hr />
                 <div>{this.renderNotifications()}</div>
             </div>
         );

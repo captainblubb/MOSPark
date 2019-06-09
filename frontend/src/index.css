@@ -96,3 +96,9 @@ a:hover::after {
     transition: border-top-width 0.1s ease 0s, height 0.2s ease 0.1s,
         width 0.2s ease 0.2s, margin 0.2s ease 0.2s;
 }
+
+hr {
+    border-top: 1px dotted white;
+    border-bottom: 1px dotted white;
+    width: 50%;
+}
