@@ -12,14 +12,12 @@ const App: React.FC = () => {
             <Router>
                 <div>
                     <nav>
-                        <ul>
-                            <li>
-                                <Link to="/">Home</Link>
-                            </li>
-                            <li>
-                                <Authentication />
-                            </li>
-                        </ul>
+                        <div>
+                            <Link to="/">Home</Link>
+                        </div>
+                        <div>
+                            <Authentication />
+                        </div>
                     </nav>
                     <Route path="/" exact component={Main} />
                     <Route path="/profile/" component={Profile} />

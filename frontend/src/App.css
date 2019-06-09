@@ -1,33 +1,137 @@
 .App {
-  text-align: center;
+    width: 300px;
+    margin: auto;
+    text-align: center;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+    animation: App-logo-spin infinite 20s linear;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+nav {
+    display: flex;
+}
+nav > div {
+    margin: auto;
+}
+
+.parkingAreaContainer {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.parkingArea .parkingSpot {
+    background-color: rgb(199, 199, 199);
+}
+.parkingArea .selected {
+    border: solid 10px rgb(240, 217, 90);
+}
+
+.parkingArea .byUser {
+    background-color: rgb(17, 82, 168) !important;
+}
+
+.parkingArea .occupied {
+    background-color: rgb(219, 128, 128);
+}
+
+.parkingSpotsContainer {
+    /*        10 x 4
+        +----+--+--+----+
+        |    |  |  |    |
+        +----+--+--+----+
+        |    |  |  |    |
+        +----+--+--+----+
+        |    |  |  |    |
+        +----+--+--+----+
+               ...
+    */
+    display: grid;
+    margin: auto auto;
+    grid-template-columns: 100px 50px 50px 100px;
+    grid-template-rows: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
+}
+.parkingArea .col0 {
+    grid-column: 1;
+}
+.parkingArea .col1 {
+    grid-column: 2;
+}
+.parkingArea .col2 {
+    grid-column: 3;
+}
+.parkingArea .col3 {
+    grid-column: 4;
+}
+.parkingArea .row0 {
+    grid-row: 1;
+}
+.parkingArea .row1 {
+    grid-row: 2;
+}
+.parkingArea .row2 {
+    grid-row: 3;
+}
+.parkingArea .row3 {
+    grid-row: 4;
+}
+.parkingArea .row4 {
+    grid-row: 5;
+}
+.parkingArea .row5 {
+    grid-row: 6;
+}
+.parkingArea .row6 {
+    grid-row: 7;
+}
+.parkingArea .row7 {
+    grid-row: 8;
+}
+.parkingArea .row8 {
+    grid-row: 9;
+}
+.parkingArea .row9 {
+    grid-row: 10;
+}
+.parkingArea .row01 {
+    grid-row: 1/3;
+}
+.parkingArea .row12 {
+    grid-row: 3/5;
+}
+.parkingArea .row23 {
+    grid-row: 5/7;
+}
+.parkingArea .row34 {
+    grid-row: 7/9;
+}
+.parkingArea .row45 {
+    grid-row: 9/11;
 }
