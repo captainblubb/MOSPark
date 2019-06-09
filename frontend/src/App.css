@@ -71,19 +71,19 @@ nav > div {
         rgb(12, 157, 12) 150%
     );
     margin: 3px;
+    border: 0.5px solid white;
 }
 .parkingSpot > div {
     margin-top: 10%;
 }
 .parkingSpot:hover {
     cursor: pointer;
-    border: 3px dotted rgb(216, 216, 216);
+    border: 3px solid rgb(216, 216, 216);
     transition: border 0.1s;
 }
 
 .parkingArea .selected {
-    border: 3px dotted white;
-    border-radius: 3px;
+    border: 3px solid white;
     transition: border 0.1s;
 }
 
