@@ -32,6 +32,7 @@ class Navigation extends React.Component<
         });
         sessionStorage.setItem("user", username);
         sessionStorage.setItem("id", "420");
+        window.location.reload();
     }
 
     render() {
