@@ -2,6 +2,7 @@ import React, { ChangeEvent } from "react";
 import ParkingArea from "./ParkingArea";
 import ParkingAreaJson from "./ParkingAreaJson";
 import ParkingSpotJson from "./ParkingSpotJson";
+import { thisTypeAnnotation } from "@babel/types";
 
 class Main extends React.Component<
     {},
@@ -9,7 +10,7 @@ class Main extends React.Component<
         parkingAreas: Array<ParkingAreaJson>;
         parkingSpots: Array<ParkingSpotJson>;
         currentAreaId: number;
-        selectedUserIds: Array<number>;
+        selectedParkingSpotIds: Set<number>;
         currentUserId: number;
     }
 > {
@@ -22,7 +23,7 @@ class Main extends React.Component<
             parkingAreas: Main.fetchParkingAreas(),
             parkingSpots: Main.fetchParkingSpots(),
             currentAreaId: 0,
-            selectedUserIds: [],
+            selectedParkingSpotIds: new Set([]),
             currentUserId: Main.getCurrentUserId()
         };
 
@@ -57,7 +58,7 @@ class Main extends React.Component<
             }));
         */
         return JSON.parse(
-            '[{"id": 0, "occupied": true, "userId": 420, "areaId": 0},{"id": 1, "occupied": false, "userId": 1, "areaId": 0},{"id": 2, "occupied": false, "userId": 2,"areaId": 1},{"id": 3, "occupied": false, "userId": 3, "areaId": 1}]'
+            '[{"id": 0, "userId": 420, "areaId": 0, "column": 0, "row": 0},{"id": 1, "userId": -1, "areaId": 0, "column": 0, "row": 1},{"id": 2, "userId": -1, "areaId": 0, "column": 0, "row": 2},{"id": 3, "userId": -1, "areaId": 0, "column": 1, "row": 0},{"id": 4, "userId": -1, "areaId": 0, "column": 2, "row": 0},{"id": 5, "userId": -1, "areaId": 0, "column": 3, "row": 0},{"id": 6, "userId": -1, "areaId": 0, "column": 3, "row": 1},{"id": 7, "userId": -1, "areaId": 0, "column": 3, "row": 2}]'
         );
     }
 
@@ -73,10 +74,11 @@ class Main extends React.Component<
     renderParkingArea(): JSX.Element {
         return (
             <ParkingArea
+                key={this.state.currentAreaId}
                 id={this.state.currentAreaId}
                 parkingSpots={this.state.parkingSpots}
                 selectionHandler={this.handleParkingSpotSelection}
-                selectedUserIds={this.state.selectedUserIds}
+                selectedUserIds={this.state.selectedParkingSpotIds}
             />
         );
     }
@@ -96,11 +98,11 @@ class Main extends React.Component<
     changeArea(event: ChangeEvent<HTMLSelectElement>): void {
         this.setState({
             currentAreaId: parseInt(event.currentTarget.value),
-            selectedUserIds: []
+            selectedParkingSpotIds: new Set([])
         });
     }
 
-    handleParkingSpotSelection(parkingSpotId: number, selected: boolean): void {
+    handleParkingSpotSelection(parkingSpotId: number): void | undefined {
         const parkingSpot: ParkingSpotJson | null = this.getParkingSpotById(
             parkingSpotId
         );
@@ -108,31 +110,24 @@ class Main extends React.Component<
             return;
         }
 
-        let selectedUserIds: Array<number> = this.state.selectedUserIds;
-
-        let foundUserIdIndex: number = 0;
-        let userFound: boolean = false;
-        for (let i: number = 0; i < selectedUserIds.length; i++) {
-            if (selectedUserIds[i] === parkingSpot.userId) {
-                foundUserIdIndex = i;
-                userFound = true;
-            }
-        }
-
-        if (selected && userFound) {
-            selectedUserIds.splice(foundUserIdIndex, 1);
-        } else if (!selected && !userFound) {
-            selectedUserIds.push(parkingSpot.userId);
+        let selectedIds: Set<number> = new Set(
+            this.state.selectedParkingSpotIds
+        );
+        if (selectedIds.has(parkingSpot.id)) {
+            selectedIds.delete(parkingSpot.id);
+        } else {
+            selectedIds.add(parkingSpot.id);
         }
 
         this.setState({
-            selectedUserIds: selectedUserIds
+            selectedParkingSpotIds: selectedIds,
+            currentAreaId: this.state.currentAreaId
         });
-        console.log("selected user ids: " + this.state.selectedUserIds);
+        console.log("selected parking spots: " + Array.from(selectedIds));
     }
 
     notifySelectedUsers(): void {
-        alert(this.state.selectedUserIds);
+        alert(this.state.selectedParkingSpotIds);
         /*
         fetch(`http://localhost:8080/notifyUsers`, {
             method: 'POST',
@@ -147,34 +142,37 @@ class Main extends React.Component<
     }
 
     toggleParking(): void {
-        if (this.state.selectedUserIds.length > 1) {
+        if (this.state.selectedParkingSpotIds.size > 1) {
             return;
         }
 
+        const selectedId: number = this.state.selectedParkingSpotIds
+            .values()
+            .next().value;
         const selectedParkingSpot: ParkingSpotJson | null = this.getParkingSpotByUserId(
-            this.state.selectedUserIds[0]
+            selectedId
         );
         if (selectedParkingSpot == null) {
             return;
         }
-        if (
-            selectedParkingSpot.occupied &&
-            selectedParkingSpot.userId === this.state.currentUserId
-        ) {
-            selectedParkingSpot.occupied = !selectedParkingSpot.occupied;
+
+        if (selectedParkingSpot.userId === this.state.currentUserId) {
             // mock user signifying a parking spot is not occupied
-            selectedParkingSpot.userId = 0;
+            selectedParkingSpot.userId = -1;
             this.setState({
-                selectedUserIds: []
+                selectedParkingSpotIds: new Set([])
             });
-        } else if (
-            !selectedParkingSpot.occupied &&
-            selectedParkingSpot.userId === 0
-        ) {
-            selectedParkingSpot.occupied = !selectedParkingSpot.occupied;
+        } else if (selectedParkingSpot.userId === -1) {
+            for (let i: number = 0; i < this.state.parkingSpots.length; i++) {
+                const spot: ParkingSpotJson = this.state.parkingSpots[i];
+                if (spot.userId === this.state.currentUserId) {
+                    return;
+                }
+            }
+            console.log("ha");
             selectedParkingSpot.userId = this.state.currentUserId;
             this.setState({
-                selectedUserIds: []
+                selectedParkingSpotIds: new Set([])
             });
         }
         /*

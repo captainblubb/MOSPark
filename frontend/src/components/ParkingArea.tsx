@@ -7,16 +7,16 @@ class ParkingArea extends React.Component<
     {
         id: number;
         parkingSpots: Array<ParkingSpotJson>;
-        selectionHandler: (parkingSpotId: number, selected: boolean) => void;
-        selectedUserIds: Array<number>;
+        selectionHandler: (parkingSpotId: number) => void;
+        selectedUserIds: Set<number>;
     },
     {}
 > {
     constructor(props: {
         id: number;
         parkingSpots: Array<ParkingSpotJson>;
-        selectionHandler: () => void;
-        selectedUserIds: Array<number>;
+        selectionHandler: (parkingSpotId: number) => void;
+        selectedUserIds: Set<number>;
     }) {
         super(props);
     }
@@ -35,14 +35,15 @@ class ParkingArea extends React.Component<
                     <ParkingSpot
                         key={i}
                         id={currentSpot.id}
-                        occupied={currentSpot.occupied}
                         userId={currentSpot.userId}
+                        column={currentSpot.column}
+                        row={currentSpot.row}
                         occupiedByCurrentUser={
                             currentUserId !== "" &&
                             parseInt(currentUserId) === currentSpot.userId
                         }
                         selectionHandler={this.props.selectionHandler}
-                        selected={this.props.selectedUserIds.includes(
+                        selected={this.props.selectedUserIds.has(
                             currentSpot.userId
                         )}
                     />

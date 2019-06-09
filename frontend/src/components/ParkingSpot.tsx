@@ -1,38 +1,46 @@
 import React from "react";
+import "../App.css";
 
 class ParkingSpot extends React.Component<
     {
         id: number;
-        occupied: boolean;
         userId: number;
+        column: number;
+        row: number;
         occupiedByCurrentUser: boolean;
-        selectionHandler: (parkingSpotId: number, selected: boolean) => void;
+        selectionHandler: (parkingSpotId: number) => void;
         selected: boolean;
     },
     {
         classes: string;
+        selected: boolean;
     }
 > {
     constructor(props: {
         id: number;
-        occupied: boolean;
         userId: number;
+        column: number;
+        row: number;
         occupiedByCurrentUser: boolean;
         selected: boolean;
-        selectionHandler: () => void;
+        selectionHandler: (parkingSpotId: number) => void;
     }) {
         super(props);
         this.state = {
             classes:
                 "parkingSpot" +
-                (this.props.occupiedByCurrentUser ? " occupiedByUser" : "")
+                (this.props.occupiedByCurrentUser ? " occupiedByUser" : ""),
+            selected: this.props.selected
         };
 
         this.toggleSelection = this.toggleSelection.bind(this);
     }
 
     toggleSelection() {
-        this.props.selectionHandler(this.props.id, this.props.selected);
+        this.props.selectionHandler(this.props.id);
+        this.setState({
+            selected: !this.state.selected
+        });
     }
 
     render() {
@@ -41,11 +49,13 @@ class ParkingSpot extends React.Component<
                 onClick={this.toggleSelection}
                 className={
                     this.state.classes +
-                    (this.props.selected ? " selected" : "")
+                    (this.state.selected ? " selected" : "")
                 }
             >
-                {this.props.id} - {this.props.occupied ? "true" : "false"} -{" "}
-                {this.props.userId}
+                <div>{this.props.id}</div>
+                <div>{this.props.userId === -1 ? "free" : "occ"}</div>
+                <div>({this.props.userId})</div>
+                <div>{this.props.selected ? "selected" : ""}</div>
             </div>
         );
     }
