@@ -292,4 +292,6 @@ public abstract class BaseDao<E, I> implements Serializable
         return enableQueryCaching ? query.setHint("org.hibernate.cacheable", "true")
                 .setHint("javax.persistence.cache.retrieveMode", CacheRetrieveMode.USE) : query;
     }
+
+
 }

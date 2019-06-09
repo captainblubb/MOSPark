@@ -7,8 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity
-@XmlRootElement
+@Entity(name = "User")
 public class User implements Serializable,Cloneable {
 
 
@@ -21,7 +20,6 @@ public class User implements Serializable,Cloneable {
 
     @Id
     @GeneratedValue
-    @XmlTransient
     public long getId()
     {
         return id;
@@ -30,7 +28,6 @@ public class User implements Serializable,Cloneable {
 
 
     @Column(nullable = false, length = 64, unique = true)
-    @XmlAttribute(required = true)
     public String getName()
     {
         return name;
@@ -44,7 +41,6 @@ public class User implements Serializable,Cloneable {
 
 
     @Column(nullable = false, length = 64, unique = true)
-    @XmlAttribute(required = true)
     public String getLicenseplate()
     {
         return licenseplate;

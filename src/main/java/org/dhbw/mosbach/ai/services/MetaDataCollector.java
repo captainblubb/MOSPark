@@ -2,17 +2,18 @@ package org.dhbw.mosbach.ai.services;
 
 import org.dhbw.mosbach.ai.db.ParkingAreaDAO;
 import org.dhbw.mosbach.ai.db.ParkingStatisticDAO;
+import org.dhbw.mosbach.ai.db.base.BaseDao;
 import org.dhbw.mosbach.ai.model.ParkingArea;
 import org.dhbw.mosbach.ai.model.ParkingStatistics;
+import org.dhbw.mosbach.ai.tools.SQLKonverterTool;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import javax.inject.Inject;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+
 
 
 @Singleton
@@ -24,9 +25,18 @@ public class MetaDataCollector {
     @Inject
     ParkingStatisticDAO parkingStatisticDAO;
 
-
-    @Schedule(second = "0", minute = "*/1", hour = "*", persistent = false )
+    /***
+     * Alle 15 Minuten zwischen aktuell (8-20 Uhr) werden Metadaten über jede Parking Area und die
+     * freien Parkplätze erzeugt, um den Verlauf freier Parkplätze in einem Diagram anzeigen zu können.
+     *
+     *
+     * @throws InterruptedException
+     */
+    @Schedule(second = "0", minute = "*/"+MetaDataConfiguration.everyMin, hour = MetaDataConfiguration.hourFrom+"-"+MetaDataConfiguration.hourTo, persistent = false )
+   // @Schedule(second = "0", minute = "*/1", hour = "*", persistent = false )
     public void atSchedule() throws InterruptedException {
+
+
         System.out.println("_______________Scheduled Task Meta Collector");
 
         try {
@@ -39,19 +49,15 @@ public class MetaDataCollector {
 
             int totalSpots = pa.getTotalSpots();
 
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-
+            Calendar calendar = SQLKonverterTool.mapTimestampTo15(Calendar.getInstance(Locale.GERMANY));
             ParkingStatistics parkingStatistics = new ParkingStatistics();
-            parkingStatistics.setTimestamp(timestamp);
+            parkingStatistics.setTimestamp(calendar);
             parkingStatistics.setFreeParkingSpots(freeSpots);
             parkingStatistics.setMaximumParkingSpots(totalSpots);
             parkingStatistics.setParkingArea(pa);
-
             parkingStatisticDAO.persist(parkingStatistics);
 
             System.out.println("_____PARKING STATISTIC PERSISTED______");
-
 
         }
 
@@ -60,8 +66,6 @@ public class MetaDataCollector {
             System.out.println("FAILED PARKING STATISTIC ");
         }
 
-
     }
-
 
 }

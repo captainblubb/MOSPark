@@ -10,7 +10,6 @@ import java.util.List;
 
 
 @Entity
-@XmlTransient
 public class ParkingArea implements Serializable {
 
     public long id;
@@ -19,7 +18,6 @@ public class ParkingArea implements Serializable {
 
     @Id
     @GeneratedValue
-    @XmlTransient
     public long getId()
     {
         return id;
@@ -27,7 +25,6 @@ public class ParkingArea implements Serializable {
 
 
     @Column(nullable = false, length = 64, unique = false)
-    @XmlAttribute(required = true)
     public String getName()
     {
         return name;

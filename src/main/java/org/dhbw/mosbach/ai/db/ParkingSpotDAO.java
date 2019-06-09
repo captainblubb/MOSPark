@@ -23,15 +23,26 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
         super();
     }
 
+
+    /***
+     * Erstellt ein Parking Spot, used by DataProvider.
+     *
+     * @param parkingArea
+     * @param column
+     * @param row
+     * @return
+     */
     public boolean createParkingSpot(ParkingArea parkingArea,int column, int row){
 
         try {
             ParkingSpot parkingSpot = new ParkingSpot();
-            parkingSpot.setVertical(column);
-            parkingSpot.setHorizontal(row);
+            parkingSpot.setPAreaRow(column);
+            parkingSpot.setPAreaColumn(row);
             parkingSpot.setParkingArea(parkingArea);
             System.out.println("Persist or merge create Parking Spot");
             persistOrMerge(parkingSpot);
+
+
             return true;
         }catch (Exception exp){
             System.out.println("failed creating Parkign Spot "+exp);
@@ -40,6 +51,12 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
 
     }
 
+    /***
+     * Gibt alle Parking Spots zurückd die einer bestimmten Parkign Area untergeordnet sind
+     *
+     * @param parkingArea
+     * @return
+     */
     public List<ParkingSpot> getParkingSpotsByArea(ParkingArea parkingArea){
 
         List<ParkingSpot> parkingSpots= new ArrayList<>();
@@ -64,6 +81,13 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
         return parkingSpots;
     }
 
+
+    /***
+     * Einen User ausparken, auf jenem parkplatz auf der er sich gerade befindet.
+     *
+     * @param user
+     * @return
+     */
     public boolean parkOutUser(User user){
 
         try {
@@ -84,6 +108,12 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
 
     }
 
+    /***
+     * Gibt den user zurück, welcher sich auf einem betimmten Parkplatz befindet
+     *
+     * @param position
+     * @return
+     */
     public User getUserByParkingPositon(int position){
 
         ParkingSpot parkingSpot = getParkingspotByPosition(position);
@@ -97,6 +127,14 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
 
     }
 
+    /***
+     * Parkt einen User auf einem bestimmten parkplatz
+     *
+     *
+     * @param parkingSpot
+     * @param user
+     * @return
+     */
     public boolean parkUserOnParkingSpot(ParkingSpot parkingSpot, User user){
 
         if (parkingSpot.getUser() == null && user.getParkingSpot()== null){
@@ -123,6 +161,15 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
         return false;
     }
 
+
+    /***
+     * Gibt einen Parkplatz anhand seiner Position zurück
+     *
+     *
+     *
+     * @param position
+     * @return
+     */
     public ParkingSpot getParkingspotByPosition(int position){
 
         ParkingSpot parkingSpot = null;

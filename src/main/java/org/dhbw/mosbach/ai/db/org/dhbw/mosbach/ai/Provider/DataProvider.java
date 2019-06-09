@@ -32,14 +32,13 @@ public class DataProvider {
 
 
     public DataProvider(){
-
         //Gets called on Startup
         System.out.println("______________INITIALZATION DATAPROVICER STARTUP_________");
      }
 
-     /*
-        Generates all Data for ParkingSpots and ParkingAreas
-      */
+    /***
+     * Generiert alle Parking Areas inkl. Parking Spots
+     */
     @PostConstruct
     public void init(){
         boolean userSucc = userDAO.createUser("Peter","SHA-FS-9","swag");
@@ -54,16 +53,43 @@ public class DataProvider {
         Position wird in ->Parking Area, Column und Row gespeichert.
 
        */
+
+    /***
+     * Erstellt die Parking Areas
+     *
+     *
+     */
     private void generateParkingAreas(){
 
-        System.out.println("____CREATE PARKING AREA DUMMY ___");
-        boolean b = parkingAreaDAO.createParkingArea("A-Gebäude",10);
-        boolean c = parkingAreaDAO.createParkingArea("B-Gebäude",20);
-        System.out.println(" CREATE PARKING AREA DUMMY RESULT : "+b);
+        int totalSpotsOfA=0;
+        for (int i = 0; i <ParkingAreaDefinition.parkingAreaA.length;i++){
+            totalSpotsOfA+=ParkingAreaDefinition.parkingAreaA[i];
+        }
+        boolean a = parkingAreaDAO.createParkingArea(ParkingAreaDefinition.parkingAreaAName,totalSpotsOfA);
+
+        int totalSpotsOfB=0;
+        for (int i = 0; i <ParkingAreaDefinition.parkingAreaB.length;i++){
+            totalSpotsOfB+=ParkingAreaDefinition.parkingAreaB[i];
+        }
+        boolean b = parkingAreaDAO.createParkingArea(ParkingAreaDefinition.parkingAreaBName,totalSpotsOfB);
+
+        int totalSpotsOfC=0;
+        for (int i = 0; i <ParkingAreaDefinition.parkingAreaC.length;i++){
+            totalSpotsOfC+=ParkingAreaDefinition.parkingAreaC[i];
+        }
+        boolean c = parkingAreaDAO.createParkingArea(ParkingAreaDefinition.parkingAreaCName,totalSpotsOfC);
+
+        System.out.println(" CREATE PARKING AREA DUMMY RESULT 1 : "+a);
+        System.out.println(" CREATE PARKING AREA DUMMY RESULT 2 : "+b);
+        System.out.println(" CREATE PARKING AREA DUMMY RESULT 2 : "+c);
     }
 
+    /***
+     * generiert die Parkplätze zu den Parking Areas
+     *
+     *
+     */
     private void generateParkingSpots(){
-
 
         System.out.println("____CREATE PARKING SPOTS DUMMY ___");
         try {
@@ -71,13 +97,20 @@ public class DataProvider {
 
             for (ParkingArea parkingArea : parkingAreas) {
 
-                int counter = 0;
-                for (int i = 0; i < parkingArea.getTotalSpots(); i++) {
-                    boolean b = parkingSpotDAO.createParkingSpot(parkingArea, counter % 10, counter);
-                    System.out.println("____CREATE PARKING SPOTS DUMMY Result ___" + b);
+                int[] corpus = ParkingAreaDefinition.getCorpusOfParkingArea(parkingArea.getName());
 
-                    counter++;
+                //Create Parking
+                for (int column = 0; column<corpus.length;column++) {
+
+                    for (int row = 0; row<corpus[column];row++){
+
+                        boolean b = parkingSpotDAO.createParkingSpot(parkingArea,column,row);
+                        System.out.println("Create Parking Spot on "+parkingArea.getName()+" in column "+column+" in row "+row+" result: "+b);
+
+                    }
+
                 }
+
             }
 
         }catch (Exception exp){

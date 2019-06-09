@@ -19,6 +19,13 @@ public class NotificationDAO extends BaseDao<Notification,Long> {
         super();
     }
 
+    /***
+     * Erstellt eine Notification, von einem User an einen User mit bestimmter message
+     * @param userFrom
+     * @param userTo
+     * @param message
+     * @return
+     */
     public boolean createNotification(User userFrom, User userTo, String message) {
 
         Notification notification = new Notification();
@@ -42,6 +49,12 @@ public class NotificationDAO extends BaseDao<Notification,Long> {
         }
     }
 
+
+    /***
+     * Gibt alle Notifications zurück anhand des Users der sie empfangen soll
+     * @param userTo
+     * @return
+     */
     public List<Notification> getNotification(User userTo){
 
         List<Notification> notifications = new ArrayList<>();
@@ -60,6 +73,11 @@ public class NotificationDAO extends BaseDao<Notification,Long> {
         return notifications;
     }
 
+    /***
+     * Gibt eine Notification anhand ihrer ID zurück
+     * @param notifcationID
+     * @return
+     */
     public Notification getNotifcation(Long notifcationID){
 
         if (notifcationID!=null){
@@ -75,6 +93,11 @@ public class NotificationDAO extends BaseDao<Notification,Long> {
         return null;
     }
 
+    /***
+     * löscht eine Notification aus der DB
+     * @param notification
+     * @return
+     */
     public boolean deleteNotifcation(Notification notification) {
         if (notification!=null) {
             try {

@@ -21,7 +21,6 @@ public class Notification {
     private User UserTO;
 
     @Column(nullable = false, length = 64, unique = true)
-    @XmlAttribute(required = true)
     public String getNotification()
     {
         return notification;
