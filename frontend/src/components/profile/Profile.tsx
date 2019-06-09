@@ -25,9 +25,17 @@ class Profile extends React.Component<
             : 0;
     }
 
+    logout() {
+        sessionStorage.clear();
+        window.location.replace("/");
+    }
+
     render() {
         return (
             <div>
+                <div>
+                    <a onClick={this.logout}>Logout</a>
+                </div>
                 <NotificationContainer
                     currentUserId={this.state.currentUserId}
                 />

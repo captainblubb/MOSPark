@@ -1,27 +1,26 @@
 import React from "react";
 import "./App.css";
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Authentication from "./components/app/Authentication";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Navigation from "./components/navigation/Navigation";
 import Profile from "./components/profile/Profile";
 import Main from "./components/main/Main";
+import Authentication from "./components/navigation/Authentication";
 
 const App: React.FC = () => {
+    const currentSessionUser: string | null = sessionStorage.getItem("user");
+    const currentUser: string =
+        currentSessionUser != null ? currentSessionUser : "";
+
     return (
         <div className="App">
             <h1>MOSPark</h1>
             <Router>
                 <div>
-                    <nav>
-                        <div>
-                            <Link to="/">Home</Link>
-                        </div>
-                        <div>
-                            <Authentication />
-                        </div>
-                    </nav>
+                    <Navigation />
                     <div className="mainContainer">
                         <Route path="/" exact component={Main} />
+                        <Route path="/login/" component={Authentication} />
                         <Route path="/profile/" component={Profile} />
                     </div>
                 </div>

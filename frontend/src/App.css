@@ -34,11 +34,21 @@
     }
 }
 
-nav {
+.separator {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.navigation {
     display: flex;
 }
-nav > div {
+.navigation > div {
     margin: auto;
+}
+
+.loginForm input {
+    margin-bottom: 15px;
 }
 
 .mainContainer {
