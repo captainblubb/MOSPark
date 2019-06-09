@@ -14,19 +14,17 @@ public class Notification {
 
     private String notification;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User UserFROM;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User UserTO;
 
     @Column(nullable = false, length = 64, unique = true)
-    @XmlAttribute(required = true)
     public String getNotification()
     {
         return notification;
     }
-
 
     @Column
     public long getId() {
@@ -51,5 +49,9 @@ public class Notification {
 
     public void setUserTO(User userTO) {
         UserTO = userTO;
+    }
+
+    public void setNotification(String notification) {
+        this.notification = notification;
     }
 }

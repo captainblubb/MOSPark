@@ -7,8 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity
-@XmlRootElement
+@Entity(name = "User")
 public class User implements Serializable,Cloneable {
 
 
@@ -21,7 +20,6 @@ public class User implements Serializable,Cloneable {
 
     @Id
     @GeneratedValue
-    @XmlTransient
     public long getId()
     {
         return id;
@@ -30,7 +28,6 @@ public class User implements Serializable,Cloneable {
 
 
     @Column(nullable = false, length = 64, unique = true)
-    @XmlAttribute(required = true)
     public String getName()
     {
         return name;
@@ -44,7 +41,6 @@ public class User implements Serializable,Cloneable {
 
 
     @Column(nullable = false, length = 64, unique = true)
-    @XmlAttribute(required = true)
     public String getLicenseplate()
     {
         return licenseplate;
@@ -56,17 +52,22 @@ public class User implements Serializable,Cloneable {
         return role;
     }
 
+    public ParkingSpot getParkingSpot() {
+        return parkingSpot;
+    }
+
+    public void setParkingSpot(ParkingSpot parkingSpot) {
+        this.parkingSpot = parkingSpot;
+    }
+
     @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    public ParkingSpot parkingSpot;
+    private ParkingSpot parkingSpot;
 
 
     @Column
     public byte[] getSalt() {
         return salt;
     }
-
-    @OneToMany
-    public List<Notification> notificationList;
 
 
     public void setName(String name) {

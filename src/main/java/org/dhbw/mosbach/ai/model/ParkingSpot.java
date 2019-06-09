@@ -6,20 +6,47 @@ import java.io.Serializable;
 @Entity
 public class ParkingSpot implements Serializable {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+    public Long id;
 
-    @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
 
-    @Column(nullable = false)
-    private int position;
+    private int pAreaColumn;
 
-    @OneToOne
+    private int pAreaRow;
+
     private ParkingArea parkingArea;
 
 
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Column()
+    public int getPAreaColumn() {
+        return pAreaColumn;
+    }
+
+    public void setPAreaColumn(int row) {
+        this.pAreaColumn = row;
+    }
+
+    @Column()
+    public int getPAreaRow() {
+        return pAreaRow;
+    }
+
+    public void setPAreaRow(int column) {
+        this.pAreaRow = column;
+    }
+
+
+    @OneToOne
     public User getUser() {
         return user;
     }
@@ -29,14 +56,7 @@ public class ParkingSpot implements Serializable {
     }
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    @ManyToOne
     public ParkingArea getParkingArea() {
         return parkingArea;
     }
@@ -44,4 +64,5 @@ public class ParkingSpot implements Serializable {
     public void setParkingArea(ParkingArea parkingArea) {
         this.parkingArea = parkingArea;
     }
+
 }

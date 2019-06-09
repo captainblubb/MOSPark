@@ -7,6 +7,8 @@ import org.dhbw.mosbach.ai.model.ParkingSpot;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,40 +24,64 @@ public class ParkingAreaDAO extends BaseDao<ParkingArea, Long> {
         super();
     }
 
-    public boolean createParkingArea(Long id, String name){
 
-        ParkingArea parkingArea = new ParkingArea();
-        parkingArea.setId(id);
-        parkingArea.setName(name);
-        persistOrMerge(parkingArea);
+    /***
+     * Erstellt ein Parkplatz, wird von DataProvider verwendet
+     *
+     *
+     * @param name
+     * @param totalSpots
+     * @return
+     */
+    public boolean createParkingArea(String name, int totalSpots){
 
-        return true;
-    }
+        try {
 
-    public int getFreeParkingSpots(ParkingArea parkingArea){
+            if (name != null && !name.equals("")  && totalSpots > 0) {
+                ParkingArea parkingArea = new ParkingArea();
+                //parkingArea.setId(id);
+                parkingArea.setName(name);
+                parkingArea.setTotalSpots(totalSpots);
+                persistOrMerge(parkingArea);
 
-        try{
-
-        List<ParkingSpot> parkingSpots = parkingspotDAO.getAllByField("parkingArea_id",parkingArea.getId());
-
-        int free =0;
-        for (ParkingSpot parkSpot:parkingSpots) {
-            if (parkSpot.getUser()!=null){
-                free++;
+                return true;
             }
-        }
-
-        return free;
 
         }catch (Exception exp){
-            System.out.println("___FAILED Count free Parking Spots___: "+exp);
+            System.out.println("Failed creating Parking Area "+exp);
+        }
+
+        return false;
+    }
+
+
+    /***
+     * Gibt die Freien Parkingspots einer Parking Area zurück
+     *
+     *
+     * @param parkingArea
+     * @return
+     */
+    public int getFreeParkingSpots(ParkingArea parkingArea) {
+
+        try {
+
+            List<ParkingSpot> parkingSpots= parkingspotDAO.getParkingSpotsByArea(parkingArea);
+
+            int free = 0;
+            for (ParkingSpot parkSpot : parkingSpots) {
+                if (parkSpot.getUser() == null) {
+                    free++;
+                }
+            }
+
+            return free;
+
+        } catch (Exception exp) {
+            System.out.println("___FAILED Count free Parking Spots___: " + exp);
         }
 
         return -1;
     }
-
-
-
-
 
 }
