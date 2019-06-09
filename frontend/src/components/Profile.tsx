@@ -48,14 +48,14 @@ class Profile extends React.Component<
             const currentNotification: NotificationJson = this.state
                 .notifications[i];
             notifications.push(
-                <li key={i}>
+                <div key={i}>
                     <Notification
                         fromUser={currentNotification.fromUserId}
                         toUser={currentNotification.toUserId}
                         notification={currentNotification.notification}
                         date={currentNotification.date}
                     />
-                </li>
+                </div>
             );
         }
         return notifications;
@@ -64,8 +64,8 @@ class Profile extends React.Component<
     render() {
         return (
             <div>
-                <div>Notifications</div>
-                <ul>{this.renderNotifications()}</ul>
+                <div className={"fsSubheader"}>Notifications</div>
+                <div>{this.renderNotifications()}</div>
             </div>
         );
     }

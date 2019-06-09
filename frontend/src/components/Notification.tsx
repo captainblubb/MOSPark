@@ -21,8 +21,13 @@ class Notification extends React.Component<
     render() {
         return (
             <div className={"notification"}>
-                <div>{this.props.date}</div>
-                <div>{this.props.notification}</div>
+                <div className={"content"}>
+                    <div>- {this.props.date} -</div>
+                    <div>{this.props.notification}</div>
+                </div>
+                <div>
+                    <a>Dismiss</a>
+                </div>
             </div>
         );
     }

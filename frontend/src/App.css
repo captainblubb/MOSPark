@@ -178,3 +178,18 @@ nav > div {
 .parkingArea .row45 {
     grid-row: 9/11;
 }
+
+.notification {
+    display: flex;
+    text-align: left;
+    margin-top: 12px;
+    margin-bottom: 5px;
+}
+.notification .content > div:first-child {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+.notification > div:last-child {
+    font-size: 12px;
+    margin: auto;
+}
