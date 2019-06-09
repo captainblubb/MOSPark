@@ -34,7 +34,9 @@ class ParkingSpot extends React.Component<
                 (this.props.userId === this.props.currentUserId
                     ? " byUser"
                     : "") +
-                (this.props.selected ? " selected" : ""),
+                (this.props.selected ? " selected" : "") +
+                (" col" + this.props.column) +
+                (" row" + this.props.row),
             selected: this.props.selected,
             occupied: this.props.userId !== -1
         };
@@ -59,13 +61,16 @@ class ParkingSpot extends React.Component<
                     (this.props.userId === this.props.currentUserId
                         ? " byUser"
                         : "") +
-                    (this.props.selected ? " selected" : "")
+                    (this.props.selected ? " selected" : "") +
+                    (" col" + this.props.column) +
+                    (" row" + this.props.row)
                 }
             >
                 <div>{this.props.id}</div>
                 <div>{this.props.userId === -1 ? "free" : "occ"}</div>
                 <div>({this.props.userId})</div>
-                <div>{this.props.selected ? "selected" : ""}</div>
+                <div className={"column"}>{this.props.column}</div>
+                <div className={"row"}>{this.props.row}</div>
             </div>
         );
     }

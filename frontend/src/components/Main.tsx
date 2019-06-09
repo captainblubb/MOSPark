@@ -64,7 +64,7 @@ class Main extends React.Component<
     }
 
     renderParkingArea(): JSX.Element {
-        let areaParkingSpots: Array<ParkingSpotJson> = new Array();
+        let areaParkingSpots: Array<ParkingSpotJson> = [];
         for (let i: number = 0; i < this.state.parkingSpots.length; i++) {
             if (
                 this.state.parkingSpots[i].areaId === this.state.currentAreaId

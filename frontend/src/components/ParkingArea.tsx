@@ -33,20 +33,38 @@ class ParkingArea extends React.Component<
     }
 
     handleParkingSpotSelection(parkingSpotId: number): void {
-        const parkingSpot: ParkingSpotJson | null = this.getParkingSpotById(
+        const newlySelectedSpot: ParkingSpotJson | null = this.getParkingSpotById(
             parkingSpotId
         );
-        if (parkingSpot == null) {
+        if (newlySelectedSpot == null) {
             return;
         }
+        console.log(newlySelectedSpot.userId);
+        console.log(this.props.currentUserId);
 
         let selectedIds: Set<number> = new Set(
             this.state.selectedParkingSpotIds
         );
-        if (selectedIds.has(parkingSpot.id)) {
-            selectedIds.delete(parkingSpot.id);
+
+        if (selectedIds.has(newlySelectedSpot.id)) {
+            selectedIds.delete(newlySelectedSpot.id);
         } else {
-            selectedIds.add(parkingSpot.id);
+            if (selectedIds.size > 0) {
+                if (newlySelectedSpot.userId === this.props.currentUserId) {
+                    selectedIds = new Set<number>();
+                } else {
+                    const currentUserSpot: ParkingSpotJson | null = this.getParkingSpotByUserId(
+                        this.props.currentUserId
+                    );
+                    if (
+                        currentUserSpot != null &&
+                        selectedIds.has(currentUserSpot.id)
+                    ) {
+                        selectedIds = new Set<number>();
+                    }
+                }
+            }
+            selectedIds.add(newlySelectedSpot.id);
         }
 
         this.setState({
@@ -97,7 +115,6 @@ class ParkingArea extends React.Component<
                     return;
                 }
             }
-            console.log("ha");
             selectedParkingSpot.userId = this.props.currentUserId;
         }
         this.setState({
@@ -163,13 +180,58 @@ class ParkingArea extends React.Component<
     }
 
     render() {
-        return (
-            <div className={"parkingArea"}>
-                <div>{this.createParkingSpots()}</div>
-                <button onClick={this.notifySelectedUsers}>notify</button>
-                <button onClick={this.toggleParking}>Occupy/Free</button>
-            </div>
-        );
+        if (this.state.selectedParkingSpotIds.size > 0) {
+            if (this.state.selectedParkingSpotIds.size === 1) {
+                const selectedParkingSpot = this.getParkingSpotById(
+                    this.state.selectedParkingSpotIds.values().next().value
+                );
+                if (
+                    selectedParkingSpot != null &&
+                    selectedParkingSpot.userId === this.props.currentUserId
+                ) {
+                    return (
+                        <div className={"parkingArea"}>
+                            <div className={"parkingSpotsContainer"}>
+                                {this.createParkingSpots()}
+                            </div>
+                            <button onClick={this.toggleParking}>
+                                Occupy/Free
+                            </button>
+                        </div>
+                    );
+                } else {
+                    return (
+                        <div className={"parkingArea"}>
+                            <div className={"parkingSpotsContainer"}>
+                                {this.createParkingSpots()}
+                            </div>
+                            <button onClick={this.notifySelectedUsers}>
+                                notify
+                            </button>
+                        </div>
+                    );
+                }
+            } else {
+                return (
+                    <div className={"parkingArea"}>
+                        <div className={"parkingSpotsContainer"}>
+                            {this.createParkingSpots()}
+                        </div>
+                        <button onClick={this.notifySelectedUsers}>
+                            notify
+                        </button>
+                    </div>
+                );
+            }
+        } else {
+            return (
+                <div className={"parkingArea"}>
+                    <div className={"parkingSpotsContainer"}>
+                        {this.createParkingSpots()}
+                    </div>
+                </div>
+            );
+        }
     }
 }
 
