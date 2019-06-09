@@ -41,8 +41,8 @@ public class MetaWeeklyCollector {
      * @throws InterruptedException
      */
     //Midnights on sunday -> Collect Average of last 14 days
-    //@Schedule(second = "0", minute = "0", hour = "0", dayOfWeek = "*", persistent = false)
-    @Schedule(second = "0", minute = "*/1", hour = "*", persistent = false )
+    @Schedule(second = "0", minute = "0", hour = "0", dayOfWeek = "Sun", persistent = false)
+    //@Schedule(second = "0", minute = "*/1", hour = "*", persistent = false )
     public void atSchedule() throws InterruptedException {
 
         System.out.println("____MetaData Weekly Collector");
@@ -84,7 +84,9 @@ public class MetaWeeklyCollector {
                             for (ParkingStatistics parkStat: parkingStatics) {
                                 Calendar calendar = parkStat.getTimestamp();
 
-                                if (calendar.get(Calendar.HOUR) == hour && calendar.get(Calendar.MINUTE)==minute){
+                                System.out.println("Time of parking Statistic "+parkStat.getTimestamp().toString());
+
+                                if (calendar.get(Calendar.HOUR_OF_DAY) == hour && calendar.get(Calendar.MINUTE)==minute){
                                     foundParkingStatistics.add(parkStat);
                                 }
 

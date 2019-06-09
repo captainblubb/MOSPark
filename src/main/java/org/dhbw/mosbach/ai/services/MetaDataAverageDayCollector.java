@@ -6,6 +6,7 @@ import org.dhbw.mosbach.ai.model.MetaData.Average.AverageDayMetaData;
 import org.dhbw.mosbach.ai.model.MetaData.Average.AverageDayMetaDataFragment;
 import org.dhbw.mosbach.ai.model.ParkingArea;
 import org.dhbw.mosbach.ai.model.ParkingStatistics;
+import org.dhbw.mosbach.ai.tools.SQLKonverterTool;
 
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
@@ -45,8 +46,8 @@ public class MetaDataAverageDayCollector {
      * @throws InterruptedException
      */
     //Midnights on sunday -> Collect Average of last 14 days
-    //@Schedule(second = "0", minute = "0", hour = "0", dayOfWeek = "Sun", persistent = false)
-    @Schedule(second = "0", minute = "*/3", hour = "*", persistent = false )
+    @Schedule(second = "0", minute = "0", hour = "0", dayOfWeek = "Sun", persistent = false)
+    //@Schedule(second = "0", minute = "*/3", hour = "*", persistent = false )
     public void atSchedule() throws InterruptedException {
 
 
@@ -86,9 +87,12 @@ public class MetaDataAverageDayCollector {
                         for (int minute = 0; minute < 60; minute += MetaDataConfiguration.everyMin) {
                             //Get Parkingstatistic for day,hour,minute
                             for (ParkingStatistics parkStat: parkingStatics) {
+
+                                System.out.println("Time of parking Statistic "+parkStat.getTimestamp().toString());
+
                                 Calendar calendar = parkStat.getTimestamp();
 
-                                if (calendar.get(Calendar.HOUR) == hour && calendar.get(Calendar.MINUTE)==minute){
+                                if (calendar.get(Calendar.HOUR_OF_DAY) == hour && calendar.get(Calendar.MINUTE)==minute){
                                     foundParkingStatistics.add(parkStat);
                                 }
 
