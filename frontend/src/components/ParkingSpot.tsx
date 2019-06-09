@@ -72,11 +72,11 @@ class ParkingSpot extends React.Component<
                             : this.props.row))
                 }
             >
-                <div>{this.props.id}</div>
-                <div>{this.props.userId === -1 ? "free" : "occ"}</div>
-                <div>({this.props.userId})</div>
-                <div className={"column"}>{this.props.column}</div>
-                <div className={"row"}>{this.props.row}</div>
+                <div>
+                    {this.props.userId === this.props.currentUserId
+                        ? "You"
+                        : ""}
+                </div>
             </div>
         );
     }

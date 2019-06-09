@@ -9,6 +9,7 @@ import Main from "./components/Main";
 const App: React.FC = () => {
     return (
         <div className="App">
+            <h1>MOSPark</h1>
             <Router>
                 <div>
                     <nav>
@@ -19,8 +20,10 @@ const App: React.FC = () => {
                             <Authentication />
                         </div>
                     </nav>
-                    <Route path="/" exact component={Main} />
-                    <Route path="/profile/" component={Profile} />
+                    <div className="mainContainer">
+                        <Route path="/" exact component={Main} />
+                        <Route path="/profile/" component={Profile} />
+                    </div>
                 </div>
             </Router>
         </div>

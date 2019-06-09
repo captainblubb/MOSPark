@@ -25,7 +25,7 @@ class Main extends React.Component<
         };
 
         this.renderParkingArea = this.renderParkingArea.bind(this);
-        this.renderOptions = this.renderOptions.bind(this);
+        this.renderAreaChoice = this.renderAreaChoice.bind(this);
         this.changeArea = this.changeArea.bind(this);
     }
 
@@ -50,7 +50,7 @@ class Main extends React.Component<
             }));
         */
         return JSON.parse(
-            '[{"id": 0, "userId": 420, "areaId": 0, "column": 0, "row": 0},{"id": 1, "userId": 2, "areaId": 0, "column": 0, "row": 1},{"id": 2, "userId": -1, "areaId": 0, "column": 0, "row": 2},{"id": 3, "userId": -1, "areaId": 0, "column": 1, "row": 0},{"id": 4, "userId": -1, "areaId": 0, "column": 2, "row": 0},{"id": 5, "userId": -1, "areaId": 0, "column": 3, "row": 0},{"id": 6, "userId": -1, "areaId": 0, "column": 3, "row": 1},{"id": 7, "userId": -1, "areaId": 0, "column": 3, "row": 2}]'
+            '[{"id": 0, "userId": 420, "areaId": 0, "column": 0, "row": 0},{"id": 1, "userId": 2, "areaId": 0, "column": 0, "row": 1},{"id": 2, "userId": 3, "areaId": 0, "column": 0, "row": 2},{"id": 3, "userId": -1, "areaId": 0, "column": 1, "row": 0},{"id": 4, "userId": -1, "areaId": 0, "column": 2, "row": 0},{"id": 5, "userId": -1, "areaId": 0, "column": 3, "row": 0},{"id": 6, "userId": -1, "areaId": 0, "column": 3, "row": 1},{"id": 7, "userId": -1, "areaId": 0, "column": 3, "row": 2}]'
         );
     }
 
@@ -82,32 +82,33 @@ class Main extends React.Component<
         );
     }
 
-    renderOptions(): JSX.Element {
-        let options: Array<JSX.Element> = [];
+    renderAreaChoice(): JSX.Element {
+        let areas: Array<JSX.Element> = [];
         for (let i: number = 0; i < this.state.parkingAreas.length; i++) {
-            options.push(
-                <option key={i} value={i}>
+            areas.push(
+                <a key={i} onClick={this.changeArea}>
                     Area {this.state.parkingAreas[i].id}
-                </option>
+                </a>
             );
         }
-        return <select onChange={this.changeArea}>{options}</select>;
+        return <div className={"areaChoiceContainer"}>{areas}</div>;
     }
 
-    changeArea(event: ChangeEvent<HTMLSelectElement>): void {
+    changeArea(event: React.MouseEvent<HTMLAnchorElement>): void {
+        const id: number = parseInt(
+            event.currentTarget.innerHTML.split(" ")[1]
+        );
         this.setState({
-            currentAreaId: parseInt(event.currentTarget.value)
+            currentAreaId: id
         });
     }
 
     render() {
         if (this.state.currentUserId !== 0) {
             return (
-                <div>
-                    <div>{this.renderOptions()}</div>
-                    <div className={"parkingAreaContainer"}>
-                        {this.renderParkingArea()}
-                    </div>
+                <div className={"parkingAreaContainer"}>
+                    <div>{this.renderAreaChoice()}</div>
+                    <div>{this.renderParkingArea()}</div>
                 </div>
             );
         } else {
