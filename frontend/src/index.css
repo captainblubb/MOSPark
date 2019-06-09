@@ -3,9 +3,9 @@ html {
     width: 100vw;
     background: linear-gradient(
         -128deg,
-        rgb(69, 0, 129) 3%,
-        rgba(255, 0, 145, 0.93) 75%,
-        rgba(146, 4, 103, 0.93) 100%
+        rgb(0, 0, 0) 3%,
+        rgb(182, 0, 64) 67%,
+        rgb(0, 0, 0) 103%
     );
     color: white;
 }
@@ -95,4 +95,27 @@ a:hover::after {
     margin: 0px 20%;
     transition: border-top-width 0.1s ease 0s, height 0.2s ease 0.1s,
         width 0.2s ease 0.2s, margin 0.2s ease 0.2s;
+}
+
+hr {
+    border-top: 1px dotted white;
+    border-bottom: 1px dotted white;
+    width: 50%;
+}
+
+input {
+    background: none;
+    color: white;
+    border: 2px solid white;
+    padding: 15px;
+    font-size: 20px;
+    text-align: center;
+}
+input:focus {
+    box-shadow: 0px 0px 20px red;
+    transition: box-shadow 1s;
+}
+
+::placeholder {
+    color: rgb(214, 214, 214);
 }

@@ -1,11 +1,11 @@
 import React from "react";
 
-class LoginForm extends React.Component<
-    { submitFunction: (event: React.FormEvent<HTMLFormElement>) => void },
+class Registration extends React.Component<
+    { registrationHandler: (username: string, password: string) => void },
     { username: string; password: string }
 > {
     constructor(props: {
-        submitFunction: (event: React.FormEvent<HTMLFormElement>) => void;
+        registrationHandler: (username: string, password: string) => void;
     }) {
         super(props);
         this.state = {
@@ -15,6 +15,7 @@ class LoginForm extends React.Component<
 
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.register = this.register.bind(this);
     }
 
     handleUsernameChange(event: React.FormEvent<HTMLInputElement>): void {
@@ -29,27 +30,32 @@ class LoginForm extends React.Component<
         });
     }
 
+    register() {
+        this.props.registrationHandler(
+            this.state.username,
+            this.state.password
+        );
+    }
+
     render() {
         return (
-            <form onSubmit={this.props.submitFunction}>
+            <div className={"loginForm"}>
                 <input
                     type="text"
                     placeholder="Username"
-                    name="username"
                     value={this.state.username}
                     onChange={this.handleUsernameChange}
                 />
                 <input
                     type="password"
                     placeholder="Password"
-                    name="password"
                     value={this.state.password}
                     onChange={this.handlePasswordChange}
                 />
-                <input type="submit" value="Login" />
-            </form>
+                <a onClick={this.register}>Register</a>
+            </div>
         );
     }
 }
 
-export default LoginForm;
+export default Registration;

@@ -1,5 +1,5 @@
 import React from "react";
-import Notification from "./Notification";
+import NotificationContainer from "./NotificationContainer";
 import NotificationJson from "./NotificationJson";
 
 class Profile extends React.Component<
@@ -13,7 +13,6 @@ class Profile extends React.Component<
         super(props);
 
         Profile.getCurrentUserId = Profile.getCurrentUserId.bind(this);
-        Profile.fetchNotifications = Profile.fetchNotifications.bind(this);
         this.state = {
             currentUserId: Profile.getCurrentUserId(),
             notifications: Profile.fetchNotifications()
@@ -38,34 +37,25 @@ class Profile extends React.Component<
             }));
         */
         return JSON.parse(
-            '[{"id": 0, "fromUserId": 1, "toUserId": 420, "notification": "parking spot X wants you to make space for him", "date": "04.20.2019, 16:20"}]'
+            '[{"id": 0, "senderId": 1, "recipientId": 420, "content": "parking spot X wants you to make space for him", "date": "04.20.2019, 16:20", "dismissed": false, "dismissedDate": ""}]'
         );
     }
 
-    renderNotifications(): Array<JSX.Element> {
-        let notifications: Array<JSX.Element> = [];
-        for (let i: number = 0; i < this.state.notifications.length; i++) {
-            const currentNotification: NotificationJson = this.state
-                .notifications[i];
-            notifications.push(
-                <li key={i}>
-                    <Notification
-                        fromUser={currentNotification.fromUserId}
-                        toUser={currentNotification.toUserId}
-                        notification={currentNotification.notification}
-                        date={currentNotification.date}
-                    />
-                </li>
-            );
-        }
-        return notifications;
+    logout() {
+        sessionStorage.clear();
+        window.location.replace("/");
     }
 
     render() {
         return (
             <div>
-                <div>Notifications</div>
-                <ul>{this.renderNotifications()}</ul>
+                <div>
+                    <a onClick={this.logout}>Logout</a>
+                </div>
+                <NotificationContainer
+                    currentUserId={this.state.currentUserId}
+                    notifications={this.state.notifications}
+                />
             </div>
         );
     }

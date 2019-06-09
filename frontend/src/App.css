@@ -34,11 +34,21 @@
     }
 }
 
-nav {
+.separator {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.navigation {
     display: flex;
 }
-nav > div {
+.navigation > div {
     margin: auto;
+}
+
+.loginForm input {
+    margin-bottom: 15px;
 }
 
 .mainContainer {
@@ -71,19 +81,19 @@ nav > div {
         rgb(12, 157, 12) 150%
     );
     margin: 3px;
+    border: 0.5px solid white;
 }
 .parkingSpot > div {
     margin-top: 10%;
 }
 .parkingSpot:hover {
     cursor: pointer;
-    border: 3px dotted rgb(216, 216, 216);
+    border: 3px solid rgb(216, 216, 216);
     transition: border 0.1s;
 }
 
 .parkingArea .selected {
-    border: 3px dotted white;
-    border-radius: 3px;
+    border: 3px solid white;
     transition: border 0.1s;
 }
 
@@ -177,4 +187,26 @@ nav > div {
 }
 .parkingArea .row45 {
     grid-row: 9/11;
+}
+
+.notificationContainer > div:first-child {
+    display: flex;
+}
+.notificationContainer > div:first-child > div {
+    margin: auto;
+}
+
+.notification {
+    display: flex;
+    text-align: left;
+    margin-top: 12px;
+    margin-bottom: 5px;
+}
+.notification .content > div:first-child {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+.notification > div:last-child {
+    font-size: 12px;
+    margin: auto;
 }

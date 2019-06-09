@@ -59,9 +59,8 @@ class ParkingArea extends React.Component<
                         this.props.currentUserId
                     );
                     if (currentUserSpot == null) {
-                        return;
-                    }
-                    if (selectedIds.has(currentUserSpot.id)) {
+                        selectedIds = new Set<number>();
+                    } else if (selectedIds.has(currentUserSpot.id)) {
                         // blue -> any
                         selectedIds = new Set<number>();
                     }

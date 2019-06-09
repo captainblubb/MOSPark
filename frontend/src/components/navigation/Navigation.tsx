@@ -1,8 +1,9 @@
 import React from "react";
-import LoginForm from "./LoginForm";
 import { Link } from "react-router-dom";
 
-class Authentication extends React.Component<
+import Authentication from "./Authentication";
+
+class Navigation extends React.Component<
     {},
     { isLoggedIn: boolean; username: string; password: string }
 > {
@@ -18,37 +19,42 @@ class Authentication extends React.Component<
             username: currentUser,
             password: ""
         };
-        this.handleLogin.bind(this);
+
+        this.login = this.login.bind(this);
     }
 
-    handleLogin = (event: React.FormEvent<HTMLFormElement>): void => {
-        event.preventDefault();
-        const username: string = event.currentTarget.username.value;
-
+    login(username: string, password: string) {
+        console.log("hi");
         this.setState({
             isLoggedIn: true,
             username: username,
-            password: event.currentTarget.password.value
+            password: password
         });
         sessionStorage.setItem("user", username);
         sessionStorage.setItem("id", "420");
-    };
+        window.location.reload();
+    }
 
     render() {
         if (this.state.isLoggedIn) {
             return (
-                <div>
-                    <Link to="/profile/">Profile</Link>
+                <div className={"navigation"}>
+                    <div>
+                        <Link to="/">Home</Link>
+                    </div>
+                    <div>
+                        <Link to="/profile/">Profile</Link>
+                    </div>
                 </div>
             );
         } else {
             return (
                 <div>
-                    <LoginForm submitFunction={this.handleLogin} />
+                    <Authentication loginHandler={this.login} />
                 </div>
             );
         }
     }
 }
 
-export default Authentication;
+export default Navigation;
