@@ -30,6 +30,7 @@ class ParkingArea extends React.Component<
         this.notifySelectedUsers = this.notifySelectedUsers.bind(this);
         this.toggleParking = this.toggleParking.bind(this);
         this.createParkingSpots = this.createParkingSpots.bind(this);
+        this.renderButton = this.renderButton.bind(this);
     }
 
     handleParkingSpotSelection(parkingSpotId: number): void {
@@ -198,60 +199,47 @@ class ParkingArea extends React.Component<
         return spots;
     }
 
-    render() {
+    renderButton(): JSX.Element {
         if (this.state.selectedParkingSpotIds.size > 0) {
-            if (this.state.selectedParkingSpotIds.size === 1) {
-                const selectedParkingSpot = this.getParkingSpotById(
-                    this.state.selectedParkingSpotIds.values().next().value
-                );
-                if (
-                    selectedParkingSpot != null &&
-                    selectedParkingSpot.userId === this.props.currentUserId
-                ) {
-                    return (
-                        <div className={"parkingArea"}>
-                            <div className={"parkingSpotsContainer"}>
-                                {this.createParkingSpots()}
-                            </div>
-                            <button onClick={this.toggleParking}>
-                                Occupy/Free
-                            </button>
-                        </div>
-                    );
+            const selectedSpot: ParkingSpotJson | null = this.getParkingSpotById(
+                this.state.selectedParkingSpotIds.values().next().value
+            );
+            if (selectedSpot == null) {
+                return <div>Please select a field.</div>;
+            }
+
+            const currentUserSpot: ParkingSpotJson | null = this.getParkingSpotByUserId(
+                this.props.currentUserId
+            );
+            if (currentUserSpot == null) {
+                if (selectedSpot.userId === -1) {
+                    return <a onClick={this.toggleParking}>Occupy</a>;
                 } else {
-                    return (
-                        <div className={"parkingArea"}>
-                            <div className={"parkingSpotsContainer"}>
-                                {this.createParkingSpots()}
-                            </div>
-                            <button onClick={this.notifySelectedUsers}>
-                                notify
-                            </button>
-                        </div>
-                    );
+                    return <div>Please select a free parking spot.</div>;
                 }
             } else {
-                return (
-                    <div className={"parkingArea"}>
-                        <div className={"parkingSpotsContainer"}>
-                            {this.createParkingSpots()}
-                        </div>
-                        <button onClick={this.notifySelectedUsers}>
-                            notify
-                        </button>
-                    </div>
-                );
+                if (this.state.selectedParkingSpotIds.has(currentUserSpot.id)) {
+                    return <a onClick={this.toggleParking}>Free</a>;
+                } else {
+                    if (selectedSpot.userId === -1) {
+                        return <div>You have already parked.</div>;
+                    }
+                    return <a onClick={this.notifySelectedUsers}>Notify</a>;
+                }
             }
-        } else {
-            return (
-                <div className={"parkingArea"}>
-                    <div className={"parkingSpotsContainer"}>
-                        {this.createParkingSpots()}
-                    </div>
-                    <div>Select a field</div>
-                </div>
-            );
         }
+        return <div>Please select a field.</div>;
+    }
+
+    render() {
+        return (
+            <div className={"parkingArea"}>
+                <div className={"parkingSpotsContainer"}>
+                    {this.createParkingSpots()}
+                </div>
+                <div>{this.renderButton()}</div>
+            </div>
+        );
     }
 }
 
