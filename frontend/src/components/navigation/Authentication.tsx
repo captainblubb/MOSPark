@@ -36,7 +36,7 @@ class Authentication extends React.Component<
         return (
             <div>
                 <LoginForm submitFunction={this.handleLogin} />
-                <div className={"separator"}>OR</div>
+                <div className={"separator"}>- OR REGISTER -</div>
                 <Registration />
             </div>
         );
