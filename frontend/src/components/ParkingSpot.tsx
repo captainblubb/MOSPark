@@ -31,7 +31,10 @@ class ParkingSpot extends React.Component<
                 "parkingSpot" +
                 (this.props.userId === this.props.currentUserId
                     ? " occupiedByUser"
-                    : ""),
+                    : this.props.userId !== -1
+                    ? " occupied"
+                    : "") +
+                (this.props.selected ? " selected" : ""),
             selected: this.props.selected
         };
 

@@ -50,7 +50,7 @@ class Main extends React.Component<
             }));
         */
         return JSON.parse(
-            '[{"id": 0, "userId": 420, "areaId": 0, "column": 0, "row": 0},{"id": 1, "userId": -1, "areaId": 0, "column": 0, "row": 1},{"id": 2, "userId": -1, "areaId": 0, "column": 0, "row": 2},{"id": 3, "userId": -1, "areaId": 0, "column": 1, "row": 0},{"id": 4, "userId": -1, "areaId": 0, "column": 2, "row": 0},{"id": 5, "userId": -1, "areaId": 0, "column": 3, "row": 0},{"id": 6, "userId": -1, "areaId": 0, "column": 3, "row": 1},{"id": 7, "userId": -1, "areaId": 0, "column": 3, "row": 2}]'
+            '[{"id": 0, "userId": 420, "areaId": 0, "column": 0, "row": 0},{"id": 1, "userId": 2, "areaId": 0, "column": 0, "row": 1},{"id": 2, "userId": -1, "areaId": 0, "column": 0, "row": 2},{"id": 3, "userId": -1, "areaId": 0, "column": 1, "row": 0},{"id": 4, "userId": -1, "areaId": 0, "column": 2, "row": 0},{"id": 5, "userId": -1, "areaId": 0, "column": 3, "row": 0},{"id": 6, "userId": -1, "areaId": 0, "column": 3, "row": 1},{"id": 7, "userId": -1, "areaId": 0, "column": 3, "row": 2}]'
         );
     }
 
