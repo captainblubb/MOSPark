@@ -1,7 +1,9 @@
 export default interface NotificationJson {
     id: number;
-    fromUserId: number;
-    toUserId: number;
-    notification: string;
+    senderId: number;
+    recipientId: number;
+    content: string;
     date: string;
+    dismissed: boolean;
+    dismissedDate: string;
 }

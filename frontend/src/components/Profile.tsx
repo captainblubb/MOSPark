@@ -18,6 +18,7 @@ class Profile extends React.Component<
             currentUserId: Profile.getCurrentUserId(),
             notifications: Profile.fetchNotifications()
         };
+        this.renderNotifications = this.renderNotifications.bind(this);
     }
 
     static getCurrentUserId(): number {
@@ -38,7 +39,7 @@ class Profile extends React.Component<
             }));
         */
         return JSON.parse(
-            '[{"id": 0, "fromUserId": 1, "toUserId": 420, "notification": "parking spot X wants you to make space for him", "date": "04.20.2019, 16:20"}]'
+            '[{"id": 0, "senderId": 1, "recipientId": 420, "content": "parking spot X wants you to make space for him", "date": "04.20.2019, 16:20", "dismissed": false, "dismissedDate": ""}]'
         );
     }
 
@@ -50,16 +51,22 @@ class Profile extends React.Component<
             notifications.push(
                 <div key={i}>
                     <Notification
-                        fromUser={currentNotification.fromUserId}
-                        toUser={currentNotification.toUserId}
-                        notification={currentNotification.notification}
+                        id={currentNotification.id}
+                        senderId={currentNotification.senderId}
+                        recipientId={currentNotification.recipientId}
+                        content={currentNotification.content}
                         date={currentNotification.date}
+                        dismissed={currentNotification.dismissed}
+                        dismissedDate={currentNotification.dismissedDate}
+                        dismissalHandler={this.dismissNotification}
                     />
                 </div>
             );
         }
         return notifications;
     }
+
+    dismissNotification(id: number): void {}
 
     render() {
         return (

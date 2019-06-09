@@ -2,20 +2,32 @@ import React from "react";
 
 class Notification extends React.Component<
     {
-        fromUser: number;
-        toUser: number;
-        notification: string;
+        id: number;
+        senderId: number;
+        recipientId: number;
+        content: string;
         date: string;
+        dismissed: boolean;
+        dismissedDate: string;
+        dismissalHandler: (id: number) => void;
     },
     {}
 > {
     constructor(props: {
-        fromUser: number;
-        toUser: number;
-        notification: string;
+        id: number;
+        senderId: number;
+        recipientId: number;
+        content: string;
         date: string;
+        dismissed: boolean;
+        dismissedDate: string;
+        dismissalHandler: () => void;
     }) {
         super(props);
+    }
+
+    toggleDismissal() {
+        this.props.dismissalHandler(this.props.id);
     }
 
     render() {
@@ -23,10 +35,10 @@ class Notification extends React.Component<
             <div className={"notification"}>
                 <div className={"content"}>
                     <div>- {this.props.date} -</div>
-                    <div>{this.props.notification}</div>
+                    <div>{this.props.content}</div>
                 </div>
                 <div>
-                    <a>Dismiss</a>
+                    <a onClick={this.toggleDismissal}>Dismiss</a>
                 </div>
             </div>
         );
