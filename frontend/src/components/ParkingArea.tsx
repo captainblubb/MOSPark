@@ -90,9 +90,6 @@ class ParkingArea extends React.Component<
 
         if (selectedParkingSpot.userId === this.props.currentUserId) {
             selectedParkingSpot.userId = -1;
-            this.setState({
-                selectedParkingSpotIds: new Set([])
-            });
         } else if (selectedParkingSpot.userId === -1) {
             for (let i: number = 0; i < this.props.parkingSpots.length; i++) {
                 const spot: ParkingSpotJson = this.props.parkingSpots[i];
@@ -102,10 +99,10 @@ class ParkingArea extends React.Component<
             }
             console.log("ha");
             selectedParkingSpot.userId = this.props.currentUserId;
-            this.setState({
-                selectedParkingSpotIds: new Set([])
-            });
         }
+        this.setState({
+            selectedParkingSpotIds: new Set([])
+        });
         /*
         TODO: API call for both occupying/freeing parking spot
         fetch(`http://localhost:8080/parkingSpot`, {

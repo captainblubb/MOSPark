@@ -14,6 +14,7 @@ class ParkingSpot extends React.Component<
     {
         classes: string;
         selected: boolean;
+        occupied: boolean;
     }
 > {
     constructor(props: {
@@ -29,13 +30,13 @@ class ParkingSpot extends React.Component<
         this.state = {
             classes:
                 "parkingSpot" +
+                (this.props.userId !== -1 ? " occupied" : "") +
                 (this.props.userId === this.props.currentUserId
-                    ? " occupiedByUser"
-                    : this.props.userId !== -1
-                    ? " occupied"
+                    ? " byUser"
                     : "") +
                 (this.props.selected ? " selected" : ""),
-            selected: this.props.selected
+            selected: this.props.selected,
+            occupied: this.props.userId !== -1
         };
 
         this.toggleSelection = this.toggleSelection.bind(this);
@@ -53,8 +54,12 @@ class ParkingSpot extends React.Component<
             <div
                 onClick={this.toggleSelection}
                 className={
-                    this.state.classes +
-                    (this.state.selected ? " selected" : "")
+                    "parkingSpot" +
+                    (this.props.userId !== -1 ? " occupied" : "") +
+                    (this.props.userId === this.props.currentUserId
+                        ? " byUser"
+                        : "") +
+                    (this.props.selected ? " selected" : "")
                 }
             >
                 <div>{this.props.id}</div>
