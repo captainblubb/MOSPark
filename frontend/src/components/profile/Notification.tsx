@@ -24,6 +24,7 @@ class Notification extends React.Component<
         dismissalHandler: () => void;
     }) {
         super(props);
+        this.toggleDismissal = this.toggleDismissal.bind(this);
     }
 
     toggleDismissal() {

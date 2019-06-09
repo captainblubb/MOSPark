@@ -24,7 +24,10 @@ class NotificationContainer extends React.Component<
             read: this.getReadNotifications(),
             show: "unread"
         };
+        this.getUnreadNotifications = this.getUnreadNotifications.bind(this);
+        this.getReadNotifications = this.getReadNotifications.bind(this);
         this.renderNotifications = this.renderNotifications.bind(this);
+        this.dismissNotification = this.dismissNotification.bind(this);
         this.showNotifications = this.showNotifications.bind(this);
         this.showArchive = this.showArchive.bind(this);
     }
@@ -93,7 +96,40 @@ class NotificationContainer extends React.Component<
         return notifications;
     }
 
-    dismissNotification(id: number): void {}
+    dismissNotification(id: number): void {
+        /* TODO: API call
+        fetch(`http://localhost:8080/dismissNotification`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json())
+            .then(response => console.log('Success:', JSON.stringify(response)))
+            .catch(error => console.log('Error:', error))
+            */
+        for (let i: number = 0; i < this.state.unread.length; i++) {
+            const currentNotification: NotificationJson = this.state.unread[i];
+            if (
+                currentNotification.id === id &&
+                !currentNotification.dismissed
+            ) {
+                currentNotification.dismissed = true;
+
+                let unreadNotifications: Array<NotificationJson> = this.state
+                    .unread;
+                let readNotifications: Array<NotificationJson> = this.state
+                    .read;
+                unreadNotifications.splice(i, i + 1);
+                readNotifications.push(currentNotification);
+
+                this.setState({
+                    unread: unreadNotifications,
+                    read: readNotifications
+                });
+            }
+        }
+    }
 
     showNotifications() {
         this.setState({
