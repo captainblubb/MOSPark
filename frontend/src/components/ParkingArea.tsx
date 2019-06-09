@@ -51,15 +51,34 @@ class ParkingArea extends React.Component<
         } else {
             if (selectedIds.size > 0) {
                 if (newlySelectedSpot.userId === this.props.currentUserId) {
+                    // any -> blue
                     selectedIds = new Set<number>();
                 } else {
                     const currentUserSpot: ParkingSpotJson | null = this.getParkingSpotByUserId(
                         this.props.currentUserId
                     );
-                    if (
-                        currentUserSpot != null &&
-                        selectedIds.has(currentUserSpot.id)
+                    if (currentUserSpot == null) {
+                        return;
+                    }
+                    if (selectedIds.has(currentUserSpot.id)) {
+                        // blue -> any
+                        selectedIds = new Set<number>();
+                    }
+
+                    const alreadySelectedSpot: ParkingSpotJson | null = this.getParkingSpotById(
+                        this.state.selectedParkingSpotIds.values().next().value
+                    );
+                    if (alreadySelectedSpot == null) {
+                        return;
+                    }
+                    if (alreadySelectedSpot.userId === -1) {
+                        // green -> any
+                        selectedIds = new Set<number>();
+                    } else if (
+                        alreadySelectedSpot.userId !== -1 &&
+                        newlySelectedSpot.userId === -1
                     ) {
+                        // red -> green
                         selectedIds = new Set<number>();
                     }
                 }
@@ -229,6 +248,7 @@ class ParkingArea extends React.Component<
                     <div className={"parkingSpotsContainer"}>
                         {this.createParkingSpots()}
                     </div>
+                    <div>Select a field</div>
                 </div>
             );
         }
