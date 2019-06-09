@@ -5,9 +5,9 @@ class ParkingSpot extends React.Component<
     {
         id: number;
         userId: number;
+        currentUserId: number;
         column: number;
         row: number;
-        occupiedByCurrentUser: boolean;
         selectionHandler: (parkingSpotId: number) => void;
         selected: boolean;
     },
@@ -19,17 +19,19 @@ class ParkingSpot extends React.Component<
     constructor(props: {
         id: number;
         userId: number;
+        currentUserId: number;
         column: number;
         row: number;
-        occupiedByCurrentUser: boolean;
-        selected: boolean;
         selectionHandler: (parkingSpotId: number) => void;
+        selected: boolean;
     }) {
         super(props);
         this.state = {
             classes:
                 "parkingSpot" +
-                (this.props.occupiedByCurrentUser ? " occupiedByUser" : ""),
+                (this.props.userId === this.props.currentUserId
+                    ? " occupiedByUser"
+                    : ""),
             selected: this.props.selected
         };
 
