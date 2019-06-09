@@ -2,9 +2,9 @@ import React from "react";
 import "./App.css";
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Authentication from "./components/Authentication";
-import Profile from "./components/Profile";
-import Main from "./components/Main";
+import Authentication from "./components/app/Authentication";
+import Profile from "./components/profile/Profile";
+import Main from "./components/main/Main";
 
 const App: React.FC = () => {
     return (
