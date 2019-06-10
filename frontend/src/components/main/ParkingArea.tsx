@@ -234,6 +234,20 @@ class ParkingArea extends React.Component<
         return (
             <div className={"parkingArea"}>
                 <div className={"parkingSpotsContainer"}>
+                    <div className={"numberrow col0"}>1</div>
+                    <div className={"numberrow col1"}>2</div>
+                    <div className={"numberrow col2"}>3</div>
+                    <div className={"numberrow col3"}>4</div>
+                    <div className={"numbercol row0"}>01</div>
+                    <div className={"numbercol row1"}>02</div>
+                    <div className={"numbercol row2"}>03</div>
+                    <div className={"numbercol row3"}>04</div>
+                    <div className={"numbercol row4"}>05</div>
+                    <div className={"numbercol row5"}>06</div>
+                    <div className={"numbercol row6"}>07</div>
+                    <div className={"numbercol row7"}>08</div>
+                    <div className={"numbercol row8"}>09</div>
+                    <div className={"numbercol row9"}>10</div>
                     {this.createParkingSpots()}
                 </div>
                 <div>{this.renderButton()}</div>
