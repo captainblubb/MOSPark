@@ -128,6 +128,7 @@
     */
     display: grid;
     margin: auto auto;
+    margin-bottom: 10px;
     grid-template-columns: 100px 50px 50px 100px;
     grid-template-rows: 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
 }
