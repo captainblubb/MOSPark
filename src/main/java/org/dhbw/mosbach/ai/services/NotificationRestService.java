@@ -1,7 +1,6 @@
 package org.dhbw.mosbach.ai.services;
 
 import org.dhbw.mosbach.ai.db.NotificationDAO;
-import org.dhbw.mosbach.ai.db.ParkingSpotDAO;
 import org.dhbw.mosbach.ai.db.UserDAO;
 import org.dhbw.mosbach.ai.model.Notification;
 import org.dhbw.mosbach.ai.model.ParkingSpot;
@@ -18,7 +17,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
@@ -27,8 +25,6 @@ public class NotificationRestService
 {
     @Inject
     private NotificationDAO notificationDao;
-    @Inject
-    private ParkingSpotDAO parkingSpotDao;
     @Inject
     private UserDAO userDao;
 
@@ -83,13 +79,32 @@ public class NotificationRestService
 
         String username = request.getUserPrincipal().getName();
         User userFrom = userDao.getUserByUsername(username);
-
-        List<User> users = new ArrayList<User>();
-        users.add(parkingSpotDao.getUserByParkingPositon(userFrom.getParkingSpot().getHorizontal()));
-
-        for (User userTo:users){
-            notificationDao.createNotification(userFrom, userTo, " Please return to your car, i want to leave.");
+        try{
+            for (ParkingSpot parkingSpot:parkingSpots){
+                notificationDao.createNotification(userFrom, parkingSpot.getUser(), " Please return to your car, i want to leave.");
+            }
         }
+        catch(NullPointerException e){
+            throw new NullPointerException("No parking spots selected!");
+        }
+    }
+
+    @POST
+    @Path("/dismiss")
+    @Consumes(MediaType.TEXT_XML)
+    public void dismissNotification(Long notificationID){
+
+        if(request.getUserPrincipal() == null){
+            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
+        }
+
+        if(notificationID!=null){
+            // Notification notification = notificationDao.getNotifcation(notificationID);
+            // notification.setDismissed(true);
+        }
+        else throw new NullPointerException("Invalid notification ID!");
+
+        System.out.println("Notification dismissed.");
     }
 }
 

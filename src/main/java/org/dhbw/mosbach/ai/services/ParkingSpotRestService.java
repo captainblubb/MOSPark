@@ -6,14 +6,11 @@ import org.dhbw.mosbach.ai.db.UserDAO;
 import org.dhbw.mosbach.ai.model.ParkingSpot;
 import org.dhbw.mosbach.ai.model.User;
 
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.tree.ExpandVetoException;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -39,14 +36,19 @@ public class ParkingSpotRestService
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public List<ParkingSpot> getAllParkingSpots()
+    public List<ParkingSpot> getParkingSpots()
     {
         if (request.getUserPrincipal() == null)
         {
             throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
         }
-        final List<ParkingSpot> allParkingSpots = parkingSpotDao.getAllParkingSpots();
-        return allParkingSpots;
+        try{
+            final List<ParkingSpot> allParkingSpots = parkingSpotDao.getAllParkingSpots();
+            return allParkingSpots;
+        }
+        catch(NullPointerException e){
+            throw new NullPointerException("No parkingspots!");
+        }
     }
 
     @POST
@@ -58,11 +60,15 @@ public class ParkingSpotRestService
         {
             throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
         }
+        if(parkingSpot!=null){
+            String username = request.getUserPrincipal().getName();
+            User user = userDao.getUserByUsername(username);
 
-        String username = request.getUserPrincipal().getName();
-        User user = userDao.getUserByUsername(username);
-
-        parkingSpotDao.parkUserOnParkingSpot(parkingSpot, user);
+            parkingSpotDao.parkUserOnParkingSpot(parkingSpot, user);
+        }
+        else{
+            System.out.println("Invalid parking spot!");
+        }
     }
 
     @POST

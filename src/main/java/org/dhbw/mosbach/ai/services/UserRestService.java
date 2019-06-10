@@ -37,7 +37,10 @@ public class UserRestService {
             @FormParam("password") String password
     ) {
         if (userDAO.authentificateUser(username, password)) {
-
+            System.out.println("Password correct, please proceed.");
+        }
+        else {
+            System.out.println("Invalid username or password, please try again.");
         }
     }
 }
