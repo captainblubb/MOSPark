@@ -105,7 +105,6 @@ public class MetaWeeklyCollector {
                                 AverageDayOfWeekMetaDataFragment metaDataFragment = new AverageDayOfWeekMetaDataFragment();
                                 metaDataFragment.setAverageDayOfWeekMetaData(averageDayOfWeekMetaData);
                                 metaDataFragment.setTimestamp(foundParkingStatistics.get(0).getTimestamp());
-                                metaDataFragment.setParkingArea(parkingArea);
                                 metaDataFragment.setFreeSpots(freeSpotsAvg);
 
                                 //persist

@@ -26,7 +26,7 @@ public class NotificationDAO extends BaseDao<Notification,Long> {
      * @param message
      * @return
      */
-    public boolean createNotification(User userFrom, User userTo, String message) {
+    public boolean createNotification(String content, User userFrom, User userTo, String message) {
 
         Notification notification = new Notification();
 
@@ -35,6 +35,7 @@ public class NotificationDAO extends BaseDao<Notification,Long> {
             notification.setUserFROM(userFrom);
             notification.setUserTO(userTo);
             notification.setNotification(message);
+            notification.setContent(content);
             try {
                 persist(notification);
                 return true;

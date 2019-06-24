@@ -15,7 +15,6 @@ public class AverageDayOfWeekMetaDataFragment {
 
     private Long id;
     private int freeSpots;
-    private ParkingArea parkingArea;
     private Calendar timestamp;
     private AverageDayOfWeekMetaData averageDayOfWeekMetaData;
 
@@ -30,15 +29,7 @@ public class AverageDayOfWeekMetaDataFragment {
         this.id = id;
     }
 
-    @ManyToOne
-    public ParkingArea getParkingArea() {
-        return parkingArea;
-    }
 
-
-    public void setParkingArea(ParkingArea parkingArea) {
-        this.parkingArea = parkingArea;
-    }
 
     @Column(nullable = false)
     public Calendar getTimestamp() {

@@ -111,7 +111,6 @@ public class MetaDataAverageDayCollector {
                                 AverageDayMetaDataFragment metaDataFragment = new AverageDayMetaDataFragment();
                                 metaDataFragment.setAverageDayMetaData(averageDayMetaData);
                                 metaDataFragment.setTimestamp(foundParkingStatistics.get(0).getTimestamp());
-                                metaDataFragment.setParkingArea(parkingArea);
                                 metaDataFragment.setFreeSpots(freeSpotsAvg);
 
                                 //persist

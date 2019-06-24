@@ -14,6 +14,8 @@ public class ParkingSpot implements Serializable {
 
     private int pAreaRow;
 
+    private boolean occupied;
+
     private ParkingArea parkingArea;
 
 
@@ -53,6 +55,11 @@ public class ParkingSpot implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+        if (user!=null) {
+            occupied = true;
+        }else {
+            occupied =false;
+        }
     }
 
 
@@ -65,4 +72,12 @@ public class ParkingSpot implements Serializable {
         this.parkingArea = parkingArea;
     }
 
+    @Column(nullable = false)
+    public boolean isOccupied() {
+        return occupied;
+    }
+
+    public void setOccupied(boolean occupied) {
+        this.occupied = occupied;
+    }
 }
