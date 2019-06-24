@@ -130,7 +130,7 @@
     margin: auto auto;
     margin-bottom: 10px;
     grid-template-columns: 40px 100px 50px 50px 100px;
-    grid-template-rows: 40px 50px 50px 50px 50px 50px 50px 50px 50px 50px 50px;
+    grid-template-rows: 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px;
 }
 .parkingArea .numbercol {
     grid-column: 1;
