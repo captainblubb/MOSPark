@@ -3,6 +3,7 @@ package org.dhbw.mosbach.ai.model;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.sql.Timestamp;
 
 @Entity
 public class Notification {
@@ -34,6 +35,10 @@ public class Notification {
     private String content;
     private String notification;
     private boolean isRead=false;
+
+    private boolean dissmissed=false;
+
+    private Timestamp dissmissedDate;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User UserFROM;
@@ -74,5 +79,23 @@ public class Notification {
 
     public void setNotification(String notification) {
         this.notification = notification;
+    }
+
+    @Column(nullable = true)
+    public boolean isDissmissed() {
+        return dissmissed;
+    }
+
+    public void setDissmissed(boolean dissmissed) {
+        this.dissmissed = dissmissed;
+    }
+
+    @Column
+    public Timestamp getDissmissedDate() {
+        return dissmissedDate;
+    }
+
+    public void setDissmissedDate(Timestamp dissmissedDate) {
+        this.dissmissedDate = dissmissedDate;
     }
 }
