@@ -37,7 +37,7 @@ class Profile extends React.Component<
             }));
         */
         return JSON.parse(
-            '[{"id": 0, "senderId": 1, "recipientId": 420, "content": "parking spot X wants you to make space for him", "date": "04.20.2019, 16:20", "dismissed": false, "dismissedDate": ""}]'
+            '[{"id": 0, "senderId": 1, "recipientId": 420, "content": "parking spot (x:1,y:2) from area 0 wants you to make space for him", "date": "04.20.2019, 16:20", "dismissed": false, "dismissedDate": ""}]'
         );
     }
 

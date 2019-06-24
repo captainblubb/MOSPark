@@ -13,7 +13,28 @@ public class Notification {
     @GeneratedValue
     private Long id;
 
+    @Column()
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+
+    @Column(nullable = false)
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
+    }
+
+    private String content;
     private String notification;
+    private boolean isRead=false;
 
     private boolean dissmissed=false;
 
