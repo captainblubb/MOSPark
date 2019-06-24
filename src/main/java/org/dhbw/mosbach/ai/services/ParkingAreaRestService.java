@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @ApplicationScoped
-@Path("/parkingspots/")
+@Path("/parkingspots")
 public class ParkingAreaRestService
 {
     @Inject

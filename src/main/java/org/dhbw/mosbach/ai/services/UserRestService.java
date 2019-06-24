@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @ApplicationScoped
-@Path("/user/")
+@Path("/user")
 public class UserRestService {
 
     @Inject

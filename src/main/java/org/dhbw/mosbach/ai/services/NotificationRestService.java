@@ -20,7 +20,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @ApplicationScoped
-@Path("/notifications/")
+@Path("/notifications")
 public class NotificationRestService
 {
     @Inject
@@ -53,7 +53,6 @@ public class NotificationRestService
     @Path("/user")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    @RolesAllowed("admin")
     public List<Notification> getNotificationsOfCurrentUser()
     {
         if (request.getUserPrincipal() == null)
