@@ -1,7 +1,7 @@
 package org.dhbw.mosbach.ai.services;
 
 import org.dhbw.mosbach.ai.db.UserDAO;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -11,8 +11,12 @@ import javax.ws.rs.core.Response;
 @ApplicationScoped
 @Path("/user/")
 public class UserRestService {
+
     @Inject
     private UserDAO userDAO;
+
+    @Inject
+    private HttpServletRequest request;
 
     @POST
     @Path("/register")
@@ -38,6 +42,8 @@ public class UserRestService {
     ) {
         if (userDAO.authentificateUser(username, password)) {
             System.out.println("Password correct, please proceed.");
+            //TODO JSON WEBTOKEN
+            //TODO USER -> setUserPrincipal() ?
         }
         else {
             System.out.println("Invalid username or password, please try again.");
