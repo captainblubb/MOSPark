@@ -1,4 +1,4 @@
-package org.dhbw.mosbach.ai.model;
+package src.main.java.org.dhbw.mosbach.ai.model;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAttribute;
