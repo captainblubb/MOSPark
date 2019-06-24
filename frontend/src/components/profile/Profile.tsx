@@ -29,16 +29,12 @@ class Profile extends React.Component<
     }
 
     static fetchNotifications(): Array<NotificationJson> {
-        /*
-        fetch(`http://localhost:8080/notificationsForUser/{this.props.currentUserId}`)
+        let fetchedNotifications: Array<NotificationJson> = []
+        fetch(`http://localhost:8080/notifications/user/`)
             .then(result => result.json())
-            .then(notifications => this.setState({
-                notifications: JSON.parse(notifications)
-            }));
-        */
-        return JSON.parse(
-            '[{"id": 0, "senderId": 1, "recipientId": 420, "content": "parking spot (x:1,y:2) from area 0 wants you to make space for him", "date": "04.20.2019, 16:20", "dismissed": false, "dismissedDate": ""}]'
-        );
+            .then(notifications => { fetchedNotifications = JSON.parse(notifications)
+            });
+            return fetchedNotifications;
     }
 
     logout() {
