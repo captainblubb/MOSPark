@@ -29,15 +29,17 @@ class Profile extends React.Component<
     }
 
     static fetchNotifications(): Array<NotificationJson> {
-        let fetchedNotifications: Array<NotificationJson> = []
+        let fetchedNotifications: Array<NotificationJson> = [];
         fetch(`http://localhost:8080/notifications/user/`)
             .then(result => result.json())
-            .then(notifications => { fetchedNotifications = JSON.parse(notifications)
+            .then(notifications => {
+                fetchedNotifications = JSON.parse(notifications);
             });
-            return fetchedNotifications;
+        return fetchedNotifications;
     }
 
     logout() {
+        //TODO: destroy JWT?
         sessionStorage.clear();
         window.location.replace("/");
     }
