@@ -1,8 +1,7 @@
-package src.main.java.org.dhbw.mosbach.ai.model;
+package org.dhbw.mosbach.ai.model;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 public class Notification {

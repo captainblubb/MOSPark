@@ -19,6 +19,11 @@ import javax.ws.rs.core.Response;
 
 import java.util.List;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import java.security.Key;
+
 @ApplicationScoped
 @Path("/notifications")
 public class NotificationRestService
@@ -40,7 +45,8 @@ public class NotificationRestService
     @Transactional
     @RolesAllowed("admin")
     public List<Notification> getAllNotifications()
-    {
+    {   
+        
         if (request.getUserPrincipal() == null)
         {
             throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
@@ -98,8 +104,14 @@ public class NotificationRestService
         }
 
         if(notificationID!=null){
-            // Notification notification = notificationDao.getNotifcation(notificationID);
+            Notification notification = notificationDao.getNotifcation(notificationID);
             // notification.setDismissed(true);
+            try{
+                notificationDao.persist(notification);
+            }
+            catch(Exception exp){
+                
+            }
         }
         else throw new NullPointerException("Invalid notification ID!");
 

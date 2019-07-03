@@ -52,7 +52,7 @@ public class ParkingSpotRestService
     }
 
     @POST
-    //@PATH("/occupy")
+    @Path("/occupy")
     @Consumes(MediaType.TEXT_XML)
     public void occupyParkingSpot(ParkingSpot parkingSpot)
     {
@@ -72,7 +72,7 @@ public class ParkingSpotRestService
     }
 
     @POST
-    //@PATH("/free")
+    @Path("/free")
     @Consumes(MediaType.TEXT_XML)
     public void freeParkingSpot(ParkingSpot parkingSpot)
     {
