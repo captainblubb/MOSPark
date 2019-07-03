@@ -33,19 +33,18 @@ class Navigation extends React.Component<
             }
         })
             .then(response => response.json())
-            .then(response => console.log("Success:", JSON.stringify(response)))
+            .then(response => {
+                console.log("Success:", JSON.stringify(response));
+                this.setState({
+                    isLoggedIn: true,
+                    username: username,
+                    password: password
+                });
+                sessionStorage.setItem("user", username);
+                sessionStorage.setItem("id", response["id"]);
+                window.location.reload();
+            })
             .catch(error => console.log("Error:", error));
-
-        this.setState({
-            isLoggedIn: true,
-            username: username,
-            password: password
-        });
-        /* TODO: use JWT instead?
-        sessionStorage.setItem("user", username);
-        sessionStorage.setItem("id", "420");
-        */
-        window.location.reload();
     }
 
     render() {
