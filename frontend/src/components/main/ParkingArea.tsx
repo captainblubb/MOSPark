@@ -93,18 +93,16 @@ class ParkingArea extends React.Component<
     }
 
     notifySelectedUsers(): void {
-        alert(this.state.selectedParkingSpotIds);
-        /*
-        fetch(`http://localhost:8080/notifyUsers`, {
-            method: 'POST',
-            body: JSON.stringify(data),
+        fetch(`http://localhost:8080/notifications/notify`, {
+            method: "POST",
+            body: JSON.stringify(this.state.selectedParkingSpotIds),
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             }
-        }).then(response => response.json())
-            .then(response => console.log('Success:', JSON.stringify(response)))
-            .catch(error => console.log('Error:', error))
-            */
+        })
+            .then(response => response.json())
+            .then(response => console.log("Success:", JSON.stringify(response)))
+            .catch(error => console.log("Error:", error));
     }
 
     toggleParking(): void {
