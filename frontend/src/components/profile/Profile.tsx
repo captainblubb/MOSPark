@@ -39,9 +39,20 @@ class Profile extends React.Component<
     }
 
     logout() {
-        //TODO: destroy JWT?
-        sessionStorage.clear();
-        window.location.replace("/");
+        fetch(`http://localhost:8080/user/logout`, {
+            method: "POST",
+            body: "",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                console.log("Success:", JSON.stringify(response));
+                sessionStorage.clear();
+                window.location.replace("/");
+            })
+            .catch(error => console.log("Error:", error));
     }
 
     render() {
