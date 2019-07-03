@@ -2,8 +2,6 @@ package org.dhbw.mosbach.ai.model;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.sql.Timestamp;
 
 @Entity
 public class Notification {
