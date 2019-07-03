@@ -24,14 +24,27 @@ class Navigation extends React.Component<
     }
 
     login(username: string, password: string) {
-        console.log("hi");
+        fetch(`http://localhost:8080/user/login`, {
+            method: "POST",
+            body:
+                '{"username": ' + username + ', "password": ' + password + "}",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(response => console.log("Success:", JSON.stringify(response)))
+            .catch(error => console.log("Error:", error));
+
         this.setState({
             isLoggedIn: true,
             username: username,
             password: password
         });
+        /* TODO: use JWT instead?
         sessionStorage.setItem("user", username);
         sessionStorage.setItem("id", "420");
+        */
         window.location.reload();
     }
 
