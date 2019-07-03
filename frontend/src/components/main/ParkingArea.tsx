@@ -124,31 +124,45 @@ class ParkingArea extends React.Component<
         }
 
         if (selectedParkingSpot.userId === this.props.currentUserId) {
-            selectedParkingSpot.userId = -1;
+            // free
+            fetch(`http://localhost:8080/parkingspots/free`, {
+                method: "POST",
+                body: JSON.stringify(selectedParkingSpot.id),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => response.json())
+                .then(response => {
+                    console.log("Success:", JSON.stringify(response));
+                    selectedParkingSpot.userId = -1;
+                })
+                .catch(error => console.log("Error:", error));
         } else if (selectedParkingSpot.userId === -1) {
+            // occupy
             for (let i: number = 0; i < this.props.parkingSpots.length; i++) {
                 const spot: ParkingSpotJson = this.props.parkingSpots[i];
                 if (spot.userId === this.props.currentUserId) {
                     return;
                 }
             }
-            selectedParkingSpot.userId = this.props.currentUserId;
+            fetch(`http://localhost:8080/parkingSpot`, {
+                method: "POST",
+                body: JSON.stringify(selectedParkingSpot.id),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => response.json())
+                .then(response => {
+                    console.log("Success:", JSON.stringify(response));
+                    selectedParkingSpot.userId = this.props.currentUserId;
+                })
+                .catch(error => console.log("Error:", error));
         }
         this.setState({
             selectedParkingSpotIds: new Set([])
         });
-        /*
-        TODO: API call for both occupying/freeing parking spot
-        fetch(`http://localhost:8080/parkingSpot`, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(response => response.json())
-            .then(response => console.log('Success:', JSON.stringify(response)))
-            .catch(error => console.log('Error:', error))
-        */
     }
 
     getParkingSpotByUserId(userId: number): ParkingSpotJson | null {
