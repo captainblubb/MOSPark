@@ -17,6 +17,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.jsonwebtoken.Jwts;
@@ -59,7 +60,7 @@ public class NotificationRestService
     @Path("/user")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public List<Notification> getNotificationsOfCurrentUser()
+    public List<String> getNotificationsOfCurrentUser()
     {
         if (request.getUserPrincipal() == null)
         {
@@ -69,7 +70,14 @@ public class NotificationRestService
         String userName = request.getUserPrincipal().getName();
         User user = userDao.getUserByUsername(userName);
 
-        return notificationDao.getNotificationsOfUser(user);
+        List<Notification> notifications = notificationDao.getNotificationsOfUser(user);
+        List<String> ids = new ArrayList<String>();
+        ids.add("userID: "+String.valueOf(user.getId()));
+        for(Notification notification:notifications){
+            ids.add("notificationID: "+String.valueOf(notification.getId()));
+        }
+
+        return ids;
     }
 
     @POST

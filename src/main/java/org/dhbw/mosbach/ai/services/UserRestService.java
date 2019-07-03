@@ -23,7 +23,7 @@ import java.security.Principal;
 import java.util.Set;
 
 @ApplicationScoped
-@Path("/user")
+@Path("user")
 public class UserRestService {
 
     @Inject
@@ -33,7 +33,7 @@ public class UserRestService {
     private HttpServletRequest request;
 
     @POST
-    @Path("/register")
+    @Path("register")
     @Produces(MediaType.APPLICATION_JSON)
     public void register(
             @FormParam("username") String username,
@@ -48,7 +48,7 @@ public class UserRestService {
     }
 
     @POST
-    @Path("/login")
+    @Path("login")
     @Produces(MediaType.APPLICATION_JSON)
     public long login(
             @FormParam("username") String username,
@@ -84,7 +84,7 @@ public class UserRestService {
     }
 
     @POST
-    @Path("/logout")
+    @Path("logout")
     @Produces(MediaType.APPLICATION_JSON)
     public void logout(){
 
