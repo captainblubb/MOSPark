@@ -50,7 +50,7 @@ public class UserRestService {
     @POST
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
-    public void login(
+    public long login(
             @FormParam("username") String username,
             @FormParam("password") String password
     ) {
@@ -62,10 +62,13 @@ public class UserRestService {
             String jws = Jwts.builder().setSubject(username).signWith(key).compact();
 
             userDAO.changeLicensePlate(user, jws);
+            
+            long userID = user.getId();
 
             try{
                 request.login(username, password);
                 userDAO.persist(user);
+                return userID;
             }
             catch(ServletException exception){
                 
@@ -77,6 +80,7 @@ public class UserRestService {
         else {
             System.out.println("Invalid username or password, please try again.");
         }
+        return 0;
     }
 
     @POST
