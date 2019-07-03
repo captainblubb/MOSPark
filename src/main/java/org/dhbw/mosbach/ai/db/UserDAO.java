@@ -31,7 +31,6 @@ public class UserDAO extends BaseDao<User,Long> {
      */
     public boolean createUser(String name, String licensePlate, String password){
 
-
         try {
 
         if (findByUnique("name",name) == null) {
@@ -43,6 +42,7 @@ public class UserDAO extends BaseDao<User,Long> {
             user.setHash(hashPassword(password, salt));
             user.setLicenseplate(licensePlate);
             user.setName(name);
+            user.setRole(Role.USER);
             super.persist(user);
             return true;
         }else {
@@ -70,14 +70,28 @@ public class UserDAO extends BaseDao<User,Long> {
         try {
 
 
-            User user = findByUnique("name", name);
+            User user = getUserByUsername(name);
+
+            System.out.println("______________AUTH USER FIND BY UNIQUE NAME "+ user.getId());
 
             if (user != null) {
 
-                if (user.getHash().equals(hashPassword(password, user.getSalt()))) {
+                byte[] userHash = user.getHash();
+                byte[] verifyHash = hashPassword(password, user.getSalt());
 
-                    return true;
+                boolean auth = true;
+
+                for(int i = 0; i < userHash.length; i++){
+
+                    if (userHash[i] != verifyHash[i]){
+                        auth = false;
+                        break;
+                    }
                 }
+                return auth;
+            }else{
+
+                System.out.println("____-____Auth user failed didnt find user");
             }
 
         }catch (Exception exp) {
@@ -123,7 +137,7 @@ public class UserDAO extends BaseDao<User,Long> {
             }
 
         }catch (Exception exp){
-        System.out.println("failed authentifcate user"+exp);
+        System.out.println("failed change License plate user"+exp);
         return false;
     }
     }

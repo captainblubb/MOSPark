@@ -84,4 +84,13 @@ public class ParkingAreaDAO extends BaseDao<ParkingArea, Long> {
         return -1;
     }
 
+    public List<ParkingArea> getParkingAreas() throws Exception {
+        try{
+            return getAll();
+        }catch (Exception exp){
+            System.out.println(" Failed to load all parking areas "+exp);
+        }
+        return null;
+    }
+
 }
