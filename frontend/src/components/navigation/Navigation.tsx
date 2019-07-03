@@ -41,7 +41,7 @@ class Navigation extends React.Component<
                     password: password
                 });
                 sessionStorage.setItem("user", username);
-                sessionStorage.setItem("id", response["id"]);
+                sessionStorage.setItem("id", response["userID"]);
                 window.location.reload();
             })
             .catch(error => console.log("Error:", error));
