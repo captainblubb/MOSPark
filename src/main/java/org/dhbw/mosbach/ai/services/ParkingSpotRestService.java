@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @ApplicationScoped
-@Path("/parkingspots")
+@Path("parkingspots")
 public class ParkingSpotRestService
 {
     @Inject
@@ -29,42 +29,44 @@ public class ParkingSpotRestService
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Inject
-    private HttpServletRequest request;
-
     @GET
-    @Path("/all")
+    @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public List<ParkingSpot> getParkingSpots()
     {
-        if (request.getUserPrincipal() == null)
-        {
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
-        }
+
         try{
-            final List<ParkingSpot> allParkingSpots = parkingSpotDao.getAllParkingSpots();
+            final List<ParkingSpot> allParkingSpots = parkingSpotDao.getAll();
             return allParkingSpots;
         }
         catch(NullPointerException e){
             throw new NullPointerException("No parkingspots!");
         }
+        catch (Exception exp){
+            exp.printStackTrace();
+        }
+        return null;
     }
 
     @POST
-    @Path("/occupy")
-    @Consumes(MediaType.TEXT_XML)
-    public void occupyParkingSpot(ParkingSpot parkingSpot)
+    @Path("occupy")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void occupyParkingSpot(Long userID, ParkingSpot parkingSpot)
     {
-        if (request.getUserPrincipal() == null)
-        {
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
-        }
-        if(parkingSpot!=null){
-            String username = request.getUserPrincipal().getName();
-            User user = userDao.getUserByUsername(username);
-
-            parkingSpotDao.parkUserOnParkingSpot(parkingSpot, user);
+        if(parkingSpot!=null && userID!=null){
+            User user = userDao.getUserById(userID);
+            System.out.println("____________TRYING OCCUPY WITH USER: "+user.getName()+" ON PARKINGSPOT: "+parkingSpot.getId());
+            boolean bool = parkingSpotDao.parkUserOnParkingSpot(parkingSpot, user);
+            System.out.println("____________OCCUPYING SUCCESSFUL: "+bool);
+            try{
+                System.out.println("____________TRYING PERSIST");
+                parkingSpotDao.persist(parkingSpot);
+                System.out.println("____________PERSIST SUCCESSFUL");
+            }
+            catch (Exception exp){
+                exp.printStackTrace();
+            }
         }
         else{
             System.out.println("Invalid parking spot!");
@@ -72,18 +74,21 @@ public class ParkingSpotRestService
     }
 
     @POST
-    @Path("/free")
-    @Consumes(MediaType.TEXT_XML)
+    @Path("free")
+    @Consumes(MediaType.APPLICATION_JSON)
     public void freeParkingSpot(ParkingSpot parkingSpot)
     {
-        if (request.getUserPrincipal() == null)
-        {
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
+        User user = parkingSpot.getUser();
+        System.out.println("____________TRYING PARKING OUT USER: "+user.getName()+" FROM PARKINGSPOT: "+parkingSpot.getId());
+        boolean bool = parkingSpotDao.parkOutUser(user);
+        System.out.println("____________PARKING OUT USER SUCCESSFUL: "+bool);
+        try{
+            System.out.println("____________TRYING PERSIST");
+            parkingSpotDao.persist(parkingSpot);
+            System.out.println("____________PERSIST SUCCESSFUL");
         }
-
-        String username = request.getUserPrincipal().getName();
-        User user = userDao.getUserByUsername(username);
-
-        parkingSpotDao.parkOutUser(user);
+        catch (Exception exp){
+            exp.printStackTrace();
+        }
     }
 }

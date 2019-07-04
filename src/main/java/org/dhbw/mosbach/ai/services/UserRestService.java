@@ -36,12 +36,9 @@ public class UserRestService {
     @POST
     @Path("register")
     @Transactional
-    @Produces(MediaType.APPLICATION_JSON)
-    public void register(
-            @FormParam("username") String username,
-            @FormParam("licensePlate") String licensePlate,
-            @FormParam("password") String password
-    ) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void register(String username, String licensePlate, String password)
+    {
         try {
 
             System.out.println("_____________CREATE USER API CALL params:" +username +","+licensePlate+","+password);
@@ -55,12 +52,9 @@ public class UserRestService {
     @POST
     @Transactional
     @Path("login")
-    @Produces(MediaType.APPLICATION_JSON)
-    public long login(
-            @FormParam("username") String username,
-            @FormParam("password") String password
-    ) {
-
+    @Consumes(MediaType.APPLICATION_JSON)
+    public long login(String username, String password)
+    {
         System.out.println("_____________LOGIN USER API CALL params:" +username +","+password);
 
         boolean userAuth = userDAO.authentificateUser(username, password);
@@ -94,7 +88,7 @@ public class UserRestService {
                 exception.printStackTrace();
             }
             catch(Exception exp){
-                    exp.printStackTrace();
+                exp.printStackTrace();
             }
         }
         else {
@@ -105,23 +99,22 @@ public class UserRestService {
 
     @POST
     @Path("logout")
-    @Produces(MediaType.APPLICATION_JSON)
-    public void logout(){
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public void logout(Long userID){
 
-        String username = request.getUserPrincipal().getName();
-        User user = userDAO.getUserByUsername(username);
+        User user = userDAO.getUserById(userID);
 
         userDAO.changeLicensePlate(user, null);
 
         try{
-            request.logout();
             userDAO.persist(user);
         }
         catch(ServletException exception){
-
+            exception.printStackTrace();
         }
         catch(Exception exp){
-
+            exp.printStackTrace();
         }
     }
 }

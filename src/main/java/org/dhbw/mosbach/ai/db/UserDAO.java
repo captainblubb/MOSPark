@@ -36,7 +36,6 @@ public class UserDAO extends BaseDao<User,Long> {
         if (findByUnique("name",name) == null) {
             User user = new User();
             user.setRole(Role.USER);
-            // user.setRole(role);
             byte[] salt = generateSalt();
             user.setSalt(salt);
             user.setHash(hashPassword(password, salt));
@@ -109,8 +108,7 @@ public class UserDAO extends BaseDao<User,Long> {
     public User getUserById(Long id){
 
         try{
-
-            return getUserById(id);
+            return findById(id);
         }catch (Exception exp){
             System.out.println(" failed finding user by id "+ exp);
         }
@@ -164,6 +162,15 @@ public class UserDAO extends BaseDao<User,Long> {
     }
 
 
+    public User getUserByUsername(String username){
+        try{
+            return findByUnique("name", username);
+        }
+        catch (Exception exp){
+            exp.printStackTrace();
+        }
+        return null;
+    }
 
 
 }

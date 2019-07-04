@@ -1,5 +1,6 @@
 package org.dhbw.mosbach.ai.services;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.dhbw.mosbach.ai.db.NotificationDAO;
 import org.dhbw.mosbach.ai.db.UserDAO;
 import org.dhbw.mosbach.ai.model.Notification;
@@ -26,7 +27,7 @@ import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 
 @ApplicationScoped
-@Path("/notifications")
+@Path("notifications")
 public class NotificationRestService
 {
     @Inject
@@ -41,60 +42,55 @@ public class NotificationRestService
     private HttpServletRequest request;
 
     @GET
-    @Path("/all")
+    @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     @RolesAllowed("admin")
     public List<Notification> getAllNotifications()
-    {   
-        
-        if (request.getUserPrincipal() == null)
-        {
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
+    {
+        try{
+            final List<Notification> allNotifications = notificationDao.getAll();
+            return allNotifications;
         }
-        final List<Notification> allNotifications = notificationDao.getAllNotifications();
-        return allNotifications;
+        catch (Exception exp){
+            exp.printStackTrace();
+        }
+        return null;
     }
 
     @GET
-    @Path("/user")
+    @Path("user")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public List<String> getNotificationsOfCurrentUser()
+    public List<String> getNotificationsOfCurrentUser(Long userID)
     {
-        if (request.getUserPrincipal() == null)
-        {
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
+        User user = userDao.getUserById(userID);
+        try{
+            List<Notification> notifications = notificationDao.getAllByField("name",user.getName());
+            List<String> ids = new ArrayList<>();
+
+            ids.add("userID: "+user.getId());
+            for(Notification notification:notifications){
+                ids.add("notificationID: "+notification.getId());
+            }
+            return ids;
         }
-
-        String userName = request.getUserPrincipal().getName();
-        User user = userDao.getUserByUsername(userName);
-
-        List<Notification> notifications = notificationDao.getNotificationsOfUser(user);
-        List<String> ids = new ArrayList<String>();
-        ids.add("userID: "+String.valueOf(user.getId()));
-        for(Notification notification:notifications){
-            ids.add("notificationID: "+String.valueOf(notification.getId()));
+        catch (Exception exp){
+            exp.printStackTrace();
         }
-
-        return ids;
+        return null;
     }
 
     @POST
-    @Path("/notify")
-    @Consumes(MediaType.TEXT_XML)
-    public void notifyUsers(List<ParkingSpot> parkingSpots)
+    @Path("notify")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public void notifyUsers(Long userID, List<ParkingSpot> parkingSpots)
     {
-        if (request.getUserPrincipal() == null)
-        {
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
-        }
-
-        String username = request.getUserPrincipal().getName();
-        User userFrom = userDao.getUserByUsername(username);
+        User userFrom = userDao.getUserById(userID);
         try{
             for (ParkingSpot parkingSpot:parkingSpots){
-                notificationDao.createNotification(userFrom, parkingSpot.getUser(), " Please return to your car, i want to leave.");
+                notificationDao.createNotification("MOVE ORDER",userFrom, parkingSpot.getUser(), " Please return to your car, i want to leave.");
             }
         }
         catch(NullPointerException e){
@@ -103,22 +99,19 @@ public class NotificationRestService
     }
 
     @POST
-    @Path("/dismiss")
-    @Consumes(MediaType.TEXT_XML)
+    @Path("dismiss")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
     public void dismissNotification(Long notificationID){
-
-        if(request.getUserPrincipal() == null){
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
-        }
 
         if(notificationID!=null){
             Notification notification = notificationDao.getNotifcation(notificationID);
-            // notification.setDismissed(true);
+            notification.setDissmissed(true);
             try{
                 notificationDao.persist(notification);
             }
             catch(Exception exp){
-                
+                exp.printStackTrace();
             }
         }
         else throw new NullPointerException("Invalid notification ID!");

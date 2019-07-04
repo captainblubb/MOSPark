@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @ApplicationScoped
-@Path("/parkingarea")
+@Path("parkingarea")
 public class ParkingAreaRestService
 {
     @Inject
@@ -29,14 +29,11 @@ public class ParkingAreaRestService
     private HttpServletRequest request;
 
     @GET
-    @Path("/all")
+    @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public List<ParkingArea> getParkingAreas() throws Exception {
-        if (request.getUserPrincipal() == null)
-        {
-            throw new WebApplicationException("not logged in", Response.Status.FORBIDDEN);
-        }
+
         try{
             final List<ParkingArea> parkingAreas = parkingAreaDao.getParkingAreas();
             return parkingAreas;
