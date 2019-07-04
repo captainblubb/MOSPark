@@ -53,7 +53,8 @@ public class UserRestService {
     @Transactional
     @Path("login")
     @Consumes(MediaType.APPLICATION_JSON)
-    public long login(String username, String password)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String login(String username, String password)
     {
         System.out.println("_____________LOGIN USER API CALL params:" +username +","+password);
 
@@ -71,21 +72,15 @@ public class UserRestService {
             String jws = Jwts.builder().setSubject(username).signWith(key).compact();
 
             System.out.println(" Crazy stuff ");
-            userDAO.changeLicensePlate(user, jws);
+            user.setJsonToken(jws);
             System.out.println(" Crazy stuff persisted");
-            long userID = user.getId();
 
             try{
-
-
                 System.out.println(" request login ");
                 System.out.println(" request login success");
                 userDAO.persist(user);
                 System.out.println("____________LOG IN USER SUCCESS");
-                return userID;
-            }
-            catch(ServletException exception){
-                exception.printStackTrace();
+                return jws;
             }
             catch(Exception exp){
                 exp.printStackTrace();
@@ -94,7 +89,7 @@ public class UserRestService {
         else {
             System.out.println("Invalid username or password, please try again.");
         }
-        return 0;
+        return null;
     }
 
     @POST
@@ -105,7 +100,7 @@ public class UserRestService {
 
         User user = userDAO.getUserById(userID);
 
-        userDAO.changeLicensePlate(user, null);
+        user.setJsonToken(null);
 
         try{
             userDAO.persist(user);

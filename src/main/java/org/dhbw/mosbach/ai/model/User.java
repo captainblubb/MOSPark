@@ -17,6 +17,7 @@ public class User implements Serializable,Cloneable {
     private String role;
     private byte[] hash;
     private byte[] salt;
+    private String jsonToken;
 
     @Id
     @GeneratedValue
@@ -24,8 +25,6 @@ public class User implements Serializable,Cloneable {
     {
         return id;
     }
-
-
 
     @Column(nullable = false, length = 64, unique = true)
     public String getName()
@@ -69,6 +68,10 @@ public class User implements Serializable,Cloneable {
         return salt;
     }
 
+    @Column()
+    public String getJsonToken() { return jsonToken; }
+
+    public void setJsonToken(String jsonToken) { this.jsonToken = jsonToken; }
 
     public void setName(String name) {
         this.name = name;

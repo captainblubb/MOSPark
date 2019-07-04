@@ -60,6 +60,7 @@ public class NotificationRestService
 
     @GET
     @Path("user")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public List<String> getNotificationsOfCurrentUser(Long userID)
