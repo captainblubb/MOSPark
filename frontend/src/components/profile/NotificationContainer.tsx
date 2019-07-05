@@ -97,8 +97,6 @@ class NotificationContainer extends React.Component<
     }
 
     dismissNotification(id: number): void {
-        /* TODO: API call
-         */
         for (let i: number = 0; i < this.state.unread.length; i++) {
             const currentNotification: NotificationJson = this.state.unread[i];
             if (
@@ -107,7 +105,7 @@ class NotificationContainer extends React.Component<
             ) {
                 fetch(`http://localhost:8080/notifications/dismiss`, {
                     method: "POST",
-                    body: JSON.stringify(id),
+                    body: '{ "notificationId": ' + id + " }",
                     headers: {
                         "Content-Type": "application/json"
                     }
