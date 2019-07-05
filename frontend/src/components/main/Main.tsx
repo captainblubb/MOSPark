@@ -87,7 +87,7 @@ class Main extends React.Component<
         for (let i: number = 0; i < this.state.parkingAreas.length; i++) {
             areas.push(
                 <a key={i} onClick={this.changeArea}>
-                    Area {this.state.parkingAreas[i].id}
+                    Area {this.state.parkingAreas[i].name}
                 </a>
             );
         }
