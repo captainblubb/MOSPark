@@ -15,7 +15,7 @@ class Profile extends React.Component<
         Profile.getCurrentUserId = Profile.getCurrentUserId.bind(this);
         this.state = {
             currentUserId: Profile.getCurrentUserId(),
-            notifications: Profile.fetchNotifications()
+            notifications: this.fetchNotifications()
         };
     }
 
@@ -28,9 +28,9 @@ class Profile extends React.Component<
             : 0;
     }
 
-    static fetchNotifications(): Array<NotificationJson> {
+    fetchNotifications(): Array<NotificationJson> {
         let fetchedNotifications: Array<NotificationJson> = [];
-        fetch(`http://localhost:8080/notifications/dismiss`, {
+        fetch(`http://localhost:8080/MOSPark/rest/notifications/dismiss`, {
             method: "POST",
             body: '{ "userId": ' + this.state.currentUserId + " }",
             headers: {
@@ -47,7 +47,7 @@ class Profile extends React.Component<
     }
 
     logout() {
-        fetch(`http://localhost:8080/user/logout`, {
+        fetch(`http://localhost:8080/MOSPark/rest/user/logout`, {
             method: "POST",
             body: '{ "userID": ' + this.state.currentUserId + "}",
             headers: {

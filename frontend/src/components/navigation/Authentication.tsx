@@ -23,7 +23,7 @@ class Authentication extends React.Component<
         password: string,
         licensePlate: string
     ): void {
-        fetch(`http://localhost:8080/user/register`, {
+        fetch(`http://localhost:8080/MOSPark/rest/user/register`, {
             method: "POST",
             body:
                 '{"username": ' +

@@ -24,7 +24,7 @@ class Navigation extends React.Component<
     }
 
     login(username: string, password: string) {
-        fetch(`http://localhost:8080/user/login`, {
+        fetch(`http://localhost:8080/MOSPark/rest/user/login`, {
             method: "POST",
             body:
                 '{"username": ' + username + ', "password": ' + password + "}",

@@ -103,13 +103,16 @@ class NotificationContainer extends React.Component<
                 currentNotification.id === id &&
                 !currentNotification.dismissed
             ) {
-                fetch(`http://localhost:8080/notifications/dismiss`, {
-                    method: "POST",
-                    body: '{ "notificationId": ' + id + " }",
-                    headers: {
-                        "Content-Type": "application/json"
+                fetch(
+                    `http://localhost:8080/MOSPark/rest/notifications/dismiss`,
+                    {
+                        method: "POST",
+                        body: '{ "notificationId": ' + id + " }",
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
                     }
-                })
+                )
                     .then(response => response.json())
                     .then(response => {
                         console.log("Success:", JSON.stringify(response));

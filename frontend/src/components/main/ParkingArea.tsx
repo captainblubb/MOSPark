@@ -96,7 +96,7 @@ class ParkingArea extends React.Component<
         const selectedIdsString: string = Array.from(
             this.state.selectedParkingSpotIds
         ).join();
-        fetch(`http://localhost:8080/notifications/notify`, {
+        fetch(`http://localhost:8080/MOSPark/rest/notifications/notify`, {
             method: "POST",
             body:
                 '{ "userID": ' +
@@ -133,7 +133,7 @@ class ParkingArea extends React.Component<
 
         if (selectedParkingSpot.userId === this.props.currentUserId) {
             // free
-            fetch(`http://localhost:8080/parkingspots/free`, {
+            fetch(`http://localhost:8080/MOSPark/rest/parkingspots/free`, {
                 method: "POST",
                 body: '{ "parkingSpotId": ' + selectedParkingSpot.id + " }",
                 headers: {
@@ -154,7 +154,7 @@ class ParkingArea extends React.Component<
                     return;
                 }
             }
-            fetch(`http://localhost:8080/parkingspots/occupy`, {
+            fetch(`http://localhost:8080/MOSPark/rest/parkingspots/occupy`, {
                 method: "POST",
                 body:
                     '{ "userId": ' +
