@@ -41,9 +41,15 @@ class Profile extends React.Component<
 
     fetchNotifications(): void {
         let fetchedNotifications: Array<NotificationJson> = [];
+        const currentSessionUserId: string | null = sessionStorage.getItem(
+            "id"
+        );
+        const val: any = currentSessionUserId != null
+            ? parseInt(currentSessionUserId)
+            : 0;
         fetch(`http://localhost:8080/MOSPark/rest/notifications/user`, {
             method: "POST",
-            body: "{ \"userId\": " + this.state.currentUserId + " }",
+            body: "{ \"userId\": " + val + " }",
             headers: {
                 "Content-Type": "application/json"
             }
