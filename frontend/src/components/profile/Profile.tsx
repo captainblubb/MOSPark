@@ -41,7 +41,7 @@ class Profile extends React.Component<
     logout() {
         fetch(`http://localhost:8080/user/logout`, {
             method: "POST",
-            body: "",
+            body: '{ "userID": ' + this.state.currentUserId + "}",
             headers: {
                 "Content-Type": "application/json"
             }
