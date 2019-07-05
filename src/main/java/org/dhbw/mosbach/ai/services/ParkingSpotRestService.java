@@ -5,6 +5,7 @@ import org.dhbw.mosbach.ai.db.ParkingSpotDAO;
 import org.dhbw.mosbach.ai.db.UserDAO;
 import org.dhbw.mosbach.ai.model.ParkingSpot;
 import org.dhbw.mosbach.ai.model.User;
+import org.dhbw.mosbach.ai.services.models.ParkingSpotObject;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -15,6 +16,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,12 +36,25 @@ public class ParkingSpotRestService
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public List<ParkingSpot> getParkingSpots()
+    public List<ParkingSpotObject> getParkingSpots()
     {
-
         try{
             final List<ParkingSpot> allParkingSpots = parkingSpotDao.getAll();
-            return allParkingSpots;
+            List<ParkingSpotObject> parkingSpotObjects = new ArrayList<>();
+            for (ParkingSpot parkingSpot: allParkingSpots){
+                ParkingSpotObject object = new ParkingSpotObject();
+                object.id = parkingSpot.getId();
+                if(parkingSpot.getUser()!=null) {
+                    object.userId = parkingSpot.getUser().getId();
+                }else {
+                    object.userId = -1l;
+                }
+                object.areaId = parkingSpot.getParkingArea().getId();
+                object.column = parkingSpot.getPAreaColumn();
+                object.row = parkingSpot.getPAreaRow();
+                parkingSpotObjects.add(object);
+            }
+            return parkingSpotObjects;
         }
         catch(NullPointerException e){
             throw new NullPointerException("No parkingspots!");
@@ -82,19 +97,20 @@ public class ParkingSpotRestService
     @Path("free")
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public void freeParkingSpot(Long parkingSpotID)
+    public void freeParkingSpot(Map<String, Long> map)
     {
+        Long parkingSpotID = map.get("parkingSpotId");
         ParkingSpot parkingSpot = parkingSpotDao.getParkingSpotByID(parkingSpotID);
 
         User user = parkingSpot.getUser();
 
-        System.out.println("____________TRYING PARKING OUT USER: "+user.getName()+" FROM PARKINGSPOT: "+parkingSpot.getId());
+        System.out.println("__TRYING PARKING OUT USER: "+user.getName()+" FROM PARKINGSPOT: "+parkingSpot.getId());
         boolean bool = parkingSpotDao.parkOutUser(user);
-        System.out.println("____________PARKING OUT USER SUCCESSFUL: "+bool);
+        System.out.println("__PARKING OUT USER SUCCESSFUL: "+bool);
         try{
-            System.out.println("____________TRYING PERSIST");
+            System.out.println("__TRYING PERSIST");
             parkingSpotDao.persist(parkingSpot);
-            System.out.println("____________PERSIST SUCCESSFUL");
+            System.out.println("__PERSIST SUCCESSFUL");
         }
         catch (Exception exp){
             exp.printStackTrace();

@@ -8,9 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.security.enterprise.AuthenticationStatus;
-import javax.security.enterprise.SecurityContext;
-import javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,7 +17,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
-import java.security.Principal;
 import java.util.Map;
 import java.util.Set;
 
@@ -58,11 +54,12 @@ public class UserRestService {
     @Transactional
     @Path("login")
     @Consumes(MediaType.APPLICATION_JSON)
-    public long login(Map<String, String> map)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Long login(Map<String, String> map)
     {
         String username = map.get("username");
         String password = map.get("password");
-
+        long userID = 0;
         System.out.println("_____________LOGIN USER API CALL params:" +username +","+password);
 
         boolean userAuth = userDAO.authentificateUser(username, password);
@@ -81,7 +78,7 @@ public class UserRestService {
             System.out.println(" Crazy stuff ");
             user.setJsonToken(jws);
             System.out.println(" Crazy stuff persisted");
-            long userID = user.getId();
+            userID = user.getId();
 
             try{
 
@@ -99,7 +96,7 @@ public class UserRestService {
         else {
             System.out.println("Invalid username or password, please try again.");
         }
-        return 0;
+        return userID;
     }
 
     @POST
@@ -109,9 +106,7 @@ public class UserRestService {
     public void logout(Map<String, String> map){
         String userIDString = map.get("userID");
         Long userID = Long.valueOf(userIDString);
-
         User user = userDAO.getUserById(userID);
-
         user.setJsonToken(null);
 
         try{

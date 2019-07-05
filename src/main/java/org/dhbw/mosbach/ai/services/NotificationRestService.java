@@ -25,6 +25,8 @@ import java.util.List;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.dhbw.mosbach.ai.services.models.NotifyUsersObject;
+
 import java.security.Key;
 import java.util.Map;
 
@@ -62,13 +64,14 @@ public class NotificationRestService
         return null;
     }
 
-    @GET
+    @POST
     @Path("user")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-    public List<String> getNotificationsOfCurrentUser(Long userID)
+    public List<String> getNotificationsOfCurrentUser(Map<String, Long> map)
     {
+        Long userID = map.get("userId");
         User user = userDao.getUserById(userID);
         try{
             List<Notification> notifications = notificationDao.getAllByField("name",user.getName());
@@ -90,16 +93,14 @@ public class NotificationRestService
     @Path("notify")
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public void notifyUsers(List<Long> IDs)
+    public void notifyUsers(NotifyUsersObject object)
     {
-        Long userID = IDs.get(0);
+        Long userID = object.userID;
         User userFrom = userDao.getUserById(userID);
-
-        IDs.remove(0);
 
         List<ParkingSpot> parkingSpots=new ArrayList<>();
 
-        for(Long l:IDs){
+        for(Long l:object.ids){
             parkingSpots.add(parkingSpotDAO.getParkingSpotByID(l));
         }
 
@@ -113,14 +114,15 @@ public class NotificationRestService
         }
     }
 
+
     @POST
     @Path("dismiss")
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public void dismissNotification(Long notificationID){
-
-        if(notificationID!=null){
-            Notification notification = notificationDao.getNotifcation(notificationID);
+    public void dismissNotification(Map<String, Long> map){
+        Long notificationId = map.get("notificationId");
+        if(notificationId!=null){
+            Notification notification = notificationDao.getNotifcation(notificationId);
             notification.setDissmissed(true);
             try{
                 notificationDao.persist(notification);
