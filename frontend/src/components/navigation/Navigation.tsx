@@ -24,15 +24,27 @@ class Navigation extends React.Component<
     }
 
     login(username: string, password: string) {
-        console.log("hi");
-        this.setState({
-            isLoggedIn: true,
-            username: username,
-            password: password
-        });
-        sessionStorage.setItem("user", username);
-        sessionStorage.setItem("id", "420");
-        window.location.reload();
+        fetch(`http://localhost:8080/user/login`, {
+            method: "POST",
+            body:
+                '{"username": ' + username + ', "password": ' + password + "}",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.text())
+            .then(response => {
+                console.log("Success:", response);
+                this.setState({
+                    isLoggedIn: true,
+                    username: username,
+                    password: password
+                });
+                sessionStorage.setItem("user", username);
+                sessionStorage.setItem("id", response);
+                window.location.reload();
+            })
+            .catch(error => console.log("Error:", error));
     }
 
     render() {

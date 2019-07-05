@@ -18,7 +18,30 @@ class Authentication extends React.Component<
         this.props.loginHandler(username, password);
     }
 
-    handleRegistration(username: string, password: string): void {}
+    handleRegistration(
+        username: string,
+        password: string,
+        licensePlate: string
+    ): void {
+        fetch(`http://localhost:8080/user/register`, {
+            method: "POST",
+            body:
+                '{"username": ' +
+                username +
+                ', "password": ' +
+                password +
+                ', "licensePlate":' +
+                licensePlate +
+                "}",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(response => console.log("Success:", JSON.stringify(response)))
+            .catch(error => console.log("Error:", error));
+        window.location.reload();
+    }
 
     render() {
         return (

@@ -29,21 +29,38 @@ class Profile extends React.Component<
     }
 
     static fetchNotifications(): Array<NotificationJson> {
-        /*
-        fetch(`http://localhost:8080/notificationsForUser/{this.props.currentUserId}`)
-            .then(result => result.json())
-            .then(notifications => this.setState({
-                notifications: JSON.parse(notifications)
-            }));
-        */
-        return JSON.parse(
-            '[{"id": 0, "senderId": 1, "recipientId": 420, "content": "parking spot (x:1,y:2) from area 0 wants you to make space for him", "date": "04.20.2019, 16:20", "dismissed": false, "dismissedDate": ""}]'
-        );
+        let fetchedNotifications: Array<NotificationJson> = [];
+        fetch(`http://localhost:8080/notifications/dismiss`, {
+            method: "POST",
+            body: '{ "userId": ' + this.state.currentUserId + " }",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                console.log("Success:", JSON.stringify(response));
+                fetchedNotifications = JSON.parse(response);
+            })
+            .catch(error => console.log("Error:", error));
+        return fetchedNotifications;
     }
 
     logout() {
-        sessionStorage.clear();
-        window.location.replace("/");
+        fetch(`http://localhost:8080/user/logout`, {
+            method: "POST",
+            body: '{ "userID": ' + this.state.currentUserId + "}",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                console.log("Success:", JSON.stringify(response));
+                sessionStorage.clear();
+                window.location.replace("/");
+            })
+            .catch(error => console.log("Error:", error));
     }
 
     render() {
