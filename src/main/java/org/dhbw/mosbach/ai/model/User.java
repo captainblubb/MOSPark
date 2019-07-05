@@ -17,6 +17,17 @@ public class User implements Serializable,Cloneable {
     private String role;
     private byte[] hash;
     private byte[] salt;
+    private String jsonToken;
+
+    @Column(length = 512)
+    public String getJsonToken() {
+        return jsonToken;
+    }
+
+    public void setJsonToken(String jsonToken) {
+        this.jsonToken = jsonToken;
+    }
+
 
     @Id
     @GeneratedValue
@@ -24,7 +35,6 @@ public class User implements Serializable,Cloneable {
     {
         return id;
     }
-
 
 
     @Column(nullable = false, length = 64, unique = true)
@@ -40,7 +50,7 @@ public class User implements Serializable,Cloneable {
     }
 
 
-    @Column(nullable = false, length = 64, unique = true)
+    @Column(nullable = false, length = 64)
     public String getLicenseplate()
     {
         return licenseplate;
@@ -62,6 +72,7 @@ public class User implements Serializable,Cloneable {
 
     @OneToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private ParkingSpot parkingSpot;
+
 
 
     @Column

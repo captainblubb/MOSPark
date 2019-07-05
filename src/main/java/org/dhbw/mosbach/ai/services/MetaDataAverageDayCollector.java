@@ -46,8 +46,8 @@ public class MetaDataAverageDayCollector {
      * @throws InterruptedException
      */
     //Midnights on sunday -> Collect Average of last 14 days
-    @Schedule(second = "0", minute = "0", hour = "0", dayOfWeek = "Sun", persistent = false)
-    //@Schedule(second = "0", minute = "*/3", hour = "*", persistent = false )
+    //@Schedule(second = "0", minute = "0", hour = "0", dayOfWeek = "Sun", persistent = false)
+    @Schedule(second = "0", minute = "*/3", hour = "*", persistent = false )
     public void atSchedule() throws InterruptedException {
 
 

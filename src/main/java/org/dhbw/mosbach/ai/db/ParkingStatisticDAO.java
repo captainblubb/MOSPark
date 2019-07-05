@@ -4,7 +4,6 @@ import org.dhbw.mosbach.ai.db.base.BaseDao;
 import org.dhbw.mosbach.ai.model.ParkingSpot;
 import org.dhbw.mosbach.ai.model.ParkingStatistics;
 import org.dhbw.mosbach.ai.tools.SQLKonverterTool;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
