@@ -30,11 +30,19 @@ class Profile extends React.Component<
 
     static fetchNotifications(): Array<NotificationJson> {
         let fetchedNotifications: Array<NotificationJson> = [];
-        fetch(`http://localhost:8080/notifications/user/`)
-            .then(result => result.json())
-            .then(notifications => {
-                fetchedNotifications = JSON.parse(notifications);
-            });
+        fetch(`http://localhost:8080/notifications/dismiss`, {
+            method: "POST",
+            body: '{ "userId": ' + this.state.currentUserId + " }",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                console.log("Success:", JSON.stringify(response));
+                fetchedNotifications = JSON.parse(response);
+            })
+            .catch(error => console.log("Error:", error));
         return fetchedNotifications;
     }
 
