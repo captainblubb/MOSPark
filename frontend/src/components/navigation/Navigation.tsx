@@ -32,16 +32,16 @@ class Navigation extends React.Component<
                 "Content-Type": "application/json"
             }
         })
-            .then(response => response.json())
+            .then(response => response.text())
             .then(response => {
-                console.log("Success:", JSON.stringify(response));
+                console.log("Success:", response);
                 this.setState({
                     isLoggedIn: true,
                     username: username,
                     password: password
                 });
                 sessionStorage.setItem("user", username);
-                sessionStorage.setItem("id", response["userID"]);
+                sessionStorage.setItem("id", response);
                 window.location.reload();
             })
             .catch(error => console.log("Error:", error));
