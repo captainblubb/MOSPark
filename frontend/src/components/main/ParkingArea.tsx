@@ -135,7 +135,7 @@ class ParkingArea extends React.Component<
             // free
             fetch(`http://localhost:8080/parkingspots/free`, {
                 method: "POST",
-                body: JSON.stringify(selectedParkingSpot.id),
+                body: '{ "parkingSpotId": ' + selectedParkingSpot.id + " }",
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -156,7 +156,12 @@ class ParkingArea extends React.Component<
             }
             fetch(`http://localhost:8080/parkingspots/occupy`, {
                 method: "POST",
-                body: JSON.stringify(selectedParkingSpot.id),
+                body:
+                    '{ "userId": ' +
+                    this.props.currentUserId +
+                    ', "parkingSpotId": ' +
+                    selectedParkingSpot.id +
+                    " }",
                 headers: {
                     "Content-Type": "application/json"
                 }
