@@ -93,9 +93,17 @@ class ParkingArea extends React.Component<
     }
 
     notifySelectedUsers(): void {
+        const selectedIdsString: string = Array.from(
+            this.state.selectedParkingSpotIds
+        ).join();
         fetch(`http://localhost:8080/notifications/notify`, {
             method: "POST",
-            body: JSON.stringify(this.state.selectedParkingSpotIds),
+            body:
+                '{ "userID": ' +
+                this.props.currentUserId +
+                ', "ids": [' +
+                selectedIdsString +
+                "]}",
             headers: {
                 "Content-Type": "application/json"
             }
@@ -146,7 +154,7 @@ class ParkingArea extends React.Component<
                     return;
                 }
             }
-            fetch(`http://localhost:8080/parkingSpot`, {
+            fetch(`http://localhost:8080/parkingspots/occupy`, {
                 method: "POST",
                 body: JSON.stringify(selectedParkingSpot.id),
                 headers: {
