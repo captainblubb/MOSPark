@@ -12,7 +12,7 @@ class Notification extends React.Component<
         dismissalHandler: (id: number) => void;
     },
     {}
-> {
+    > {
     constructor(props: {
         id: number;
         senderId: number;
@@ -35,7 +35,6 @@ class Notification extends React.Component<
         return (
             <div className={"notification"}>
                 <div className={"content"}>
-                    <div>- {this.props.date} -</div>
                     <div>{this.props.content}</div>
                 </div>
                 <div>

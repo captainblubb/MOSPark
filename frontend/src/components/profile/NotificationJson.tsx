@@ -3,7 +3,6 @@ export default interface NotificationJson {
     senderId: number;
     recipientId: number;
     content: string;
-    date: string;
     dismissed: boolean;
     dismissedDate: string;
 }

@@ -65,7 +65,6 @@ class NotificationContainer extends React.Component<
                             senderId={currentNotification.senderId}
                             recipientId={currentNotification.recipientId}
                             content={currentNotification.content}
-                            date={currentNotification.date}
                             dismissed={currentNotification.dismissed}
                             dismissedDate={currentNotification.dismissedDate}
                             dismissalHandler={this.dismissNotification}
@@ -84,7 +83,6 @@ class NotificationContainer extends React.Component<
                             senderId={currentNotification.senderId}
                             recipientId={currentNotification.recipientId}
                             content={currentNotification.content}
-                            date={currentNotification.date}
                             dismissed={currentNotification.dismissed}
                             dismissedDate={currentNotification.dismissedDate}
                             dismissalHandler={this.dismissNotification}
