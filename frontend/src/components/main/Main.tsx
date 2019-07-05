@@ -31,7 +31,7 @@ class Main extends React.Component<
 
     static fetchParkingAreas(): Array<ParkingAreaJson> {
         let fetchedAreas: Array<ParkingAreaJson> = [];
-        fetch(`http://localhost:8080/parkingareas/all/`)
+        fetch(`http://localhost:8080/MOSPark/rest/parkingareas/all/`)
             .then(result => result.json())
             .then(areas => {
                 fetchedAreas = JSON.parse(areas);
@@ -41,7 +41,7 @@ class Main extends React.Component<
 
     static fetchParkingSpots(): Array<ParkingSpotJson> {
         let fetchedSpots: Array<ParkingSpotJson> = [];
-        fetch(`http://localhost:8080/parkingspots/all`)
+        fetch(`http://localhost:8080/MOSPark/rest/parkingspots/all`)
             .then(result => result.json())
             .then(spots => {
                 fetchedSpots = JSON.parse(spots);
