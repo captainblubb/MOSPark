@@ -19,12 +19,23 @@ public class User implements Serializable,Cloneable {
     private byte[] salt;
     private String jsonToken;
 
+    @Column(length = 512)
+    public String getJsonToken() {
+        return jsonToken;
+    }
+
+    public void setJsonToken(String jsonToken) {
+        this.jsonToken = jsonToken;
+    }
+
+
     @Id
     @GeneratedValue
     public long getId()
     {
         return id;
     }
+
 
     @Column(nullable = false, length = 64, unique = true)
     public String getName()
@@ -39,7 +50,7 @@ public class User implements Serializable,Cloneable {
     }
 
 
-    @Column(nullable = false, length = 64, unique = true)
+    @Column(nullable = false, length = 64)
     public String getLicenseplate()
     {
         return licenseplate;
@@ -63,15 +74,12 @@ public class User implements Serializable,Cloneable {
     private ParkingSpot parkingSpot;
 
 
+
     @Column
     public byte[] getSalt() {
         return salt;
     }
 
-    @Column()
-    public String getJsonToken() { return jsonToken; }
-
-    public void setJsonToken(String jsonToken) { this.jsonToken = jsonToken; }
 
     public void setName(String name) {
         this.name = name;

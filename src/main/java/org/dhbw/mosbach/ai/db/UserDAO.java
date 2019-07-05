@@ -48,7 +48,6 @@ public class UserDAO extends BaseDao<User,Long> {
             return false;
         }
 
-
         }catch (Exception exp) {
             System.out.println(" failed create User " + exp);
         }
@@ -98,6 +97,8 @@ public class UserDAO extends BaseDao<User,Long> {
         }
         return false;
     }
+
+
 
     /***
      * Get User By ID

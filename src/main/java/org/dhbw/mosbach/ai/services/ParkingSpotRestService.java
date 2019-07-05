@@ -16,6 +16,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Map;
 
 @ApplicationScoped
 @Path("parkingspots")
@@ -52,8 +53,12 @@ public class ParkingSpotRestService
     @POST
     @Path("occupy")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void occupyParkingSpot(Long userID, ParkingSpot parkingSpot)
+    @Transactional
+    public void occupyParkingSpot(Map<String, Long> map)
     {
+        Long userID = map.get("userID");
+        Long parkingSpotID = map.get("parkingSpotID");
+        ParkingSpot parkingSpot= parkingSpotDao.getParkingSpotByID(parkingSpotID);
         if(parkingSpot!=null && userID!=null){
             User user = userDao.getUserById(userID);
             System.out.println("____________TRYING OCCUPY WITH USER: "+user.getName()+" ON PARKINGSPOT: "+parkingSpot.getId());
@@ -76,9 +81,13 @@ public class ParkingSpotRestService
     @POST
     @Path("free")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void freeParkingSpot(ParkingSpot parkingSpot)
+    @Transactional
+    public void freeParkingSpot(Long parkingSpotID)
     {
+        ParkingSpot parkingSpot = parkingSpotDao.getParkingSpotByID(parkingSpotID);
+
         User user = parkingSpot.getUser();
+
         System.out.println("____________TRYING PARKING OUT USER: "+user.getName()+" FROM PARKINGSPOT: "+parkingSpot.getId());
         boolean bool = parkingSpotDao.parkOutUser(user);
         System.out.println("____________PARKING OUT USER SUCCESSFUL: "+bool);

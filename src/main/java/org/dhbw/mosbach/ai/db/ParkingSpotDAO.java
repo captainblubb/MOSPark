@@ -204,4 +204,15 @@ public class ParkingSpotDAO extends BaseDao<ParkingSpot,Long> {
 
         return parkingSpot;
     }
+
+    public ParkingSpot getParkingSpotByID(Long id){
+
+        try{
+            return findById(id);
+        }
+        catch (Exception exp){
+            exp.printStackTrace();
+        }
+        return null;
+    }
 }

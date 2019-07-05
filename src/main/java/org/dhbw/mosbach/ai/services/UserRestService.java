@@ -21,6 +21,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.security.Principal;
+import java.util.Map;
 import java.util.Set;
 
 @ApplicationScoped
@@ -37,9 +38,13 @@ public class UserRestService {
     @Path("register")
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
-    public void register(String username, String licensePlate, String password)
+    public void register(Map<String,String> map)
     {
+
         try {
+            String username = map.get("username");
+            String licensePlate = map.get("licensePlate");
+            String password = map.get("password");
 
             System.out.println("_____________CREATE USER API CALL params:" +username +","+licensePlate+","+password);
             boolean success = userDAO.createUser(username, licensePlate, password);
@@ -53,9 +58,11 @@ public class UserRestService {
     @Transactional
     @Path("login")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public String login(String username, String password)
+    public long login(Map<String, String> map)
     {
+        String username = map.get("username");
+        String password = map.get("password");
+
         System.out.println("_____________LOGIN USER API CALL params:" +username +","+password);
 
         boolean userAuth = userDAO.authentificateUser(username, password);
@@ -74,13 +81,16 @@ public class UserRestService {
             System.out.println(" Crazy stuff ");
             user.setJsonToken(jws);
             System.out.println(" Crazy stuff persisted");
+            long userID = user.getId();
 
             try{
+
+
                 System.out.println(" request login ");
                 System.out.println(" request login success");
                 userDAO.persist(user);
                 System.out.println("____________LOG IN USER SUCCESS");
-                return jws;
+                return userID;
             }
             catch(Exception exp){
                 exp.printStackTrace();
@@ -89,14 +99,16 @@ public class UserRestService {
         else {
             System.out.println("Invalid username or password, please try again.");
         }
-        return null;
+        return 0;
     }
 
     @POST
     @Path("logout")
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public void logout(Long userID){
+    public void logout(Map<String, String> map){
+        String userIDString = map.get("userID");
+        Long userID = Long.valueOf(userIDString);
 
         User user = userDAO.getUserById(userID);
 
@@ -104,9 +116,6 @@ public class UserRestService {
 
         try{
             userDAO.persist(user);
-        }
-        catch(ServletException exception){
-            exception.printStackTrace();
         }
         catch(Exception exp){
             exp.printStackTrace();

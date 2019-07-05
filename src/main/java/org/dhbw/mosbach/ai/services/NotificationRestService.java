@@ -2,6 +2,7 @@ package org.dhbw.mosbach.ai.services;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import org.dhbw.mosbach.ai.db.NotificationDAO;
+import org.dhbw.mosbach.ai.db.ParkingSpotDAO;
 import org.dhbw.mosbach.ai.db.UserDAO;
 import org.dhbw.mosbach.ai.model.Notification;
 import org.dhbw.mosbach.ai.model.ParkingSpot;
@@ -25,6 +26,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
+import java.util.Map;
 
 @ApplicationScoped
 @Path("notifications")
@@ -34,6 +36,8 @@ public class NotificationRestService
     private NotificationDAO notificationDao;
     @Inject
     private UserDAO userDao;
+    @Inject
+    private ParkingSpotDAO parkingSpotDAO;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -86,12 +90,22 @@ public class NotificationRestService
     @Path("notify")
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public void notifyUsers(Long userID, List<ParkingSpot> parkingSpots)
+    public void notifyUsers(List<Long> IDs)
     {
+        Long userID = IDs.get(0);
         User userFrom = userDao.getUserById(userID);
+
+        IDs.remove(0);
+
+        List<ParkingSpot> parkingSpots=new ArrayList<>();
+
+        for(Long l:IDs){
+            parkingSpots.add(parkingSpotDAO.getParkingSpotByID(l));
+        }
+
         try{
             for (ParkingSpot parkingSpot:parkingSpots){
-                notificationDao.createNotification("MOVE ORDER",userFrom, parkingSpot.getUser(), " Please return to your car, i want to leave.");
+                notificationDao.createNotification("MOVE ORDER",userFrom, parkingSpot.getUser(), "Please return to your car, i want to leave.");
             }
         }
         catch(NullPointerException e){
