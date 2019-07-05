@@ -30,7 +30,7 @@ class Profile extends React.Component<
 
     fetchNotifications(): Array<NotificationJson> {
         let fetchedNotifications: Array<NotificationJson> = [];
-        fetch(`http://localhost:8080/MOSPark/rest/notifications/dismiss`, {
+        fetch(`http://localhost:8080/MOSPark/rest/notifications/user`, {
             method: "POST",
             body: '{ "userId": ' + this.state.currentUserId + " }",
             headers: {
@@ -54,7 +54,6 @@ class Profile extends React.Component<
                 "Content-Type": "application/json"
             }
         })
-            .then(response => response.json())
             .then(response => {
                 console.log("Success:", JSON.stringify(response));
                 sessionStorage.clear();

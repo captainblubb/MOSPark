@@ -26,21 +26,20 @@ class Authentication extends React.Component<
         fetch(`http://localhost:8080/MOSPark/rest/user/register`, {
             method: "POST",
             body:
-                '{"username": ' +
+                '{"username": "' +
                 username +
-                ', "password": ' +
+                '", "password": "' +
                 password +
-                ', "licensePlate":' +
+                '", "licensePlate": "' +
                 licensePlate +
-                "}",
+                '" }',
             headers: {
                 "Content-Type": "application/json"
             }
         })
-            .then(response => response.json())
-            .then(response => console.log("Success:", JSON.stringify(response)))
+            .then(response => console.log("Success"))
             .catch(error => console.log("Error:", error));
-        window.location.reload();
+        //window.location.reload();
     }
 
     render() {

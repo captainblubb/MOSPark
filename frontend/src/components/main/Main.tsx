@@ -46,11 +46,6 @@ class Main extends React.Component<
             .then(spots => {
                 fetchedSpots = JSON.parse(spots);
             });
-        /*
-        const jsonString: string[] = [
-            '{"id": 0, "userId": 420, "areaId": 0, "column": 0, "row": 0},',
-        ];
-        */
         return fetchedSpots;
     }
 

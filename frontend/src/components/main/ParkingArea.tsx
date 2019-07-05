@@ -99,17 +99,16 @@ class ParkingArea extends React.Component<
         fetch(`http://localhost:8080/MOSPark/rest/notifications/notify`, {
             method: "POST",
             body:
-                '{ "userID": ' +
+                '{ "userID": "' +
                 this.props.currentUserId +
-                ', "ids": [' +
+                '", "ids": [' +
                 selectedIdsString +
                 "]}",
             headers: {
                 "Content-Type": "application/json"
             }
         })
-            .then(response => response.json())
-            .then(response => console.log("Success:", JSON.stringify(response)))
+            .then(response => console.log("Success"))
             .catch(error => console.log("Error:", error));
     }
 
@@ -140,9 +139,8 @@ class ParkingArea extends React.Component<
                     "Content-Type": "application/json"
                 }
             })
-                .then(response => response.json())
                 .then(response => {
-                    console.log("Success:", JSON.stringify(response));
+                    console.log("Success");
                     selectedParkingSpot.userId = -1;
                 })
                 .catch(error => console.log("Error:", error));
@@ -166,9 +164,8 @@ class ParkingArea extends React.Component<
                     "Content-Type": "application/json"
                 }
             })
-                .then(response => response.json())
                 .then(response => {
-                    console.log("Success:", JSON.stringify(response));
+                    console.log("Success");
                     selectedParkingSpot.userId = this.props.currentUserId;
                 })
                 .catch(error => console.log("Error:", error));

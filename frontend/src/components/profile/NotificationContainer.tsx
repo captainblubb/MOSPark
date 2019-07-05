@@ -113,7 +113,6 @@ class NotificationContainer extends React.Component<
                         }
                     }
                 )
-                    .then(response => response.json())
                     .then(response => {
                         console.log("Success:", JSON.stringify(response));
                         currentNotification.dismissed = true;
