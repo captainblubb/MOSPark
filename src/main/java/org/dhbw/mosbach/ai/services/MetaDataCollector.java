@@ -32,8 +32,8 @@ public class MetaDataCollector {
      *
      * @throws InterruptedException
      */
-    @Schedule(second = "0", minute = "*/"+MetaDataConfiguration.everyMin, hour = MetaDataConfiguration.hourFrom+"-"+MetaDataConfiguration.hourTo, persistent = false )
-   // @Schedule(second = "0", minute = "*/1", hour = "*", persistent = false )
+    //@Schedule(second = "0", minute = "*/"+MetaDataConfiguration.everyMin, hour = MetaDataConfiguration.hourFrom+"-"+MetaDataConfiguration.hourTo, persistent = false )
+    @Schedule(second = "0", minute = "*/1", hour = "*", persistent = false )
     public void atSchedule() throws InterruptedException {
 
 
