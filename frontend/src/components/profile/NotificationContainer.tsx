@@ -12,7 +12,7 @@ class NotificationContainer extends React.Component<
         read: Array<NotificationJson>;
         show: string;
     }
-> {
+    > {
     constructor(props: {
         currentUserId: number;
         notifications: Array<NotificationJson>;
@@ -107,14 +107,14 @@ class NotificationContainer extends React.Component<
                     `http://localhost:8080/MOSPark/rest/notifications/dismiss`,
                     {
                         method: "POST",
-                        body: '{ "notificationId": ' + id + " }",
+                        body: "{ \"notificationId\": " + id + " }",
                         headers: {
                             "Content-Type": "application/json"
                         }
                     }
                 )
                     .then(response => {
-                        console.log("Success:", JSON.stringify(response));
+                        console.log("Success:", response);
                         currentNotification.dismissed = true;
 
                         let unreadNotifications: Array<NotificationJson> = this

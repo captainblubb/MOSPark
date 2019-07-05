@@ -8,15 +8,17 @@ class ParkingArea extends React.Component<
         id: number;
         parkingSpots: Array<ParkingSpotJson>;
         currentUserId: number;
+        reloader: () => void;
     },
     {
         selectedParkingSpotIds: Set<number>;
     }
-> {
+    > {
     constructor(props: {
         id: number;
         parkingSpots: Array<ParkingSpotJson>;
         currentUserId: number;
+        reloader: () => void;
     }) {
         super(props);
 
@@ -99,9 +101,9 @@ class ParkingArea extends React.Component<
         fetch(`http://localhost:8080/MOSPark/rest/notifications/notify`, {
             method: "POST",
             body:
-                '{ "userID": "' +
+                "{ \"userID\": " +
                 this.props.currentUserId +
-                '", "ids": [' +
+                ", \"ids\": [" +
                 selectedIdsString +
                 "]}",
             headers: {
@@ -134,7 +136,7 @@ class ParkingArea extends React.Component<
             // free
             fetch(`http://localhost:8080/MOSPark/rest/parkingspots/free`, {
                 method: "POST",
-                body: '{ "parkingSpotId": ' + selectedParkingSpot.id + " }",
+                body: "{ \"parkingSpotId\": " + selectedParkingSpot.id + " }",
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -155,9 +157,9 @@ class ParkingArea extends React.Component<
             fetch(`http://localhost:8080/MOSPark/rest/parkingspots/occupy`, {
                 method: "POST",
                 body:
-                    '{ "userId": ' +
+                    "{ \"userId\": " +
                     this.props.currentUserId +
-                    ', "parkingSpotId": ' +
+                    ", \"parkingSpotId\": " +
                     selectedParkingSpot.id +
                     " }",
                 headers: {
@@ -173,6 +175,7 @@ class ParkingArea extends React.Component<
         this.setState({
             selectedParkingSpotIds: new Set([])
         });
+        this.props.reloader()
     }
 
     getParkingSpotByUserId(userId: number): ParkingSpotJson | null {

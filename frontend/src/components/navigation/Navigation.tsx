@@ -6,7 +6,7 @@ import Authentication from "./Authentication";
 class Navigation extends React.Component<
     {},
     { isLoggedIn: boolean; username: string; password: string }
-> {
+    > {
     constructor(props: {}) {
         super(props);
         const currentSessionUser: string | null = sessionStorage.getItem(
@@ -26,12 +26,7 @@ class Navigation extends React.Component<
     login(username: string, password: string) {
         fetch(`http://localhost:8080/MOSPark/rest/user/login`, {
             method: "POST",
-            body:
-                '{"username": "' +
-                username +
-                '", "password": "' +
-                password +
-                '"}',
+            body: "{\"username\": \"" + username + "\", \"password\": \"" + password + " }",
             headers: {
                 "Content-Type": "application/json"
             }

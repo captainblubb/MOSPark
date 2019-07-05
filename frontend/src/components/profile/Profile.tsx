@@ -8,54 +8,67 @@ class Profile extends React.Component<
         currentUserId: number;
         notifications: Array<NotificationJson>;
     }
-> {
+    > {
     constructor(props: {}) {
         super(props);
 
-        Profile.getCurrentUserId = Profile.getCurrentUserId.bind(this);
+        this.getCurrentUserId = this.getCurrentUserId.bind(this);
         this.state = {
-            currentUserId: Profile.getCurrentUserId(),
-            notifications: this.fetchNotifications()
+            currentUserId: 0,
+            notifications: []
         };
+
+        this.fetchNotifications = this.fetchNotifications.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
-    static getCurrentUserId(): number {
+    componentWillMount() {
+        this.getCurrentUserId();
+        this.fetchNotifications();
+    }
+
+    getCurrentUserId(): void {
         const currentSessionUserId: string | null = sessionStorage.getItem(
             "id"
         );
-        return currentSessionUserId != null
+        const val: any = currentSessionUserId != null
             ? parseInt(currentSessionUserId)
             : 0;
+        this.setState({
+            currentUserId: val
+        })
     }
 
-    fetchNotifications(): Array<NotificationJson> {
+    fetchNotifications(): void {
         let fetchedNotifications: Array<NotificationJson> = [];
         fetch(`http://localhost:8080/MOSPark/rest/notifications/user`, {
             method: "POST",
-            body: '{ "userId": ' + this.state.currentUserId + " }",
+            body: "{ \"userId\": " + this.state.currentUserId + " }",
             headers: {
                 "Content-Type": "application/json"
             }
         })
             .then(response => response.json())
             .then(response => {
-                console.log("Success:", JSON.stringify(response));
-                fetchedNotifications = JSON.parse(response);
+                console.log("Success:", response);
+                fetchedNotifications = response;
+                this.setState({
+                    notifications: fetchedNotifications
+                });
             })
             .catch(error => console.log("Error:", error));
-        return fetchedNotifications;
     }
 
     logout() {
         fetch(`http://localhost:8080/MOSPark/rest/user/logout`, {
             method: "POST",
-            body: '{ "userID": ' + this.state.currentUserId + "}",
+            body: "{ \"userID\": " + this.state.currentUserId + "}",
             headers: {
                 "Content-Type": "application/json"
             }
         })
             .then(response => {
-                console.log("Success:", JSON.stringify(response));
+                console.log("Success:", response);
                 sessionStorage.clear();
                 window.location.replace("/");
             })

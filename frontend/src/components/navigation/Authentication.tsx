@@ -5,7 +5,7 @@ import Registration from "./Registration";
 class Authentication extends React.Component<
     { loginHandler(username: string, password: string): void },
     { isLoggedIn: boolean; username: string; password: string }
-> {
+    > {
     constructor(props: {
         loginHandler(username: string, password: string): void;
     }) {
@@ -26,20 +26,16 @@ class Authentication extends React.Component<
         fetch(`http://localhost:8080/MOSPark/rest/user/register`, {
             method: "POST",
             body:
-                '{"username": "' +
-                username +
-                '", "password": "' +
-                password +
-                '", "licensePlate": "' +
-                licensePlate +
-                '" }',
+                "{\"username\": \"" + username + "\", \"password\": \"" + password + "\", \"licensePlate\": \"" + licensePlate + "\" }",
             headers: {
                 "Content-Type": "application/json"
             }
         })
-            .then(response => console.log("Success"))
+            .then(response => {
+                console.log("Success");
+                window.location.reload();
+            })
             .catch(error => console.log("Error:", error));
-        window.location.reload();
     }
 
     render() {

@@ -11,15 +11,15 @@ class Main extends React.Component<
         currentAreaId: number;
         currentUserId: number;
     }
-> {
+    > {
     constructor(props: {}) {
         super(props);
-        Main.fetchParkingAreas = Main.fetchParkingAreas.bind(this);
-        Main.fetchParkingSpots = Main.fetchParkingSpots.bind(this);
+        this.fetchParkingAreas = this.fetchParkingAreas.bind(this);
+        this.fetchParkingSpots = this.fetchParkingSpots.bind(this);
 
         this.state = {
-            parkingAreas: Main.fetchParkingAreas(),
-            parkingSpots: Main.fetchParkingSpots(),
+            parkingAreas: [],
+            parkingSpots: [],
             currentAreaId: 0,
             currentUserId: Main.getCurrentUserId()
         };
@@ -27,26 +27,37 @@ class Main extends React.Component<
         this.renderParkingArea = this.renderParkingArea.bind(this);
         this.renderAreaChoice = this.renderAreaChoice.bind(this);
         this.changeArea = this.changeArea.bind(this);
+        this.reload = this.reload.bind(this)
     }
 
-    static fetchParkingAreas(): Array<ParkingAreaJson> {
+    componentWillMount() {
+        this.fetchParkingAreas();
+        this.fetchParkingSpots();
+    }
+
+    fetchParkingAreas(): void {
         let fetchedAreas: Array<ParkingAreaJson> = [];
-        fetch(`http://localhost:8080/MOSPark/rest/parkingareas/all/`)
+        fetch(`http://localhost:8080/MOSPark/rest/parkingarea/all/`)
             .then(result => result.json())
             .then(areas => {
-                fetchedAreas = JSON.parse(areas);
+                fetchedAreas = areas;
+                this.setState({
+                    parkingAreas: fetchedAreas
+                });
             });
-        return fetchedAreas;
     }
 
-    static fetchParkingSpots(): Array<ParkingSpotJson> {
+    fetchParkingSpots(): void {
         let fetchedSpots: Array<ParkingSpotJson> = [];
         fetch(`http://localhost:8080/MOSPark/rest/parkingspots/all`)
             .then(result => result.json())
             .then(spots => {
-                fetchedSpots = JSON.parse(spots);
+                fetchedSpots = spots;
+                this.setState({
+                    parkingAreas: this.state.parkingAreas,
+                    parkingSpots: fetchedSpots
+                });
             });
-        return fetchedSpots;
     }
 
     static getCurrentUserId(): number {
@@ -73,6 +84,7 @@ class Main extends React.Component<
                 id={this.state.currentAreaId}
                 parkingSpots={areaParkingSpots}
                 currentUserId={this.state.currentUserId}
+                reloader={this.reload}
             />
         );
     }
@@ -82,7 +94,7 @@ class Main extends React.Component<
         for (let i: number = 0; i < this.state.parkingAreas.length; i++) {
             areas.push(
                 <a key={i} onClick={this.changeArea}>
-                    Area {this.state.parkingAreas[i].name}
+                    Area {this.state.parkingAreas[i].id}
                 </a>
             );
         }
@@ -96,6 +108,12 @@ class Main extends React.Component<
         this.setState({
             currentAreaId: id
         });
+    }
+
+    reload() {
+        this.setState({
+            parkingSpots: this.state.parkingSpots
+        })
     }
 
     render() {
