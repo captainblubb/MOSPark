@@ -39,7 +39,7 @@ class Authentication extends React.Component<
         })
             .then(response => console.log("Success"))
             .catch(error => console.log("Error:", error));
-        //window.location.reload();
+        window.location.reload();
     }
 
     render() {
